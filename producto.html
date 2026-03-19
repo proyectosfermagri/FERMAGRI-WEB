@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Producto | Fermagri</title>
+    <meta name="description" content="Conoce a detalle la ficha técnica, dosis, y recomendaciones de nuestro fertilizante. Soluciones de alta concentración para el agro.">
+    <meta name="keywords" content="ficha tecnica fertilizante, composicion abono, dosis fertilizante, Fermagri, productos agricolas">
+    <meta property="og:title" content="Detalle de Producto | Fermagri">
+    <meta property="og:description" content="Información técnica detallada sobre nuestros fertilizantes de alta especialidad.">
+    <meta property="og:image" content="https://fermagri.com/nosotros.jpg">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>       
+    /* Estilo unificado para los bloques con raya verde */
+    .producto-dato-verde {
+        display: block;
+        margin-bottom: 15px;
+        border-left: 3px solid #3b7139; /* Verde Fermagri */
+        padding-left: 15px;
+        font-size: 1rem !important;
+        color: #1d1c1c;
+        line-height: 1.5;
+    }
+    .producto-dato-verde strong {
+        color: #000;
+    }
+    </style>
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+
+<section class="detalle-producto-principal">
+    <div class="contenedor-producto">
+        
+        <div class="producto-visual">
+            
+            <div class="flip-card" id="flip-card">
+                <div class="flip-card-inner">
+                    <!-- Frente: Saco del Producto -->
+                    <div class="flip-card-front">
+                        <img id="img-producto" src="" alt="Saco" class="img-producto-destacado">
+                    </div>
+                    <!-- Reverso: Textura del Grano -->
+                    <div class="flip-card-back">
+                        <img id="img-textura" src="" alt="Textura del producto" class="img-textura-full">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botón para girar el producto -->
+            <button class="btn-girar" onclick="document.getElementById('flip-card').classList.toggle('flipped')">
+                <i class="fas fa-sync-alt"></i> Ver Producto / Fertilizante
+            </button>
+            
+        </div>
+
+        <div class="producto-contenido">
+            <h1 id="nombre-producto" class="producto-titulo"></h1>
+            <div class="separador-corto"></div>
+            
+            <div id="descripcion-producto" class="producto-descripcion"></div>
+
+            <div id="concentracion-producto" class="producto-dato-verde"></div>
+            <div id="origen-producto" class="producto-dato-verde"></div>
+            <div id="dosis-producto" class="producto-dato-verde"></div>
+            <div id="presentacion-producto" class="producto-dato-verde"></div>
+            
+            <div class="botones-tecnicos">
+                <a id="link-ficha" href="#" class="btn-pdf" target="_blank">
+                    <i class="fas fa-file-pdf"></i> Ficha Técnica
+                </a>
+                <a id="link-seguridad" href="#" class="btn-pdf btn-seguridad" target="_blank">
+                    <i class="fas fa-shield-alt"></i> Hoja de Seguridad
+                </a>
+            </div>
+
+            <div class="regresar-contenedor">
+                <a href="productos.html" class="btn-regresar">
+                    <i class="fas fa-arrow-left"></i> Volver a Productos
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="relacionados">
+    <div class="contenedor-relacionados">
+        <h2>PRODUCTOS RELACIONADOS</h2>
+        <div class="linea-verde"></div>
+        <div id="grid-relacionados" class="productos-grid"></div>
+    </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+<script src="productos.js"></script>
+
+<script>
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        const initProducto = () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const idProducto = parseInt(urlParams.get('id'));
+
+            // Verificamos que el listado de productos esté cargado
+            if (typeof listadoProductos === 'undefined') {
+                console.error("Error: listadoProductos no está definido. Revisa productos.js");
+                return;
+            }
+
+            const producto = listadoProductos.find(p => p.id === idProducto);
+
+            if (producto) {
+                // Para el título de la pestaña, quitamos los tags HTML de la fórmula
+                const nombreLimpio = producto.nombre.replace(/<[^>]*>/g, '');
+                document.title = `${nombreLimpio} | Fermagri`;
+                
+                // Cargar Imágenes
+                document.getElementById('img-producto').src = producto.imagen;
+                document.getElementById('img-textura').src = producto.textura || 'IMAGENES/default-grano.png';
+                document.getElementById('nombre-producto').innerHTML = producto.nombre;
+                
+                // 1. Lógica para Concentración
+                const elConcentracion = document.getElementById('concentracion-producto');
+                if (producto.concentracion) {
+                    elConcentracion.innerHTML = `<strong>Concentración:</strong> ${producto.concentracion}`;
+                    elConcentracion.style.display = "block"; 
+                } else {
+                    elConcentracion.style.display = "none"; 
+                }
+
+                // Origen
+                const elOrigen = document.getElementById('origen-producto');
+                if (elOrigen) {
+                    if (producto.origen) {
+                        elOrigen.innerHTML = `<strong>Origen:</strong> ${producto.origen}`;
+                        elOrigen.style.display = "block"; 
+                    } else {
+                        elOrigen.style.display = "none"; 
+                    }
+                }
+
+                // 2. Lógica para Dosis
+                const elDosis = document.getElementById('dosis-producto');
+                if (producto.dosis) {
+                    elDosis.innerHTML = `<strong>Dosis:</strong> ${producto.dosis}`;
+                    elDosis.style.display = "block";
+                } else {
+                    elDosis.style.display = "none";
+                }
+                
+                // 3. Lógica para Presentación
+                const elPresentacion = document.getElementById('presentacion-producto');
+                if (producto.presentacion) {
+                    elPresentacion.innerHTML = `<strong>Presentación:</strong> ${producto.presentacion}`;
+                    elPresentacion.style.display = "block";
+                } else {
+                    elPresentacion.style.display = "none";
+                }
+
+                // Lógica de Descripción
+                const contenedorDesc = document.getElementById('descripcion-producto');
+                contenedorDesc.innerHTML = ""; 
+
+                if (Array.isArray(producto.descripcion)) {
+                    producto.descripcion.forEach(texto => {
+                        const p = document.createElement('p');
+                        p.innerHTML = texto; 
+                        contenedorDesc.appendChild(p);
+                    });
+                } else {
+                    const p = document.createElement('p');
+                    p.innerHTML = producto.descripcion || "";
+                    contenedorDesc.appendChild(p);
+                }
+                
+                // PDF Links
+                document.getElementById('link-ficha').href = producto.ficha || "#";
+                document.getElementById('link-seguridad').href = producto.seguridad || "#";
+
+                mostrarRelacionados(producto);
+
+            } else {
+                document.body.innerHTML = "<h1 style='text-align:center; margin-top:50px;'>Producto no encontrado</h1>";
+            }
+        };
+
+        if (window.productosCargadosPromise) {
+            window.productosCargadosPromise.then(initProducto);
+        } else {
+            initProducto(); // Fallback
+        }
+    });
+
+    function mostrarRelacionados(productoActual) {
+        const contenedor = document.getElementById('grid-relacionados');
+        if (!contenedor) return;
+
+        // 1. Extraer nutrientes de una cadena de concentración
+        // Detecta palabras clave y símbolos químicos comunes en fertilizantes
+        function extraerNutrientes(concentracion) {
+            if (!concentracion) return new Set();
+            const texto = concentracion.toLowerCase()
+                // quitar tags HTML como <sub>
+                .replace(/<[^>]*>/g, '');
+
+            const nutrientes = new Set();
+
+            // Mapa de palabras clave → nutriente normalizado
+            const mapa = [
+                { claves: ['nitrógeno', 'nitrogeno', /\bn\b/, /\bnh4\b/, /\bno3\b/, 'ureico', 'ureica', 'urea'],   nutriente: 'N'  },
+                { claves: ['fósforo', 'fosforo', /\bp2o5\b/, /\bp\b/],                                              nutriente: 'P'  },
+                { claves: ['potasio', /\bk2o\b/, /\bk\b/, 'kali'],                                                  nutriente: 'K'  },
+                { claves: ['calcio', /\bca\b/, /\bcao\b/],                                                           nutriente: 'Ca' },
+                { claves: ['magnesio', /\bmg\b/, /\bmgo\b/],                                                         nutriente: 'Mg' },
+                { claves: ['azufre', 'sulfato', /\bs\b/, /\bso4\b/],                                                 nutriente: 'S'  },
+                { claves: ['boro', /\bb\b/, /\bb2o3\b/],                                                             nutriente: 'B'  },
+                { claves: ['zinc', /\bzn\b/],                                                                         nutriente: 'Zn' },
+                { claves: ['hierro', /\bfe\b/],                                                                       nutriente: 'Fe' },
+                { claves: ['manganeso', /\bmn\b/],                                                                    nutriente: 'Mn' },
+                { claves: ['cobre', /\bcu\b/],                                                                        nutriente: 'Cu' },
+                { claves: ['molibdeno', /\bmo\b/],                                                                    nutriente: 'Mo' },
+            ];
+
+            mapa.forEach(({ claves, nutriente }) => {
+                for (const clave of claves) {
+                    if (clave instanceof RegExp) {
+                        if (clave.test(texto)) { nutrientes.add(nutriente); break; }
+                    } else {
+                        if (texto.includes(clave)) { nutrientes.add(nutriente); break; }
+                    }
+                }
+            });
+
+            return nutrientes;
+        }
+
+        // 2. Calcular puntuación entre dos productos
+        function calcularPuntuacion(productoCandidato, nutrientesReferencia, categoriaReferencia) {
+            const nutrientesCandidato = extraerNutrientes(productoCandidato.concentracion);
+
+            // Contar coincidencias de nutrientes
+            let coincidencias = 0;
+            nutrientesReferencia.forEach(n => {
+                if (nutrientesCandidato.has(n)) coincidencias++;
+            });
+
+            let puntos = 0;
+            if (coincidencias >= 2) puntos += 3;
+            else if (coincidencias === 1) puntos += 1;
+
+            // Bonus por misma categoría (fallback)
+            if (productoCandidato.categoria === categoriaReferencia) puntos += 0.5;
+
+            return { puntos, nutrientesComunes: coincidencias };
+        }
+
+        // 3. Calcular nutrientes del producto actual
+        const nutrientesActuales = extraerNutrientes(productoActual.concentracion);
+
+        // 4. Puntuar y ordenar todos los demás productos
+        const candidatos = listadoProductos
+            .filter(p => p.id !== productoActual.id)
+            .map(p => ({
+                ...p,
+                _score: calcularPuntuacion(p, nutrientesActuales, productoActual.categoria)
+            }))
+            .filter(p => p._score.puntos > 0)   // solo relevantes
+            .sort((a, b) => b._score.puntos - a._score.puntos)
+            .slice(0, 4);
+
+        // Si no hay ningún candidato con puntos, fallback a misma categoría
+        const relacionados = candidatos.length > 0
+            ? candidatos
+            : listadoProductos
+                .filter(p => p.id !== productoActual.id && p.categoria === productoActual.categoria)
+                .slice(0, 4);
+
+        // 5. Renderizar
+        contenedor.innerHTML = '';
+
+        if (relacionados.length === 0) {
+            contenedor.innerHTML = '<p style="text-align:center; color:#888;">No hay productos relacionados disponibles.</p>';
+            return;
+        }
+
+        relacionados.forEach(p => {
+            // Etiqueta de nutrientes en común (solo si hay coincidencia real)
+            const badge = (p._score && p._score.nutrientesComunes > 0)
+                ? `<span class="badge-nutriente"><i class="fas fa-flask"></i> ${p._score.nutrientesComunes} nutriente${p._score.nutrientesComunes > 1 ? 's' : ''} en común</span>`
+                : '';
+
+            const div = document.createElement('div');
+            div.className = 'producto-card';
+            div.innerHTML = `
+                <img src="${p.imagen}" alt="${p.nombre}">
+                <h3>${p.nombre}</h3>
+                <p>${p.presentacion || '50 kg'}</p>
+                ${badge}
+                <a href="producto.html?id=${p.id}" class="btn-detalle">Ver Detalle</a>
+            `;
+            contenedor.appendChild(div);
+        });
+    }
+
+</script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="main.js"></script>
+</body>
+</html>

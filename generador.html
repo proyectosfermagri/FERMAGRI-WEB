@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Productos | Fermagri Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            color: #333;
+        }
+        .admin-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-top: 5px solid #3b7139;
+        }
+        h2 { color: #3b7139; text-align: center; margin-bottom: 20px; }
+        label { font-weight: bold; display: block; margin-top: 15px; font-size: 0.9rem; }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+        textarea { resize: vertical; height: 100px; }
+        .ayuda-quimica { font-size: 0.8rem; color: #666; margin-top: 5px; display: block; }
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #3b7139;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 25px;
+        }
+        button:hover { background-color: #2c542a; }
+        .resultado { margin-top: 25px; }
+        pre {
+            background: #2d2d2d;
+            color: #4CAF50;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="admin-container">
+    <h2>➕ Nuevo Producto Fermagri</h2>
+    <p style="text-align: center; font-size: 0.9rem; color: #666;">Llena los datos y copia el código generado.</p>
+
+    <label>ID del Producto (Número único):</label>
+    <input type="number" id="gen-id" placeholder="Ej: 15" required>
+
+    <label>Nombre del Producto:</label>
+    <input type="text" id="gen-nombre" placeholder="Ej: Master Protec N46" required>
+
+    <label>Categoría:</label>
+    <select id="gen-categoria">
+        <option value="edaficos">Edáficos</option>
+        <option value="solubles">Solubles</option>
+        <option value="foliares">Foliares</option>
+    </select>
+
+    <label>Ruta de la Imagen principal:</label>
+    <input type="text" id="gen-img" value="IMAGENES/PRODUCTOS/nombre-saco.png">
+
+    <label>Concentración:</label>
+    <input type="text" id="gen-concentracion" placeholder="Ej: 20% N - 20% P<sub>2</sub>O<sub>5</sub>">
+    <span class="ayuda-quimica">💡 Usa &lt;sub&gt;2&lt;/sub&gt; para números pequeños. (Ej: P&lt;sub&gt;2&lt;/sub&gt;O&lt;sub&gt;5&lt;/sub&gt;)</span>
+
+    <label>Dosis:</label>
+    <input type="text" id="gen-dosis" placeholder="Ej: Cantidad recomendada según cultivo.">
+
+    <label>Presentación:</label>
+    <input type="text" id="gen-presentacion" placeholder="Ej: Saco de 50 kg">
+
+    <label>Descripción (Texto promocional):</label>
+    <textarea id="gen-desc" placeholder="Fertilizante granulado que aporta nitrógeno..."></textarea>
+
+    <button onclick="generarCodigo()">Generar Código</button>
+
+    <div class="resultado" id="caja-resultado" style="display: none;">
+        <label>✅ Copia este texto y pégalo dentro de tu listadoProductos en productos.js:</label>
+        <pre id="codigo-generado"></pre>
+    </div>
+</div>
+
+<script>
+    function generarCodigo() {
+        const id = document.getElementById('gen-id').value;
+        const nombre = document.getElementById('gen-nombre').value;
+        const categoria = document.getElementById('gen-categoria').value;
+        const img = document.getElementById('gen-img').value;
+        const concentracion = document.getElementById('gen-concentracion').value;
+        const dosis = document.getElementById('gen-dosis').value;
+        const presentacion = document.getElementById('gen-presentacion').value;
+        const desc = document.getElementById('gen-desc').value;
+
+        if(!id || !nombre) {
+            alert("El ID y el Nombre son obligatorios");
+            return;
+        }
+
+        const codigo = `{
+    id: ${id},
+    nombre: "${nombre}",
+    categoria: "${categoria}",
+    imagen: "${img}",
+    textura: "IMAGENES/default-grano.png",
+    descripcion: "${desc}",
+    concentracion: "${concentracion}",
+    dosis: "${dosis}",
+    presentacion: "${presentacion}",
+    ficha: "PDF/ficha-${id}.pdf",
+    seguridad: "PDF/seguridad-${id}.pdf"
+},`;
+
+        document.getElementById('codigo-generado').textContent = codigo;
+        document.getElementById('caja-resultado').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>

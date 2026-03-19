@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fertilizantes Edáficos | Fermagri</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="header-placeholder"></div>
+
+<section class="slider-container" id="inicio"> 
+    <div class="slider">
+        <div class="slide active" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('IMAGENES/slide1.jpg');">
+            <div class="hero-content">
+                <h1>Soluciones Agrícolas de Alto Rendimiento</h1>
+                <p>Impulsando la productividad del campo ecuatoriano.</p>
+                <button class="cta-button" onclick="document.getElementById('productos').scrollIntoView({behavior: 'smooth'})">Ver Portafolio</button>
+            </div>
+        </div>
+
+        <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('IMAGENES/slide2.jpg');">
+            <div class="hero-content">
+                <h1>Nutrición Vegetal de Precisión</h1>
+                <p>Tecnología avanzada para cultivos de exportación.</p>
+            </div>
+        </div>
+
+        <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('IMAGENES/slide3.jpg');">
+            <div class="hero-content">
+                <h1>Línea Master Protec</h1>
+                <p>Protección orgánica para una agricultura sostenible.</p>
+                <button class="cta-button">Conocer más</button>
+            </div>
+        </div>
+    </div>
+</section>
+    <section class="seccion-catalogo">
+    <h2 id="titulo-tipeado" data-texto="LÍNEA MASTER PROTEC"></h2>
+    <div class="separador-verde"></div>
+
+    <div id="contenedor-dinamico" class="contenedor-galeria"></div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+<script src="productos.js"></script>
+<script src="motor-dinamico.js"></script>
+    
+    <script>
+        // MOTOR DE LA GALERÍA
+        const contenedor = document.getElementById('js-contenedor-galeria');
+
+        // Recorremos la lista de productos que tienes en productos.js
+        listaProductos.forEach(producto => {
+            const tarjeta = `
+                <a href="producto.html?id=${producto.id}" class="tarjeta-producto">
+                    <div class="tarjeta-imagen">
+                        <img src="${producto.imagen}" alt="${producto.nombre}">
+                    </div>
+                    <div class="tarjeta-info">
+                        <p class="nombre-producto">${producto.nombre} ${producto.apellido}</p>
+                    </div>
+                </a>
+            `;
+            contenedor.innerHTML += tarjeta;
+        });
+    </script>
+
+  <div id="footer-placeholder"></div>
+
+
+<script>
+       
+document.addEventListener("DOMContentLoaded", () => {
+    const titulo = document.getElementById('titulo-tipeado');
+    
+    if (titulo) {
+        const textoAEscribir = titulo.getAttribute('data-texto');
+        let i = 0;
+        let borrando = false;
+
+        function efectoEscritura() {
+            const textoActual = titulo.innerHTML;
+
+            if (!borrando && i <= textoAEscribir.length) {
+                // Escribiendo
+                titulo.innerHTML = textoAEscribir.substring(0, i);
+                i++;
+                
+                // Si terminó de escribir, espera 2 segundos y empieza a borrar
+                if (i > textoAEscribir.length) {
+                    borrando = true;
+                    setTimeout(efectoEscritura, 2000); 
+                    return;
+                }
+            } else if (borrando && i >= 0) {
+                // Borrando
+                titulo.innerHTML = textoAEscribir.substring(0, i);
+                i--;
+
+                // Si terminó de borrar, espera un poco y vuelve a escribir
+                if (i < 0) {
+                    borrando = false;
+                    i = 0;
+                    setTimeout(efectoEscritura, 500);
+                    return;
+                }
+            }
+
+            // Velocidad: más lento al borrar, más rápido al escribir
+            const velocidad = borrando ? 50 : 100;
+            setTimeout(efectoEscritura, velocidad);
+        }
+
+        // Usamos el observador para que el bucle inicie solo cuando el usuario lo vea
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    efectoEscritura();
+                    observer.unobserve(entry.target); 
+                }
+            });
+        }, { threshold: 0.5 });
+
+        observer.observe(titulo);
+    }
+});
+// ------------------------------------------
+
+</script>
+<!-- Los componentes se cargan automáticamente desde main.js -->
+<script src="main.js"></script>
+
+
+</body>
+</html>

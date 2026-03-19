@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Videos y Tutoriales | Fermagri</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* AJUSTE DE ALTURA DEL BANNER (Ahora más imponente) */
+        .contenedor-video-principal {
+            background: #000; 
+            height: 55vh !important; /* Ajusta este valor si lo quieres aún más alto (ej: 60vh) */
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .contenedor-video-principal video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Esto evita que el video se estire feo */
+        }
+
+        /* Ajustes de la Galería inferior */
+        .contenedor-galeria-videos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .tarjeta-video {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+
+    <section class="contenedor-video-principal">
+        <video autoplay muted loop playsinline>
+            <source src="VIDEOS\Enero 2026-1.mp4" type="video/mp4">
+            Tu navegador no soporta videos.
+        </video>
+    </section>
+
+    <section class="seccion-catalogo">
+        <h2 class="titulo-seccion">NUESTROS VIDEOS</h2>
+        <div class="linea-decorativa"></div>
+        <div id="contenedor-videos" class="contenedor-galeria-videos"></div>
+    </section>
+
+
+
+    <div id="footer-placeholder"></div>
+    
+
+<script>
+        const misVideos = [
+    {
+        id: "PAjfTF-H3Qk", // Tu video de Fermagri
+        titulo: "Instalaciones Fermagri",
+        subtitulo: "Recorrido aéreo"
+    },
+    {
+        id: "PAjfTF-H3Qk", // Tu video de Fermagri
+        titulo: "Instalaciones Fermagri",
+        subtitulo: "Recorrido aéreo"
+    },   {
+        id: "PAjfTF-H3Qk", // Tu video de Fermagri
+        titulo: "Instalaciones Fermagri",
+        subtitulo: "Recorrido aéreo"
+    },
+    {
+        id: "PAjfTF-H3Qk", // Tu video de Fermagri
+        titulo: "Instalaciones Fermagri",
+        subtitulo: "Recorrido aéreo"
+    },{
+        id: "PAjfTF-H3Qk", // Tu video de Fermagri
+        titulo: "Instalaciones Fermagri",
+        subtitulo: "Recorrido aéreo"
+    },
+    {
+        id: "PAjfTF-H3Qk", // Tu video de Fermagri
+        titulo: "Instalaciones Fermagri",
+        subtitulo: "Recorrido aéreo"
+    },   {
+        id: "PAjfTF-H3Qk", // Tu video de Fermagri
+        titulo: "Instalaciones Fermagri",
+        subtitulo: "Recorrido aéreo"
+    },
+    {
+        id: "PAjfTF-H3Qk", // Tu video de Fermagri
+        titulo: "Instalaciones Fermagri",
+        subtitulo: "Recorrido aéreo"
+    },
+
+    // Puedes seguir agregando más aquí...
+    
+];
+
+    const galeria = document.getElementById('contenedor-videos');
+    galeria.innerHTML = ''; // Limpiamos la galería antes de llenar
+
+    misVideos.forEach(video => {
+        galeria.innerHTML += `
+            <div class="tarjeta-video" style="
+                background: white; 
+                border-radius: 15px; 
+                overflow: hidden; 
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
+                margin-bottom: 20px;">
+                
+                <div class="video-container" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                    <iframe 
+                        src="https://www.youtube.com/embed/${video.id}?rel=0" 
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                
+                <div style="padding: 20px; text-align: center;">
+                    <h3 style="margin: 0; color: #2D5A27; font-family: sans-serif;">${video.titulo}</h3>
+                    <p style="margin: 8px 0 0; color: #777; font-family: sans-serif;">${video.subtitulo}</p>
+                </div>
+            </div>
+        `;
+    });
+</script> 
+
+<script src="main.js"></script>
+
+</body>
+</html>

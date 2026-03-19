@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos | Fermagri</title>
+    <meta name="description" content="Catálogo completo de productos Fermagri: Línea Premium, Master Protec, Solufol, Edáficos y Simples. Encuentra la nutrición ideal para tu cultivo.">
+    <meta name="keywords" content="catálogo fertilizantes, productos agrícolas, Master Protec, Solufol, Nutricultivo, abonos, Fermagri">
+    <meta property="og:title" content="Catálogo de Productos | Fermagri">
+    <meta property="og:description" content="Conoce nuestra amplia gama de fertilizantes edáficos, foliares y solubles de alta concentración.">
+    <meta property="og:image" content="https://fermagri.com/nosotros.jpg">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="chatbot.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    
+    <div id="header-placeholder"></div>
+
+    <section class="banner-categoria">
+        <div class="hero-content">
+            <h1 id="titulo-categoria">EDÁFICOS</h1>
+            <div class="linea-verde"></div>
+            
+            <div class="buscador-contenedor">
+            <input type="text" id="input-buscador" placeholder="¿Qué producto busca? (Ej: Solufol, Urea...)">
+            <i class="fas fa-search"></i>
+             </div>
+        </div>
+    </section>
+
+    <div class="filtros-contenedor">
+        <button class="btn-filtro active" data-categoria="Edaficos">Edáficos</button>
+        <button class="btn-filtro" data-categoria="Solubles">Solubles</button>
+        <button class="btn-filtro" data-categoria="Especializados">Especializados</button>
+        <button class="btn-filtro" data-categoria="Master">Master Protec</button>
+    </div>
+
+    <section class="productos-seccion">
+        <div id="contenedor-galeria" class="productos-grid">
+            </div>
+    </section>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="productos.js"></script> 
+    
+   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Seleccionamos los elementos con cuidado
+        const contenedor = document.getElementById('contenedor-galeria');
+        const inputBuscadorLocal = document.getElementById('input-buscador');
+        const botonesFiltro = document.querySelectorAll('.btn-filtro');
+
+        // 1. FUNCIÓN PARA MOSTRAR LOS PRODUCTOS
+        function renderizarProductos(lista) {
+            if (!contenedor) return;
+            contenedor.innerHTML = ""; 
+            
+            if(!lista || lista.length === 0) {
+                contenedor.innerHTML = `
+                    <div class="no-resultados-container">
+                        <i class="fas fa-search-minus no-res-icon"></i>
+                        <h3>No encontramos lo que buscas</h3>
+                        <p>Prueba con otros términos o productos similares.</p>
+                        <button onclick="restablecerTodo()" class="btn-ver-todo">Ver todo el catálogo</button>
+                    </div>
+                `;
+                return;
+            }
+
+            lista.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'producto-card';
+                card.innerHTML = `
+                    <img src="${p.imagen}" alt="${p.nombre}">
+                    <h3>${p.nombre}</h3>
+                    <p>${p.presentacion || '50 kg'}</p>
+                    <a href="producto.html?id=${p.id}" class="btn-detalle">Ver Detalle</a>
+                `;
+                contenedor.appendChild(card);
+            });
+        }
+
+        // 2. LÓGICA DE FILTRADO (Buscador + Botones)
+        function filtrar() {
+            const texto = inputBuscadorLocal ? inputBuscadorLocal.value.toLowerCase().trim() : "";
+            const btnActivo = document.querySelector('.btn-filtro.active');
+            const categoriaActiva = btnActivo ? btnActivo.dataset.categoria : 'Todos';
+
+            const resultados = listadoProductos.filter(p => {
+                const term = window.normalizeText(texto);
+                const nombre = window.normalizeText(p.nombre);
+                const categoria = window.normalizeText(p.categoria);
+                const descripcion = window.normalizeText(Array.isArray(p.descripcion) ? p.descripcion.join(" ") : p.descripcion);
+                const concentracion = window.normalizeText(p.concentracion);
+                
+                // Si hay texto en el buscador, buscamos en todo
+                if (term !== "") {
+                    const coincideTexto = nombre.includes(term) || 
+                                         descripcion.includes(term) || 
+                                         concentracion.includes(term) ||
+                                         categoria.includes(term);
+                    
+                    // Si estamos en una categoría específica, también debe coincidir
+                    const catProd = window.normalizeText(p.categoria);
+                    const catActiva = window.normalizeText(categoriaActiva);
+                    const coincideCat = (categoriaActiva === 'Todos' || catProd === catActiva);
+                    
+                    return coincideTexto && coincideCat;
+                }
+                
+                // Si no hay texto, solo filtramos por categoría
+                const catProd = window.normalizeText(p.categoria);
+                const catActiva = window.normalizeText(categoriaActiva);
+                return (categoriaActiva === 'Todos' || catProd === catActiva);
+            });
+
+            renderizarProductos(resultados);
+        }
+
+        // --- EVENTOS ---
+        if (inputBuscadorLocal) {
+            inputBuscadorLocal.addEventListener('input', filtrar);
+        }
+
+        botonesFiltro.forEach(boton => {
+            boton.addEventListener('click', () => {
+                botonesFiltro.forEach(b => b.classList.remove('active'));
+                boton.classList.add('active');
+                
+                const titulo = document.getElementById('titulo-categoria');
+                if (titulo) {
+                    titulo.textContent = boton.textContent === "Todos" ? "NUESTROS PRODUCTOS" : boton.textContent.toUpperCase();
+                }
+                
+                filtrar();
+            });
+        });
+
+        window.restablecerTodo = function() {
+            if (inputBuscadorLocal) inputBuscadorLocal.value = "";
+            botonesFiltro.forEach(b => b.classList.remove('active'));
+            const btnEdaficos = Array.from(botonesFiltro).find(b => b.dataset.categoria === 'Edaficos');
+            if (btnEdaficos) btnEdaficos.classList.add('active');
+            
+            const titulo = document.getElementById('titulo-categoria');
+            if (titulo) titulo.textContent = "EDÁFICOS";
+            
+            filtrar();
+        };
+
+        // --- CARGA INICIAL Y BUSQUEDA DESDE URL ---
+        const initProductos = () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const terminoBusqueda = urlParams.get('buscar');
+            const categoriaUrl = urlParams.get('cat');
+
+            if (categoriaUrl) {
+                const botonCat = Array.from(botonesFiltro).find(b => b.dataset.categoria === categoriaUrl);
+                if (botonCat) {
+                    botonesFiltro.forEach(b => b.classList.remove('active'));
+                    botonCat.classList.add('active');
+                    const titulo = document.getElementById('titulo-categoria');
+                    if (titulo) {
+                        titulo.textContent = botonCat.textContent === "Todos" ? "NUESTROS PRODUCTOS" : botonCat.textContent.toUpperCase();
+                    }
+                }
+            }
+
+            if (terminoBusqueda && inputBuscadorLocal) {
+                inputBuscadorLocal.value = decodeURIComponent(terminoBusqueda);
+            }
+
+            // Ejecutar el primer filtrado
+            filtrar();
+        };
+
+        if (window.productosCargadosPromise) {
+            window.productosCargadosPromise.then(initProductos);
+        } else {
+            initProductos();
+        }
+
+        // Los componentes se cargan automáticamente desde main.js
+    });
+</script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="main.js"></script>
+    <script src="chatbot.js"></script>
+</body>
+</html>

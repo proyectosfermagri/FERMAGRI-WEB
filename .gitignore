@@ -1,0 +1,12 @@
+# Archivos de video pesados
+Fermagri _ Nutrición Vegetal de Precisión - Google Chrome 2026-02-21 08-28-06.mp4
+*.mp4
+
+# Editores y dependencias
+.vscode/
+
+# Node
+node_modules/
+*.psd
+*.ai
+Slice.ai

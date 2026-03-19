@@ -1,0 +1,223 @@
+/* Estilos del Chatbot Fermagri (Actualizado con buscador) */
+:root {
+    --chat-primary: #1a4d2e;
+    --chat-accent: #25d366;
+    --chat-bg: #f4f7f5;
+    --chat-white: #ffffff;
+    --chat-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.fermagri-bot-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 9999;
+    font-family: 'Outfit', sans-serif;
+}
+
+.bot-bubble {
+    width: 60px;
+    height: 60px;
+    background: var(--chat-accent);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: botPulse 4s infinite ease-in-out;
+}
+
+@keyframes botPulse {
+    0%, 100% { transform: scale(1) translateY(0); }
+    50% { transform: scale(1.1) translateY(-5px); }
+}
+
+.bot-window {
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    width: 360px;
+    height: 550px;
+    background: var(--chat-white);
+    border-radius: 25px;
+    box-shadow: var(--chat-shadow);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.bot-header {
+    background: var(--chat-primary);
+    padding: 15px 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.bot-header img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: white;
+    padding: 3px;
+}
+
+.bot-info h4 { margin: 0; font-size: 1rem; }
+.bot-info p { margin: 0; font-size: 0.75rem; opacity: 0.8; }
+
+.bot-body {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: var(--chat-bg);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.bot-msg {
+    padding: 10px 15px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    max-width: 85%;
+    position: relative;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.msg-bot {
+    background: var(--chat-white);
+    border-bottom-left-radius: 2px;
+    align-self: flex-start;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.msg-user {
+    background: var(--chat-primary);
+    color: white;
+    border-bottom-right-radius: 2px;
+    align-self: flex-end;
+}
+
+.bot-btn {
+    background: var(--chat-white);
+    border: 1px solid var(--chat-primary);
+    color: var(--chat-primary);
+    padding: 10px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.bot-btn:hover {
+    background: var(--chat-primary);
+    color: white;
+}
+
+/* Buscador */
+.bot-input-area {
+    padding: 15px;
+    background: white;
+    border-top: 1px solid #eee;
+    display: none; /* Se activa en modo busqueda */
+}
+
+.bot-search-box {
+    display: flex;
+    gap: 5px;
+    background: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+.bot-search-box input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 8px;
+    outline: none;
+}
+
+.bot-search-box button {
+    border: none;
+    background: var(--chat-primary);
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Tarjetas de Producto en Chat */
+.mini-product-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.mini-product-card img {
+    width: 100%;
+    height: 100px;
+    object-fit: contain;
+    background: #f9f9f9;
+}
+
+.mini-product-info {
+    padding: 10px;
+}
+
+.mini-product-info h5 {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--chat-primary);
+}
+
+.mini-product-info p {
+    margin: 3px 0;
+    font-size: 0.75rem;
+    color: #666;
+}
+
+.btn-mini-detail {
+    display: block;
+    text-align: center;
+    background: #eee;
+    color: #333;
+    padding: 5px;
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.btn-mini-detail:hover { background: #ddd; }
+
+.bot-footer {
+    padding: 8px;
+    text-align: center;
+    font-size: 0.65rem;
+    color: #bbb;
+    background: white;
+}

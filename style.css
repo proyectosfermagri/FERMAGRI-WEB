@@ -1,0 +1,2226 @@
+/* 1. Configuración Base */
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
+
+body { 
+    font-family: 'Montserrat', sans-serif; 
+    background: #fff; 
+    overflow-x: hidden; 
+}
+
+/* 2. Navegación (PC y General) */
+.navbar {
+    padding: 0 5%;
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 1000;
+    height: 80px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    width: 100%;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px; /* Limita el ancho en monitores grandes */
+    margin: 0 auto; /* Centra la barra de navegación */
+    height: 100%;
+    width: 100%;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img { 
+    height: 55px; 
+    width: auto; 
+}
+
+.nav-menu { 
+    display: flex; 
+    gap: 25px; 
+    list-style: none;
+}
+
+.nav-menu a { 
+    text-decoration: none; 
+    color: #333; 
+    font-weight: 500; 
+    font-size: 0.95rem;
+    transition: 0.3s;
+}
+
+.nav-menu a:hover { 
+    color: #2D5A27; 
+}
+
+.hamburger { display: none; }
+
+/* --- RESPONSIVE (CELULARES Y TABLETS) --- */
+@media (max-width: 768px) {
+    .navbar {
+        justify-content: space-between;
+        height: 70px;
+    }
+
+    /* Logo CENTRADO solo en Móvil */
+    .logo {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .logo img { height: 45px; }
+
+    /* Buscador se ajusta en móvil */
+    .buscador-header { 
+        display: block;
+        margin: 10px 20px;
+        order: 5; /* Lo mandamos al final del flujo si es necesario */
+    }
+    
+    .navbar .buscador-header { display: none; } /* Oculto en la barra principal */
+    .nav-menu .buscador-header { display: block; } /* Visible dentro del menú */
+
+    .hamburger {
+        display: block;
+        cursor: pointer;
+        z-index: 1100;
+        order: -1; /* Mantiene la hamburguesa a la izquierda */
+    }
+
+    .hamburger span {
+        display: block;
+        width: 25px;
+        height: 3px;
+        background: #2D5A27;
+        margin: 5px 0;
+        transition: 0.4s;
+    }
+
+    /* Menú Lateral Desplegable */
+    .nav-menu {
+        position: fixed;
+        left: -100%; /* Escondido */
+        top: 0;
+        flex-direction: column;
+        background: #fff;
+        width: 75%; 
+        height: 100vh;
+        padding-top: 90px;
+        padding-left: 15px; /* Margen de seguridad para que el contenido no se pegue al borde */
+        transition: 0.5s;
+        box-shadow: 10px 0 25px rgba(0,0,0,0.2);
+        z-index: 1050;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden; /* Evita desbordamientos laterales */
+    }
+
+    .nav-menu.active { left: 0; }
+
+    .nav-menu a { 
+        padding: 18px 20px; /* Reducido un poco dado que el contenedor ya tiene padding */
+        font-size: 1.1rem;
+        border-bottom: 1px solid #eee;
+        display: block;
+        width: 100%; /* Asegura que ocupe todo el ancho del menú */
+        color: #333;
+        transition: 0.3s;
+        text-decoration: none;
+        box-sizing: border-box;
+    }
+    
+    .nav-menu a.activo {
+        color: #2D5A27;
+        font-weight: bold;
+        background: transparent; /* Eliminamos el fondo gris para evitar el efecto de "exceso" */
+        border-bottom: 2px solid #2D5A27; /* Subrayado verde más elegante */
+    }
+
+    /* Transformación a "X" al abrir con mejor centrado y POSICIÓN A LA DERECHA DEL MENÚ */
+    .hamburger.active {
+        position: fixed;
+        right: calc(25% + 20px); /* Ajustado para quedar dentro del menú de forma más natural */
+        top: 30px;
+        z-index: 1200;
+        left: auto; /* Quitamos el left calc */
+    }
+
+    .hamburger.active span:nth-child(1) { transform: rotate(-45deg) translate(-5px, 6px); background: #c0392b; }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(45deg) translate(-5px, -6px); background: #c0392b; }
+
+    /* Asegurar que la hamburguesa no se mueva de su sitio base en el navbar cuando no está activa */
+    .navbar { position: relative; }
+    .hamburger { position: relative; z-index: 1100; transition: left 0.5s, transform 0.4s; }
+
+    /* Ajustes específicos para la página de producto en móvil */
+    .detalle-producto-principal {
+        padding: 30px 0;
+    }
+
+    .contenedor-producto {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .flip-card {
+        height: 500px;
+        max-width: 90%; 
+    }
+
+    .flip-card-back {
+        border-width: 2px;
+    }
+
+    .btn-girar {
+        width: 80%; /* Botón visible y fácil de tocar */
+        justify-content: center;
+    }
+
+    .producto-titulo {
+        font-size: 1.8rem;
+        margin-top: 10px;
+    }
+
+    .producto-descripcion {
+        font-size: 1rem;
+        padding: 0 10px;
+        text-align: justify;
+    }
+
+    .producto-dato-verde {
+        text-align: left;
+        margin: 10px;
+        font-size: 0.95rem;
+    }
+
+    .botones-tecnicos {
+        justify-content: center;
+        width: 100%;
+        padding: 0 10px;
+    }
+
+    .btn-pdf {
+        width: 100%; /* Botones de ancho completo para mejor clic en móvil */
+        justify-content: center;
+    }
+}
+
+/* 3. Slider */
+.slider-container {
+    position: relative;
+    width: 100%;
+    height: 90vh;
+    overflow: hidden;
+}
+
+.slider {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    opacity: 0;
+    /* Crossfade puro: solo la opacidad cambia */
+    transition: opacity 1.8s ease-in-out;
+    z-index: 1;
+}
+
+.slide.active {
+    opacity: 1;
+    z-index: 2;
+}
+
+/* 
+   Fondo de cada slide en un div separado.
+   La animación Ken Burns corre SIEMPRE (no depende de .active),
+   así nunca se reinicia y no hay salto.
+*/
+.slide-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    animation: kenburns 30s ease-in-out alternate infinite;
+    will-change: transform;
+    z-index: 0;
+}
+
+@keyframes kenburns {
+    from { transform: scale(1);    background-position: center 40%; }
+    to   { transform: scale(1.18); background-position: center 60%; }
+}
+
+/* 4. Hero Content y Animaciones */
+.hero-content { 
+    max-width: 900px; 
+    padding: 40px; 
+    text-align: center; 
+    position: relative; /* Necesario para que z-index funcione sobre .slide-bg */
+    z-index: 10;
+}
+
+/* Animaciones de entrada — solo dentro del slider */
+.hero-content h1 { 
+    font-size: 3.8rem; 
+    margin-bottom: 20px; 
+    text-shadow: 0 4px 15px rgba(0,0,0,0.6); 
+}
+
+/* h1 dentro del slider empieza invisible y sube al activarse */
+.slide .hero-content h1 {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out 0.5s, transform 0.8s ease-out 0.5s;
+}
+
+.hero-content p { 
+    font-size: 1.3rem; 
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+/* p dentro del slider empieza invisible */
+.slide .hero-content p {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out 0.8s, transform 0.8s ease-out 0.8s;
+}
+
+.cta-button {
+    background: #ffcc00;
+    color: #2D5A27;
+    border: none;
+    padding: 18px 40px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 50px;
+    margin-top: 35px;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    opacity: 0;
+    transform: scale(0.9);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    display: inline-block;
+}
+
+.slide.active .hero-content h1,
+.slide.active .hero-content p {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.slide.active .cta-button {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.cta-button:hover { 
+    background: #fff; 
+    color: #2D5A27;
+    transform: scale(1.05) translateY(-3px); 
+}
+
+/* Indicadores del Slider (Dots) */
+.slider-dots {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 20;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    background: rgba(255,255,255,0.4);
+    border: 2px solid transparent;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.dot.active {
+    background: #ffcc00;
+    transform: scale(1.2);
+    border-color: rgba(0,0,0,0.2);
+}
+
+.dot:hover {
+    background: rgba(255,255,255,0.8);
+}
+
+/* Banner de categoría (páginas internas: Productos, etc.) */
+.banner-categoria {
+    background: #f4f4f4;
+    padding: 40px 20px 30px;
+    text-align: center;
+}
+
+.banner-categoria .hero-content {
+    padding: 0;
+}
+
+.banner-categoria h1 {
+    color: #2D5A27;
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-shadow: none;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.banner-categoria .linea-verde {
+    background-color: #2D5A27;
+    margin: 10px auto 20px;
+}
+
+/* 5. Productos */
+.productos-seccion { padding: 60px 5%; text-align: center; }
+.titulo-seccion h2 { color: #2D5A27; font-size: 2rem; }
+.linea-verde { width: 60px; height: 4px; background-color: #2D5A27; margin: 15px auto 40px; }
+
+.productos-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.producto-card { padding: 20px; border-radius: 10px; transition: 0.3s; }
+.producto-card:hover { transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+.producto-card img { 
+    width: 100%; 
+    max-width: 200px; 
+    margin-bottom: 15px;
+    transition: 0.3s ease;
+}
+.producto-card:hover img {
+    border-color: #2D5A27;
+}
+
+/* 5.5 Sección Nosotros */
+.nosotros-seccion {
+    padding: 80px 5%;
+    background-color: #f9f9f9; /* Gris muy suave para contraste */
+}
+
+.nosotros-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.nosotros-texto {
+    text-align: left;
+}
+
+.nosotros-texto h2 {
+    color: #2D5A27;
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+}
+
+.linea-verde-izquierda {
+    width: 50px;
+    height: 4px;
+    background-color: #2D5A27;
+    margin-bottom: 25px;
+}
+
+.nosotros-texto p {
+    color: #555;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    font-size: 1.05rem;
+}
+
+.nosotros-iconos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.item-icono {
+    text-align: center;
+    color: #2D5A27;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.item-icono i {
+    display: block;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #ffcc00; /* Toque amarillo para resaltar */
+}
+
+.nosotros-imagen img {
+    width: 100%;
+    border-radius: 15px;
+    /* 86, 141, 79 es el color #568d4f en RGB.
+       0.4 es el nivel de transparencia (va de 0 a 1).
+    */
+    box-shadow: 20px 20px 15px rgba(8, 73, 1, 0.342); 
+    transition: 0.3s ease;
+}
+
+/* Opcional: que la sombra se oscurezca un poco cuando pases el mouse */
+.nosotros-imagen img:hover {
+    box-shadow: 20px 20px 0px rgba(86, 141, 79, 0.6);
+}
+
+/* Responsivo para celulares */
+@media (max-width: 768px) {
+    .nosotros-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .nosotros-texto {
+        order: 2; /* Texto abajo de la imagen en móvil */
+    }
+
+    .linea-verde-izquierda {
+        margin: 0 auto 25px;
+    }
+
+    .nosotros-imagen {
+        order: 1;
+        margin-bottom: 30px;
+    }
+    
+    .nosotros-imagen img {
+        box-shadow: 10px 10px 0px #2D5A27;
+    }
+}
+
+
+/* 6. Footer - Estilo Corporativo Justificado */
+.footer-fermagri { 
+    background-color: #2D5A27; 
+    color: white; 
+    padding: 60px 5% 20px; 
+}
+
+.footer-content { 
+    display: grid; 
+    /* Crea columnas que se adaptan, alineadas al inicio */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+    gap: 40px; 
+    max-width: 1200px; 
+    margin: 0 auto; 
+    justify-items: start; 
+}
+
+.footer-info, .footer-links, .footer-contacto {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alinea items a la izquierda */
+    text-align: left;        /* Alinea texto a la izquierda */
+}
+
+/* Estilo para el nuevo Logo Blanco */
+.footer-info img {
+    height: 50px; 
+    width: auto;
+    margin-bottom: 20px;
+    filter: brightness(0) invert(1); /* Truco CSS: vuelve blanco cualquier logo oscuro si no tienes el SVG a mano */
+}
+
+.footer-info p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    opacity: 0.9;
+    max-width: 280px;
+}
+
+.footer-links h4, .footer-contacto h4 {
+    color: #ffcc00; /* Amarillo para resaltar títulos */
+    margin-bottom: 25px;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.footer-links a { 
+    color: #fff; 
+    text-decoration: none; 
+    margin-bottom: 12px; 
+    opacity: 0.8; 
+    transition: all 0.3s ease;
+}
+
+.footer-links a:hover {
+    opacity: 1;
+    color: #ffcc00;
+    transform: translateX(5px); /* Desplazamiento suave al pasar el mouse */
+}
+
+.footer-contacto p {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Derechos reservados - Siempre centrado al final */
+.footer-bottom { 
+    text-align: center; 
+    margin-top: 50px; 
+    padding-top: 20px; 
+    border-top: 1px solid rgba(255,255,255,0.1); 
+    font-size: 0.8rem; 
+    opacity: 0.6; 
+    width: 100%;
+}
+/* Línea estética bajo los títulos del footer (opcional) */
+.footer-links h4::after, .footer-contacto h4::after {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 2px;
+    background: #ffcc00;
+    margin: 8px auto 0;
+}
+
+.footer-links a { 
+    display: block; 
+    color: #fff; 
+    text-decoration: none; 
+    margin-bottom: 12px; 
+    opacity: 0.8; 
+    transition: 0.3s;
+}
+
+.footer-links a:hover {
+    opacity: 1;
+    color: #ffcc00;
+}
+
+.footer-bottom { 
+    text-align: center; 
+    margin-top: 50px; 
+    padding-top: 20px; 
+    border-top: 1px solid rgba(255,255,255,0.1); 
+    font-size: 0.85rem; 
+    opacity: 0.7; 
+}
+
+/* 7. Buscador Header (PC) */
+.buscador-header { 
+    margin-left: auto; 
+    margin-right: 20px; 
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+#inputBuscador, #inputBuscadorMobile {
+    width: 180px;
+    padding: 8px 35px 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.buscador-header i {
+    position: absolute;
+    right: 12px;
+    color: #2D5A27;
+}
+
+#inputBuscador:focus { width: 230px; border-color: #2D5A27; }
+
+/* Especial para móvil dentro del menú */
+.nav-menu .buscador-header {
+    margin: 20px;
+    width: calc(100% - 40px);
+}
+
+.nav-menu #inputBuscadorMobile {
+    width: 100%;
+}
+
+.mobile-only { display: none; }
+@media (max-width: 768px) {
+    .mobile-only { display: block; }
+}
+
+
+
+#titulo-tipeado::after {
+    content: '|';
+    margin-left: 8px; /* Un poco más de espacio */
+    color: #2D5A27;
+    font-weight: bold;
+    animation: parpadeo 0.8s infinite;
+}
+
+@keyframes parpadeo {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Sección Principal del Producto */
+/* --- SECCIÓN DETALLE DE PRODUCTO (UNIFICADA) --- */
+.detalle-producto-principal {
+    padding: 60px 0;
+    background-color: #ffffff; /* Cambiado a blanco para seamless look */
+    min-height: 70vh;
+}
+
+.contenedor-producto {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    padding: 0 20px;
+}
+
+/* Área Visual del Producto (3D Flip) */
+.producto-visual {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    padding-bottom: 20px;
+    perspective: 1000px; /* Necesario para el efecto 3D */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -50px; /* Subimos solo el producto como pidió el usuario */
+}
+
+.flip-card {
+    background-color: transparent;
+    width: 100%;
+    max-width: 450px; 
+    height: 550px;
+    perspective: 1000px;
+    margin: 0 auto 20px;
+    position: relative;
+    z-index: 5;
+}
+
+/* Sombra de piso ovalada eliminada a petición del usuario */
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+    z-index: 2;
+}
+
+/* Clase añadida vía JS o botón para girar */
+.flip-card.flipped .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent; /* Respetando la transparencia solicita por el usuario */
+}
+
+.flip-card-back {
+    transform: rotateY(180deg);
+    background: transparent;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.img-producto-destacado {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(10px 10px 15px rgba(0,0,0,0.1));
+}
+
+.img-textura-full {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%; /* Vuelve a ser circular para las pepas */
+}
+
+/* Botón interactivo debajo de la imagen */
+.btn-girar {
+    background-color: #2D5A27;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(45, 90, 39, 0.3);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    z-index: 10;
+}
+
+.btn-girar:hover {
+    background-color: #1e3d1a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(45, 90, 39, 0.4);
+}
+
+/* Área de Contenido / Texto */
+.producto-contenido {
+    flex: 1;
+    text-align: left;
+}
+
+.producto-titulo {
+    color: #2D5A27;
+    font-size: 2.8rem;
+    line-height: 1.1;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.separador-corto {
+    width: 60px;
+    height: 4px;
+    background-color: #2D5A27;
+    margin-bottom: 25px;
+}
+
+.producto-descripcion {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #444;
+    margin-bottom: 25px;
+    text-align: justify; /* Alineación justificada solicitada por el usuario */
+}
+
+.producto-dato-verde {
+    display: block;
+    margin-bottom: 15px;
+    border-left: 4px solid #2D5A27;
+    padding-left: 20px;
+    font-size: 1.05rem;
+    color: #333;
+    background: #fdfdfd;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 0 5px 5px 0;
+}
+
+.producto-dato-verde strong {
+    color: #2D5A27;
+}
+
+/* Botones Técnicos (PDFs) */
+.botones-tecnicos {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.btn-pdf {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 25px;
+    background-color: #d32f2f;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    transition: 0.3s ease;
+}
+
+.btn-pdf:hover {
+    background-color: #b71c1c;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+.btn-seguridad {
+    background-color: #2D5A27;
+}
+
+.btn-seguridad:hover {
+    background-color: #1e3d1a;
+}
+
+/* Regresar */
+.regresar-contenedor {
+    margin-top: 40px;
+}
+
+.btn-regresar {
+    text-decoration: none;
+    color: #666;
+    font-weight: 500;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-regresar:hover {
+    color: #2D5A27;
+    transform: translateX(-5px);
+}
+
+
+.btn-seguridad:hover {
+    background-color: #1e3d1a;
+}
+
+
+
+/* --- SECCIÓN PRODUCTOS RELACIONADOS --- */
+.relacionados {
+    background: #f9f9f9;
+    padding: 60px 5%;
+}
+
+.contenedor-relacionados {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.contenedor-relacionados h2 {
+    color: #2D5A27;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.productos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.productos-grid .producto-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.productos-grid .producto-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.productos-grid .producto-card img {
+    width: 100%;
+    max-width: 160px;
+    height: 160px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.productos-grid .producto-card h3 {
+    font-size: 1rem;
+    color: #2D5A27;
+    font-weight: 700;
+    margin: 5px 0 0;
+}
+
+.productos-grid .producto-card p {
+    font-size: 0.85rem;
+    color: #888;
+    margin: 0;
+}
+
+/* Badge de nutrientes en común */
+.badge-nutriente {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #eaf4e8;
+    color: #2D5A27;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid #c3dfc0;
+}
+
+.badge-nutriente i {
+    font-size: 0.7rem;
+}
+
+.btn-detalle {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 8px 20px;
+    background: transparent;
+    border: 1px solid #7ab87a;
+    color: #7ab87a;
+    text-decoration: none;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: background 0.3s, color 0.3s;
+}
+
+.btn-detalle:hover {
+    background: #2D5A27;
+    color: #fff;
+}
+
+/* --- ESTILOS CATÁLOGO EDÁFICOS --- */
+.seccion-catalogo {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.titulo-categoria {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.separador-verde {
+    width: 80px;
+    height: 4px;
+    background-color: #2D5A27;
+    margin: 0 auto 40px;
+}
+
+/* La cuadrícula de 4 columnas */
+.contenedor-galeria {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+/* La tarjeta individual */
+.tarjeta-producto {
+    text-decoration: none;
+    background: #fff;
+    border: 1px solid #eee;
+    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.tarjeta-producto:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.tarjeta-imagen {
+    padding: 20px;
+    background: #f4f4f4; /* Fondo gris claro como en tu captura */
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tarjeta-imagen img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.tarjeta-info {
+    background-color: #2D5A27; /* El verde de Fermagri para la barra inferior */
+    padding: 10px;
+}
+
+.nombre-producto {
+    color: white;
+    margin: 0;
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+/* --- ESTILOS PARA LA PÁGINA DE VIDEOS --- */
+
+.contenedor-video-principal {
+    position: relative;
+    width: 100%;
+    background: #000;
+    overflow: hidden;
+}
+
+/* Truco para que el video de YouTube mantenga proporción 16:9 */
+.video-aspecto {
+    position: relative;
+    padding-bottom: 40%; /* Altura del banner (ajustar si quieres más alto) */
+    height: 0;
+}
+
+.video-aspecto iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Evita que el usuario pause el video si es solo decorativo */
+}
+
+.overlay-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3); /* Capa oscura para resaltar el texto */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    z-index: 2;
+}
+
+.overlay-video h2 {
+    font-size: 4rem;
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(0,0,0,0.8); /* Sombra para que resalte sobre el video */
+}
+
+.overlay-video p {
+    background-color: #2D5A27; /* Tu verde Fermagri */
+    padding: 10px 30px;
+    border-radius: 50px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.contenedor-galeria-videos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 20px;
+}
+
+.tarjeta-video {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.tarjeta-video:hover { transform: translateY(-5px); }
+
+.miniatura-video { position: relative; }
+
+.miniatura-video img { width: 20%; display: block; }
+
+.boton-play {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(45, 90, 39, 0.9); /* Verde Fermagri */
+    color: white;
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center; justify-content: center;
+    text-decoration: none;
+}
+/* --- ESTILOS DE CONTACTO --- */
+.seccion-contacto {
+    padding: 60px 20px;
+    background-color: #f9f9f9;
+}
+
+.contenedor-contacto {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    background: #fff;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.info-contacto h2 { color: #2D5A27; margin-bottom: 20px; }
+
+.dato { display: flex; align-items: center; margin-bottom: 25px; }
+.dato i { 
+    font-size: 24px; 
+    color: #2D5A27; 
+    margin-right: 15px; 
+    width: 30px; 
+    text-align: center;
+}
+
+.formulario-contacto .campo { margin-bottom: 20px; }
+.formulario-contacto label { display: block; margin-bottom: 8px; font-weight: bold; color: #333; }
+
+.formulario-contacto input, 
+.formulario-contacto select, 
+.formulario-contacto textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: inherit;
+}
+
+.btn-enviar {
+    background: #2D5A27;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+    width: 100%;
+}
+
+.btn-enviar:hover { background: #1e3d1a; }
+
+/* Adaptación a celulares */
+@media (max-width: 768px) {
+    .contenedor-contacto { grid-template-columns: 1fr; }
+}
+
+.seccion-contacto {
+    padding: 80px 20px;
+    background-color: #f4f7f4; /* Un gris verdoso muy suave */
+    display: flex;
+    justify-content: center;
+}
+
+.contenedor-contacto {
+    max-width: 1000px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr; /* Divide en dos columnas */
+    gap: 50px;
+    background: #fff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.titulo-verde {
+    color: #2D5A27;
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+/* Ajuste de los iconos y datos */
+.dato {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.dato i {
+    color: #2D5A27;
+    font-size: 20px;
+    margin-top: 5px;
+}
+
+/* Estilo de los inputs para que no se vean tan simples */
+.formulario-contacto input, 
+.formulario-contacto select, 
+.formulario-contacto textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background: #fafafa;
+}
+
+.btn-enviar {
+    background: #2D5A27;
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    transition: 0.3s;
+}
+
+.btn-enviar:hover {
+    background: #1e3d1a;
+    transform: translateY(-2px);
+}
+
+/* Móviles: se pone uno arriba del otro */
+@media (max-width: 850px) {
+    .contenedor-contacto {
+        grid-template-columns: 1fr;
+    }
+}
+
+.dato {
+    display: flex;
+    align-items: flex-start; /* Alinea el icono con la primera línea de texto */
+    gap: 15px;
+    margin-bottom: 20px; /* Separa una ubicación de la otra */
+}
+
+.dato i {
+    color: #2D5A27;
+    font-size: 20px;
+    margin-top: 5px; /* Ajuste fino para que el icono no quede muy arriba */
+}
+
+.dato strong {
+    display: block; /* Fuerza a que el texto de abajo salte de línea */
+    color: #333;
+}
+
+.dato p {
+    margin: 0;
+    color: #666;
+}
+
+.whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 40px;
+    right: 40px;
+    background-color: #25d366;
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 2px 2px 3px #999;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.whatsapp-float:hover {
+    background-color: #128C7E;
+    transform: scale(1.1);
+}
+
+/* Estilo para el botón activo */
+    .nav-menu a.activo {
+        color: #2D5A27 !important;
+        font-weight: bold;
+        border-bottom: 2px solid #2D5A27;
+    }
+
+    /* Estilo base para los links del menú */
+.nav-menu a {
+    text-decoration: none;
+    color: #333;
+    padding: 5px 10px;
+    transition: all 0.3s ease;
+    border-bottom: 2px solid transparent; /* Reserva el espacio para que no "salte" */
+}
+
+/* Efecto cuando pasas el mouse (Hover) */
+.nav-menu a:hover {
+    color: #2D5A27;
+}
+
+/* Estilo para la página donde estás parado (Activo) */
+.nav-menu a.activo {
+    color: #2D5A27 !important;
+    font-weight: bold;
+    border-bottom: 2px solid #2D5A27; /* Línea verde abajo */
+}
+
+.nav-menu a.activo {
+    color: #2D5A27 !important; /* El verde de Fermagri */
+    font-weight: bold;
+    border-bottom: 2px solid #2D5A27;
+}
+
+.nav-menu a.activo {
+    color: #2D5A27 !important;
+    font-weight: bold;
+    text-shadow: 0 0 8px rgba(45, 90, 39, 0.4); /* Resplandor alrededor del texto */
+    transform: scale(1.1); /* Lo hace un poquito más grande */
+    display: inline-block;
+}
+
+.nav-menu a:hover:not(.activo) {
+    color: #2D5A27;
+    background-color: #f0f4ef; /* Un gris verdoso muy clarito */
+    border-radius: 20px;
+}
+
+.top-bar {
+    background-color: #006400; /* Ajusta al verde exacto de Fermagri */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 13px;
+    font-family: Arial, sans-serif;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.top-bar-item {
+    padding: 10px 15px;
+    border-left: 1px solid white;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* El último item también lleva borde a la derecha */
+.top-bar-item:last-child {
+    border-right: 1px solid white;
+}
+
+.top-bar-item a {
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.top-bar-item a:hover {
+    opacity: 0.8;
+}
+
+.top-bar-item i {
+    font-size: 16px;
+}
+
+/* Estilo para los iconos sociales */
+.top-bar-item.social {
+    padding: 10px 12px;
+}
+
+/* Ajuste para móviles: ocultar si la pantalla es muy pequeña o volverla scrollable */
+@media (max-width: 768px) {
+    .top-bar {
+        overflow-x: auto;
+        justify-content: flex-start;
+    }
+    .top-bar-item {
+        white-space: nowrap;
+    }
+}
+
+/* --- SECCIÓN SERVICIOS --- */
+.seccion-servicios {
+    padding: 80px 20px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.titulo-servicios {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.grid-servicios {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 50px;
+    flex-wrap: wrap;
+}
+
+.servicio-card {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    width: 350px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-bottom: 4px solid transparent;
+}
+
+.servicio-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    border-bottom: 4px solid #006b2b; /* Verde Fermagri */
+}
+
+.servicio-icono {
+    font-size: 50px;
+    color: #006b2b;
+    margin-bottom: 20px;
+}
+
+.servicio-card h3 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.servicio-card p {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .grid-servicios {
+        flex-direction: column;
+        align-items: center;
+    }
+    .servicio-card {
+        width: 100%;
+        max-width: 320px;
+    }
+} 
+.productos-container a {
+    text-decoration: none; /* Quita el subrayado */
+    color: inherit;        /* Hereda el color del texto que ya tenías */
+    display: block;        /* Hace que toda la tarjeta sea el área de clic */
+    transition: transform 0.3s ease;
+}
+
+.productos-container a:hover {
+    transform: scale(1.05); /* Un pequeño zoom al pasar el mouse para feedback */
+}
+
+.producto-visual {
+    position: relative; /* Para que el círculo se ubique respecto al saco */
+}
+
+.contenedor-textura {
+    position: absolute;
+    bottom: 0;
+    right: 10%;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 8px solid #7ab929; /* El verde lima de tu imagen */
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    background: white;
+    transition: transform 0.3s ease;
+}
+
+.contenedor-textura img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Para que el grano llene el círculo */
+}
+
+.contenedor-textura span {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    background: rgba(26, 74, 46, 0.8); /* Verde oscuro transparente */
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 0;
+}
+
+.contenedor-textura:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* Contenedor principal en 2 columnas */
+.contenedor-producto {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Área de imagen y círculo */
+.producto-visual {
+    flex: 1;
+    position: relative; /* Importante para que el círculo no flote por cualquier lado */
+    display: flex;
+    justify-content: center;
+}
+
+.img-producto-destacado {
+    max-height: 500px;
+    width: auto;
+    filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.1));
+}
+
+/* El círculo verde de la textura */
+.contenedor-textura {
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 6px solid #7ab929; /* Verde Fermagri */
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.contenedor-textura img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.etiqueta-textura {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: rgba(26, 74, 46, 0.9);
+    color: white;
+    font-size: 10px;
+    text-align: center;
+    padding: 3px 0;
+}
+
+.contenedor-grano {
+    position: absolute;
+    left: -50px; /* Ajusta esto para que se vea al lado izquierdo del saco */
+    bottom: 10px;
+    z-index: 10;
+}
+
+/* Ajuste para que el grano flote a la izquierda del saco */
+.ver-grano-flotante {
+    position: absolute;
+    bottom: 5%;      /* Ajusta la altura */
+    left: -20px;     /* Lo mueve hacia la izquierda del saco */
+    z-index: 5;
+    transition: transform 0.3s ease;
+}
+
+.ver-grano-flotante:hover {
+    transform: scale(1.1); /* Efecto de crecimiento al pasar el mouse */
+}
+
+/* --- CONTENEDOR DE LA CUADRÍCULA --- */
+.productos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Crea columnas automáticas */
+    gap: 30px;
+    padding: 40px 5%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* --- TARJETA DE PRODUCTO --- */
+.producto-card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+    border: 1px solid #eee;
+}
+
+.producto-card:hover {
+    transform: translateY(-10px);
+}
+
+.producto-card img {
+    max-width: 180px;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.producto-card h3 {
+    color: #333;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+/* --- BOTONES DE CATEGORÍA --- */
+.filtros-contenedor {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+}
+
+.btn-filtro {
+    padding: 10px 25px;
+    border: 2px solid #7ab929;
+    background: transparent;
+    color: #7ab929;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-filtro:hover, .btn-filtro.active {
+    background: #7ab929;
+    color: white;
+}
+
+/* Contenedor de las tarjetas */
+.productos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 40px;
+    padding: 50px 8%;
+}
+
+/* Estilo de los botones de filtro */
+.filtros-contenedor {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.btn-filtro {
+    border: 1.5px solid #7ab929;
+    background: white;
+    color: #7ab929;
+    padding: 8px 25px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Clase que se activa cuando el producto coincide con la categoría */
+.btn-filtro.active, .btn-filtro:hover {
+    background: #7ab929;
+    color: white;
+    box-shadow: 0 4px 12px rgba(122, 185, 41, 0.3);
+}
+
+/* Ajuste de las tarjetas */
+.producto-card {
+    border: 1px solid #f0f0f0;
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    transition: 0.3s;
+    background: #fff;
+}
+
+.producto-card:hover {
+    box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+}
+
+/* Título centrado y sutil */
+#titulo-categoria {
+    font-size: 1.5rem !important;
+    text-align: center !important;
+    color: #2d4a22 !important; /* Verde oscuro profesional */
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+    margin: 40px auto 10px auto !important;
+    display: block !important;
+    width: 100% !important;
+}
+
+/* Línea verde centrada */
+.linea-verde {
+    width: 40px !important;
+    height: 3px !important;
+    background-color: #7ab929 !important;
+    margin: 0 auto 30px auto !important;
+    display: block !important;
+}
+
+/* Contenedor de botones centrado */
+.filtros-contenedor {
+    display: flex !important;
+    justify-content: center !important;
+    gap: 15px !important;
+    margin-bottom: 40px !important;
+    flex-wrap: wrap !important;
+}
+
+/* Estilo de los botones (como los de tu captura image_998dc0.png) */
+.btn-filtro {
+    border: 1px solid #7ab929 !important;
+    background: white !important;
+    color: #7ab929 !important;
+    padding: 8px 25px !important;
+    border-radius: 20px !important;
+    cursor: pointer !important;
+    font-weight: 600 !important;
+    transition: 0.3s !important;
+}
+
+.btn-filtro.active, .btn-filtro:hover {
+    background: #7ab929 !important;
+    color: white !important;
+}
+
+/* Contenedor principal (el que tiene la imagen de fondo) */
+.hero-container {
+    display: flex;
+    justify-content: center; /* Centrado horizontal */
+    align-items: center;     /* Centrado vertical */
+    text-align: center;      /* Centra las líneas de texto internamente */
+    min-height: 60vh;        /* Ajusta la altura según necesites */
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* 1. Centrar todo el contenido del banner */
+.banner-categoria {
+    width: 100%;
+    min-height: 300px; /* Ajusta la altura que desees para el banner */
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center;     /* Centra verticalmente */
+    text-align: center;
+    padding: 60px 20px;
+    background-color: #f9f9f9; /* O tu imagen de fondo */
+}
+
+/* 2. Asegurar que el contenido interno se apile verticalmente y se centre */
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* 3. Estilo del título */
+#titulo-categoria {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+/* 4. La línea verde centrada */
+.linea-verde {
+    width: 60px;       /* Ancho de la rayita */
+    height: 4px;       /* Grosor de la rayita */
+    background-color: #4CAF50; /* Tu color verde */
+    margin: 0 auto;    /* Refuerzo de centrado */
+}
+
+.relacionados {
+    background-color: #f4f4f4;
+    padding: 60px 20px;
+    border-top: 1px solid #eee;
+}
+
+.contenedor-relacionados {
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.contenedor-relacionados h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.contenedor-relacionados .linea-verde {
+    margin: 0 auto 40px;
+}
+
+/* Reutiliza tu grid de productos.js para que las tarjetas se vean igual */
+
+.producto-visual {
+    position: relative;
+    display: inline-block;
+}
+
+.img-producto-destacado {
+    position: relative;
+    z-index: 5;
+    transition: transform 0.4s ease;
+    max-width: 400px; /* Ajusta según tu diseño */
+}
+
+.producto-visual:hover .img-producto-destacado {
+    transform: translateX(20px); /* El saco se mueve un poco a la derecha */
+}
+
+
+/* --- FORMATO DE LISTA PARA LA DESCRIPCIÓN --- */
+.producto-descripcion p {
+    position: relative;
+    padding-left: 25px; /* Espacio para el punto */
+    line-height: 1.6;
+    margin-bottom: 12px;
+    color: #444;
+    font-size: 1.05rem;
+    text-align: justify;
+}
+
+/* El punto verde como índice */
+.producto-descripcion p::before {
+    content: '•'; /* Puedes usar '→' si prefieres una flecha */
+    position: absolute;
+    left: 0;
+    color: #4CAF50; /* Tu verde Fermagri */
+    font-weight: bold;
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+/* Efecto hover suave en la textura trasera */
+.img-textura-full:hover {
+    transform: scale(1.05);
+    transition: transform 0.4s ease;
+}
+
+/* --- ESTILO EXTRA PARA TITULOS Y DATOS --- */
+.producto-titulo {
+    font-weight: 700;
+    letter-spacing: -1px;
+}
+
+.producto-dosis, .producto-presentacion {
+    background: #f9f9f9;
+    padding: 10px 15px;
+    border-left: 4px solid #4CAF50;
+    margin-top: 10px;
+    border-radius: 0 5px 5px 0;
+}
+
+/* Estilo uniforme para todas las negritas en descripciones */
+.producto-descripcion strong {
+    font-weight: 700;
+    color: #2e7d32; /* Un verde oscuro corporativo */
+}
+
+.buscador-contenedor {
+    margin-top: 20px;
+    position: relative;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#input-buscador {
+    width: 100%;
+    padding: 12px 40px 12px 15px;
+    border-radius: 25px;
+    border: 2px solid #4CAF50;
+    font-family: 'Montserrat', sans-serif;
+    outline: none;
+}
+
+.buscador-contenedor i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #4CAF50;
+}
+
+.btn-filtro.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.regresar-contenedor {
+    padding: 20px 0;
+    margin-bottom: 20px;
+}
+
+.btn-regresar {
+    text-decoration: none;
+    color: #2e7d32; /* Tu verde Fermagri */
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: 0.3s;
+}
+
+.btn-regresar:hover {
+    color: #1b5e20;
+    transform: translateX(-5px); /* Pequeño efecto de movimiento */
+}
+
+.contenedor-regresar-detalle {
+    margin-top: 25px;
+    border-top: 1px solid #eee; /* Una línea sutil divisoria */
+    padding-top: 20px;
+}
+
+.btn-volver-catalogo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #4CAF50; /* El verde de tus botones */
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+.btn-volver-catalogo i {
+    font-size: 18px;
+}
+
+.btn-volver-catalogo:hover {
+    color: #2e7d32;
+    transform: translateX(5px); /* Se mueve un poquito a la derecha al pasar el mouse */
+}
+
+/* Quitar subrayado de las tarjetas de productos */
+.producto-card a {
+    text-decoration: none !important;
+}
+
+/* Quitar subrayado del botón específico 'Ver Detalle' */
+.btn-detalle {
+    text-decoration: none !important;
+    display: inline-block;
+}
+
+/* Quitar subrayado del enlace 'Volver a Productos' */
+.link-volver {
+    text-decoration: none !important;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Efecto opcional: Que solo cambie el color al pasar el mouse, pero sin línea */
+.producto-card a:hover, 
+.link-volver:hover {
+    text-decoration: none !important;
+    opacity: 0.8;
+}
+
+/* --- ESTILO PARA ENLACES DE PRODUCTOS --- */
+
+/* Quita el morado/azul, pone negrita y quita el subrayado en las tarjetas */
+.producto-card a, 
+.btn-detalle, 
+.link-volver {
+    text-decoration: none !important; /* Quita la línea */
+    color: #333333 !important;       /* Color negro/gris oscuro para evitar el morado */
+    font-weight: bold !important;    /* Pone el texto en negritas */
+    transition: color 0.3s ease;
+}
+
+/* Efecto al pasar el mouse (opcional: cambia a verde Fermagri) */
+.btn-detalle:hover, 
+.link-volver:hover {
+    color: #4CAF50 !important;       /* Cambia a verde al pasar el mouse */
+    text-decoration: none !important;
+}
+
+/* Específico para el enlace de "Volver a Productos" en el detalle */
+.link-volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+
+/* Esto asegura que la concentración y la dosis se vean igualitas */
+.producto-dosis {
+    border-left: 3px solid #3b7139; /* El verde de Fermagri */
+    padding-left: 15px;
+    margin-bottom: 15px;
+    display: block;
+}
+
+
+
+
+/* --- VISTA SIN RESULTADOS --- */
+.no-resultados-container {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    background: #fff;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.no-res-icon {
+    font-size: 80px;
+    color: #ccc;
+    margin-bottom: 20px;
+    opacity: 0.7;
+}
+
+.no-resultados-container h3 {
+    color: #2D5A27;
+    font-size: 1.8rem;
+}
+
+.no-resultados-container p {
+    color: #666;
+    font-size: 1.1rem;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.btn-ver-todo {
+    margin-top: 25px;
+    padding: 12px 35px;
+    background: #7ab929;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 1rem;
+    box-shadow: 0 4px 15px rgba(122, 185, 41, 0.3);
+}
+
+.btn-ver-todo:hover {
+    background: #568D4F;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(86, 141, 79, 0.4);
+}
+
+/* --- NUEVOS ESTILOS PARA HERO Y BOTONES (PILL DESIGN) --- */
+.hero-btns {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.btn, .cta-button {
+    padding: 12px 35px;
+    border-radius: 50px; /* Diseño tipo pastilla (pill) */
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    display: inline-block;
+    cursor: pointer;
+    border: 2px solid transparent;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+/* El botón amarillo original */
+.cta-button {
+    background: #FFD700;
+    color: #1a4d2e !important;
+}
+
+.cta-button:hover {
+    background: #ffec8b;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.3);
+}
+
+.btn-primary {
+    background: #2D5A27;
+    color: #fff !important;
+    border-color: #2D5A27;
+}
+
+.btn-primary:hover {
+    background: #1e3d1a;
+    border-color: #1e3d1a;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(45, 90, 39, 0.4);
+}
+
+.btn-outline {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff !important;
+    border: 2px solid #fff;
+    backdrop-filter: blur(8px);
+}
+
+.btn-outline:hover {
+    background: #fff;
+    color: #2D5A27 !important;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
+}
+
+/* Color especial para el botón de NUTRI-PLAN en el slider */
+.btn-nutri {
+    background: #27ae60;
+    color: white !important;
+    border-color: #27ae60;
+}
+
+.btn-nutri:hover {
+    background: #2ecc71;
+    box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
+}

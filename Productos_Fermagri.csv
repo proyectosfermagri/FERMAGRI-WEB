@@ -1,0 +1,47 @@
+ID,Nombre,Categoria,Imagen Saco,Imagen Textura,Descripcion,Dosis,Concentracion,Presentacion,Ficha PDF,Seguridad PDF
+8,"Master Protec N35","Master","IMAGENES/Master N35.png","IMAGENES/N40 Pepas.webp","Fertilizante granulado que aporta nitrógeno en forma ureica.
+
+Contiene inhibidor de ureasa para minimizar pérdidas por volatilización.
+
+Contiene inhibidor de ureasa para minimizar pérdidas por volatilización.
+
+Contiene inhibidor de ureasa para minimizar pérdidas por volatilización.","Cantidad recomendada según cultivo.","35 % Nitrógeno","Saco de 50 kg","PDFS/ficha-producto2.pdf","PDFS/seguridad-producto2.pdf"
+2,"Master Protec N40","Master","IMAGENES/Master-N40.png","IMAGENES/N40 Pepas.webp","Fertilizante granulado que aporta nitrógeno en forma ureica.
+
+Contiene inhibidor de ureasa para minimizar pérdidas por volatilización.","Cantidad recomendada según cultivo.","35 % Nitrógeno","Saco de 50 kg","PDFS/ficha-producto2.pdf","PDFS/seguridad-producto2.pdf"
+9,"Master Protec N46","Master","IMAGENES/Master N46.png","IMAGENES/N40 Pepas.webp","Fertilizante granulado que aporta nitrógeno en forma ureica.
+
+Contiene inhibidor de ureasa para minimizar pérdidas por volatilización.","Cantidad recomendada según cultivo.","46 % Nitrógeno","Saco de 50 kg","PDFS/ficha-producto2.pdf","PDFS/seguridad-producto2.pdf"
+3,"Nitrato de Calcio","Solubles","IMAGENES/Nitrato de calcio.png","IMAGENES/Nitrato de calcio pepas.png","Es un fertilizante 100% hidrosoluble que contiene nitrógeno nítrico y  especialmente calcio, por lo que su aplicación es muy adecuada para corregir carencias en suelos deficientes en este elemento.
+
+El calcio produce un aumento en la resistencia de la pared celular, consiguiendo así, una mayor calidad, más duración (shelf life) y vida de los productos en la cadena de distribución hasta el consumidor final.","Cantidad recomendada según cultivo.","35 % Nitrógeno","Saco de 25 kg ","PDFS/ficha-producto2.pdf","PDFS/seguridad-producto2.pdf"
+4,"Solufol Inicio","Especializados","IMAGENES/SOLUFOl AMARILLO.png","IMAGENES/multi.png","Contiene igual porcentaje de nitrógeno, fósforo y potasio para corregir deficiencias nutricionales en todas las etapas del cultivo.
+
+El contenido balanceado de microelementos como magnesio, azufre, boro y zinc complementa el efecto de los macronutrientes para la corrección de deficiencias nutricionales.
+
+Su contenido de extracto de algas en <strong> SOLUFOL MULTI-PROPÓSITO </strong> proporcionará un efecto anti estrés a la planta, ayudando a que la energía se enfoque en la producción.","Cantidad recomendada según cultivo.","20% N - 20% P<sub>2</sub>O<sub>5</sub> - 20% K<sub>2</sub>O","Presentación 1Kg","PDFS/ficha-producto2.pdf","PDFS/seguridad-producto2.pdf"
+5,"Solufol Desarrollo","Especializados","IMAGENES/SOLUFOL VERDE.png","IMAGENES/multi.png","Contiene igual porcentaje de nitrógeno, fósforo y potasio para corregir deficiencias nutricionales en todas las etapas del cultivo.
+
+El contenido balanceado de microelementos como magnesio, azufre, boro y zinc complementa el efecto de los macronutrientes para la corrección de deficiencias nutricionales.
+
+Su contenido de extracto de algas en <strong> SOLUFOL MULTI-PROPÓSITO </strong> proporcionará un efecto anti estrés a la planta, ayudando a que la energía se enfoque en la producción.","Cantidad recomendada según cultivo.","20% N - 20% P<sub>2</sub>O<sub>5</sub> - 20% K<sub>2</sub>O","Presentación 1Kg","PDFS/ficha-producto2.pdf","PDFS/seguridad-producto2.pdf"
+6,"Solufol Engrose","Especializados","IMAGENES/SOLUFOL ENGROSE.png","IMAGENES/multi.png","Contiene igual porcentaje de nitrógeno, fósforo y potasio para corregir deficiencias nutricionales en todas las etapas del cultivo.
+
+El contenido balanceado de microelementos como magnesio, azufre, boro y zinc complementa el efecto de los macronutrientes para la corrección de deficiencias nutricionales.
+
+Su contenido de extracto de algas en <strong> SOLUFOL MULTI-PROPÓSITO </strong> proporcionará un efecto anti estrés a la planta, ayudando a que la energía se enfoque en la producción.","Cantidad recomendada según cultivo.","20% N - 20% P<sub>2</sub>O<sub>5</sub> - 20% K<sub>2</sub>O","Presentación 1Kg","PDFS/ficha-producto2.pdf","PDFS/seguridad-producto2.pdf"
+7,"Solufol Multiproposito","Especializados","IMAGENES/SOLUFOL MULTI.png","IMAGENES/multi.png","Contiene igual porcentaje de nitrógeno, fósforo y potasio para corregir deficiencias nutricionales en todas las etapas del cultivo.
+
+El contenido balanceado de microelementos como magnesio, azufre, boro y zinc complementa el efecto de los macronutrientes para la corrección de deficiencias nutricionales.
+
+Su contenido de extracto de algas en <strong> SOLUFOL MULTI-PROPÓSITO </strong> proporcionará un efecto anti estrés a la planta, ayudando a que la energía se enfoque en la producción.","Cantidad recomendada según cultivo.","20% N - 20% P<sub>2</sub>O<sub>5</sub> - 20% K<sub>2</sub>O","Presentación 1Kg","PDFS/ficha-producto2.pdf","PDFS/seguridad-producto2.pdf"
+10,"Nutricultivo Siembra","Edaficos","IMAGENES/nutricultivo-siembra.png","IMAGENES/N40 Pepas.webp","Fertilizante inorgánico de uso edáfico, formulado para la etapa de siembra en cultivos gramíneas, hortalizas y frutales.
+
+NUTRICULTIVO SIEMBRA, aporta los nutrientes necesarios para los primeros días de crecimiento de la planta, proporcionándole vigor y energía para la siguiente etapa de desarrollo.
+
+En cultivos mecanizados, se aconseja incorporar el fertilizante al suelo junto con la semilla en el día de siembra, y en cultivos no mecanizados, se puede aplicar superficialmente dentro de los primeros 15 días.
+
+La dosis dependerá de los requerimientos nutricionales y del potencial de cosecha del cultivo. En cultivos gramíneas (maíz, arroz, cebada, trigo, etc.) pueden usarse entre 4 y 6 sacos de 50kg/ha de NUTRICULTIVO SIEMBRA","Cantidad recomendada según cultivo.","46 % Nitrógeno","Saco de 50 kg","PDFS/ficha-producto2.pdf","PDFS/seguridad-producto2.pdf"
+1,"Nutricultivo Desarrollo","Edaficos","IMAGENES/nutricultivo-desarrollo.png","IMAGENES/nutricultivos desarrollo lithg box.png","Fertilizante inorgánico de uso edáfico, formulado para la etapa de desarrollo/crecimiento.
+
+Optimiza el vigor de la planta y mejora la asimilación de nutrientes.","4 a 6 sacos de 50kg por hectárea.","35 % Nitrógeno","Saco de 50 kg","PDFS/ficha-desarrollo.pdf","PDFS/seguridad-desarrollo.pdf"

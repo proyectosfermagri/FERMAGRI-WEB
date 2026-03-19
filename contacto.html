@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto | Fermagri</title>
+    <meta name="description" content="Ponte en contacto con los expertos agronómicos de Fermagri. Solicita asesoría técnica, cotizaciones o información sobre nuestros fertilizantes.">
+    <meta name="keywords" content="contacto Fermagri, asesoria tecnica agricola, telefono Fermagri, ubicacion, soporte agricultor">
+    <meta property="og:title" content="Contacto y Asesoría | Fermagri">
+    <meta property="og:description" content="Estamos listos para asesorarte en la nutrición de tus cultivos. Habla con un experto.">
+    <meta property="og:image" content="https://fermagri.com/nosotros.jpg">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div id="header-placeholder"></div>
+
+    <section class="seccion-contacto">
+    <div class="contenedor-contacto">
+        
+        <div class="info-contacto">
+            <h2 class="titulo-verde">Ponte en contacto con nosotros</h2>
+            <p>Estamos listos para asesorarte en la nutrición de tus cultivos.</p>
+            
+            <div class="dato">
+    <i class="fas fa-map-marker-alt"></i>
+    <div>
+        <strong>Ubicación Guayaquil:</strong>
+        <p>Vía a Daule km 15.5</p>
+    </div>
+</div>
+
+<div class="dato">
+    <i class="fas fa-map-marker-alt"></i>
+    <div>
+        <strong>Ubicación Quito:</strong>
+        <p>Vía a Daule km 15.5</p>
+    </div>
+</div>
+
+            <div class="dato">
+                <i class="fab fa-whatsapp"></i>
+                <p><strong>WhatsApp:</strong><br>+593 99 999 9999</p>
+            </div>
+
+            <div class="dato">
+                <i class="far fa-envelope"></i>
+                <p><strong>Correo:</strong><br>info@fermagri.com</p>
+            </div>
+        </div>
+
+        <div class="formulario-contacto">
+            <form action="https://formspree.io/f/TU_CODIGO" method="POST">
+                <div class="fila-doble">
+                    <div class="campo">
+                        <label>Nombre Completo</label>
+                        <input type="text" name="nombre" required>
+                    </div>
+                    <div class="campo">
+                        <label>Correo Electrónico</label>
+                        <input type="email" name="email" required>
+                    </div>
+                </div>
+
+                <div class="campo">
+                    <label>Asunto</label>
+                    <select name="asunto">
+                        <option>Asesoría Técnica</option>
+                        <option>Cotización</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label>Mensaje</label>
+                    <textarea name="mensaje" rows="4"required></textarea>
+                </div>
+
+                <button type="submit" class="btn-enviar">Enviar Mensaje</button>
+            </form>
+        </div>
+
+    </div>
+</section>
+
+    <div id="footer-placeholder"></div>
+
+<!-- Los componentes se cargan automáticamente desde main.js -->
+<script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fermagri | Nutrición Vegetal de Precisión</title>
+    <meta name="description" content="Fermagri ofrece fertilizantes de alta concentración y calidad para maximizar el rendimiento de sus cultivos. Nutrición vegetal de precisión en Ecuador.">
+    <meta name="keywords" content="fertilizantes, nutrición vegetal, agricultura, Ecuador, Fermagri, urea, potasio, nitrato, calcio, agrícola">
+    <meta property="og:title" content="Fermagri | Nutrición Vegetal de Precisión">
+    <meta property="og:description" content="Fertilizantes de alta eficiencia para maximizar el rendimiento de tus cultivos. Explora nuestro catálogo y herramientas agronómicas.">
+    <meta property="og:image" content="https://fermagri.com/nosotros.jpg">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="chatbot.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <div id="header-placeholder"></div>
+
+
+    <section class="slider-container" id="inicio">
+        <div class="slider">
+            <div class="slide active">
+                <div class="slide-bg"
+                    style="background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('IMAGENES/slide1.jpg');">
+                </div>
+                <div class="hero-content">
+                    <h1>Soluciones Agrícolas de Alto Rendimiento</h1>
+                    <p>Impulsando la productividad del campo ecuatoriano.</p>
+                    <button class="cta-button"
+                        onclick="document.getElementById('productos').scrollIntoView({behavior: 'smooth'})">Ver
+                        Portafolio</button>
+                </div>
+            </div>
+
+            <div class="slide">
+                <div class="slide-bg"
+                    style="background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('IMAGENES/slide2.jpg');">
+                </div>
+                <div class="hero-content">
+                    <h1>Fertilidad y Productividad</h1>
+                    <p>Fórmulas de alta eficiencia para nutrición vegetal.</p>
+                    <div class="hero-btns">
+                        <a href="productos.html" class="btn btn-primary">VER PRODUCTOS</a>
+                        <a href="distribuidores.html" class="btn btn-outline">DISTRIBUIDORES</a>
+                        <a href="calculadora.html" class="btn btn-nutri">NUTRI-PLAN</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide">
+                <div class="slide-bg"
+                    style="background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('IMAGENES/slide3.jpg');">
+                </div>
+                <div class="hero-content">
+                    <h1>Línea Master Protec</h1>
+                    <p>Protección orgánica para una agricultura sostenible.</p>
+                    <button class="cta-button">Conocer más</button>
+                </div>
+            </div>
+        </div>
+        <!-- Indicadores de navegación -->
+        <div class="slider-dots">
+            <span class="dot active" onclick="currentSlide(0)"></span>
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+        </div>
+    </section>
+
+    <section id="productos" class="productos-seccion">
+        <div class="titulo-seccion">
+            <h2 id="titulo-tipeado" data-texto="NUESTROS PRODUCTOS"></h2>
+            <div class="linea-verde"></div>
+        </div>
+
+    </section>
+    </div>
+
+    <div class="productos-container">
+        <a href="productos.html?cat=Edaficos" class="producto-card">
+            <img src="ICONOS/icono granular.webp" alt="Edáficos">
+            <h3>EDÁFICOS</h3>
+        </a>
+
+        <a href="productos.html?cat=Solubles" class="producto-card">
+            <img src="ICONOS/icono solubles.webp" alt="Solubles">
+            <h3>SOLUBLES</h3>
+        </a>
+
+        <a href="productos.html?cat=Master" class="producto-card">
+            <img src="ICONOS/icono master.webp" alt="Master Protec">
+            <h3>MASTER PROTEC</h3>
+        </a>
+
+        <a href="productos.html?cat=Especializados" class="producto-card">
+            <img src="ICONOS/icono especializados.webp" alt="Especializados">
+            <h3>ESPECIALIZADOS</h3>
+        </a>
+    </div>
+    </section>
+
+    <section id="nosotros" class="nosotros-seccion">
+        <div class="nosotros-container">
+            <div class="nosotros-texto">
+                <h2 class="subtitulo">Sobre Fermagri</h2>
+                <div class="linea-verde-izquierda"></div>
+                <p>En <strong>Fermagri</strong>, nos dedicamos a transformar el campo ecuatoriano a través de la
+                    nutrición vegetal de precisión. Con años de experiencia en el mercado, ofrecemos soluciones
+                    tecnológicas que maximizan el rendimiento de los cultivos de exportación.</p>
+                <p>Nuestra misión es proporcionar insumos de alta calidad y asesoría técnica especializada para asegurar
+                    una agricultura sostenible y rentable para nuestros productores.</p>
+
+                <div class="nosotros-iconos">
+                    <div class="item-icono">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Calidad Garantizada</span>
+                    </div>
+                    <div class="item-icono">
+                        <i class="fas fa-leaf"></i>
+                        <span>Sostenibilidad</span>
+                    </div>
+                    <div class="item-icono">
+                        <i class="fas fa-microscope"></i>
+                        <span>Innovación</span>
+                    </div>
+                </div>
+            </div>
+            <div class="nosotros-imagen">
+                <img src="nosotros.jpg" alt="Equipo Fermagri en el campo">
+            </div>
+        </div>
+    </section>
+
+    <section class="seccion-servicios">
+        <div class="container">
+            <h2 class="titulo-servicios">SERVICIOS</h2>
+            <div class="separador-verde"></div>
+
+            <div class="grid-servicios">
+                <div class="servicio-card">
+                    <div class="servicio-icono">
+                        <i class="fas fa-microscope"></i>
+                    </div>
+                    <h3>ASESORÍA TÉCNICA</h3>
+                    <p>Acompañamiento especializado para optimizar el rendimiento de sus cultivos.</p>
+                </div>
+
+                <div class="servicio-card">
+                    <div class="servicio-icono">
+                        <i class="fas fa-truck-moving"></i>
+                    </div>
+                    <h3>LOGÍSTICA</h3>
+                    <p>Distribución eficiente y segura para que sus insumos lleguen a tiempo al campo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Función para cargar componentes externos
+        function cargarComponente(id, archivo) {
+            fetch(archivo)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById(id).innerHTML = data;
+                })
+                .catch(error => console.error('Error cargando el componente:', error));
+        }
+
+        // Llamamos a la carga de ambos
+        cargarComponente('header-placeholder', 'header.html');
+        cargarComponente('footer-placeholder', 'footer.html');
+    </script>
+
+
+    <script>
+
+
+
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const titulo = document.getElementById('titulo-tipeado');
+
+            if (titulo) {
+                const textoAEscribir = titulo.getAttribute('data-texto');
+                let i = 0;
+                let borrando = false;
+
+                function efectoEscritura() {
+                    const textoActual = titulo.innerHTML;
+
+                    if (!borrando && i <= textoAEscribir.length) {
+                        // Escribiendo
+                        titulo.innerHTML = textoAEscribir.substring(0, i);
+                        i++;
+
+                        // Si terminó de escribir, espera 2 segundos y empieza a borrar
+                        if (i > textoAEscribir.length) {
+                            borrando = true;
+                            setTimeout(efectoEscritura, 2000);
+                            return;
+                        }
+                    } else if (borrando && i >= 0) {
+                        // Borrando
+                        titulo.innerHTML = textoAEscribir.substring(0, i);
+                        i--;
+
+                        // Si terminó de borrar, espera un poco y vuelve a escribir
+                        if (i < 0) {
+                            borrando = false;
+                            i = 0;
+                            setTimeout(efectoEscritura, 500);
+                            return;
+                        }
+                    }
+
+                    // Velocidad: más lento al borrar, más rápido al escribir
+                    const velocidad = borrando ? 50 : 100;
+                    setTimeout(efectoEscritura, velocidad);
+                }
+
+                // Usamos el observador para que el bucle inicie solo cuando el usuario lo vea
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            efectoEscritura();
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.5 });
+
+                observer.observe(titulo);
+            }
+        });
+        // ------------------------------------------
+
+    </script>
+    <!-- Los componentes se cargan automáticamente desde main.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="main.js"></script>
+    <script src="chatbot.js"></script>
+</body>
+
+</html>
