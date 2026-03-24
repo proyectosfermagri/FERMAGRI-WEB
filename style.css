@@ -2580,6 +2580,11 @@ body {
 
     /* El título h3 ya no está oculto para que siempre se vea el nombre del producto en móvil */
 
+    /* ── Contenedor con más aire lateral para que el texto no toque bordes ── */
+    .contenedor-producto {
+        padding: 0 32px !important;
+    }
+
     /* ── Saco del producto Escala más amplio para destacar la imagen ── */
     .flip-card {
         height: 220px !important;
@@ -2645,8 +2650,8 @@ body {
 
 
     .producto-titulo {
-        /* CAMBIO: Texto bajado a un tamaño más manejable para móvil */
-        font-size: 1.95rem !important;
+        /* CAMBIO: Aumentado según feedback del usuario */
+        font-size: 2.3rem !important;
         text-align: center !important;
         line-height: 1.1 !important;
         margin-top: 0 !important;
