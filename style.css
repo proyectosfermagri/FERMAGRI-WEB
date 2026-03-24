@@ -879,8 +879,11 @@ body {
 .flip-card-back {
     transform: rotateY(180deg);
     background: transparent;
-    border-radius: 20px;
+    border-radius: 50%; /* Changed to 50% to prevent clipping the circle */
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .img-producto-destacado {
@@ -941,7 +944,7 @@ body {
     width: 60px;
     height: 4px;
     background-color: #2D5A27; 
-    margin-bottom: 30px;
+    margin: 0 auto 30px;
 }
 
 /*revisar esta linea de codigo */
@@ -2587,10 +2590,11 @@ body {
 
     /* ── Saco del producto Escala más amplio para destacar la imagen ── */
     .flip-card {
-        height: 220px !important;
-        max-width: 140% !important;
-        margin: 40px auto 120px !important;
-        scale: 160%;
+        height: 250px !important;
+        width: 250px !important; /* Make it square for better circularity */
+        max-width: 90% !important;
+        margin: 40px auto 40px !important;
+        scale: 120%; /* Reduced scale to prevent clipping by screen edges */
     }
 
     .flip-card img,
