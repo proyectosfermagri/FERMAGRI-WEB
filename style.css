@@ -218,21 +218,6 @@ body {
 
     }
 
-    .flip-card {
-        height: 500px;
-        max-width: 90%;
-    }
-
-    .flip-card-back {
-        border-width: 2px;
-    }
-
-    .btn-girar {
-        width: 80%;
-        /* Botón visible y fácil de tocar */
-        justify-content: center;
-    }
-
     .producto-titulo {
         font-size: 1.8rem;
         margin-top: 0px !important;
@@ -2583,81 +2568,54 @@ body {
 
     /* El título h3 ya no está oculto para que siempre se vea el nombre del producto en móvil */
 
-    /* ── Contenedor con más aire lateral para que el texto no toque bordes ── */
-    .contenedor-producto {
-        padding: 0 32px !important;
-    }
-
-    /* ── Saco del producto Escala más amplio para destacar la imagen ── */
-    .flip-card {
+    /* ── Saco del producto: Círculo perfecto y centrado ── */
+    #flip-card {
         height: 250px !important;
-        width: 250px !important; /* Make it square for better circularity */
-        max-width: 90% !important;
-        margin: 40px auto 40px !important;
-        scale: 120%; /* Reduced scale to prevent clipping by screen edges */
+        width: 250px !important;
+        max-width: 250px !important;
+        margin: 30px auto 120px !important; /* Más margen abajo para el botón */
+        scale: 1.1; 
+        border-radius: 50% !important;
+        overflow: visible !important;
     }
 
-    .flip-card img,
-    .img-producto-destacado {
+    #flip-card .flip-card-inner,
+    #flip-card .flip-card-front,
+    #flip-card .flip-card-back,
+    #flip-card .img-producto-destacado,
+    #flip-card .img-textura-full {
+        border-radius: 50% !important;
         width: 100% !important;
         height: 100% !important;
-        object-fit: contain !important;
+        object-fit: cover !important;
+    }
+
+    .flip-card-back {
+        overflow: hidden !important;
     }
 
     .producto-visual {
         margin-top: 0 !important;
         padding-bottom: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
     }
 
-    .hero-content h1 {
-        text-shadow: 0 2px 16px rgba(0, 0, 0, 0.6) !important;
-        line-height: 1.18 !important;
-        font-size: 1.62rem !important;
-        /* -10% aprox */
-        margin-bottom: 8px !important;
-        letter-spacing: -0.3px;
-    }
-
-    /* ── Botón "Ver Fertilizante": más pequeño y con aire abajo ── */
+    /* ── Botón debajo del círculo ── */
     .btn-girar {
-        padding: 8px 18px !important;
-        font-size: 0.78rem !important;
-        width: auto !important;
-        gap: 6px !important;
-        margin-bottom: 0px !important;
-        /* ELIMINADO PARA ACERCAR AL TÍTULO */
+        margin-top: -60px !important; /* Sube el botón para que esté cerca del círculo escalado */
+        margin-bottom: 20px !important;
+        z-index: 20 !important;
     }
-
-    /* ── Calculadora NPK: sin desbordamiento lateral ── */
-    .npk-summary {
-        overflow: hidden;
-    }
-
-    .npk-summary .npk-item {
-        overflow: hidden;
-        min-width: 0;
-    }
-
-    .npk-item span {
-        font-size: 1.1rem !important;
-        word-break: break-word;
-        overflow-wrap: anywhere;
-    }
-
-    .npk-item strong {
-        font-size: 0.6rem !important;
-        white-space: normal;
-        word-break: break-word;
-    }
-
-    /* ── Info de producto más limpia ── */
-
 
     .producto-titulo {
         /* CAMBIO: Aumentado según feedback del usuario */
         font-size: 2.3rem !important;
         text-align: center !important;
         line-height: 1.1 !important;
+        margin-top: 10px !important;
+    }
         margin-top: 0 !important;
     }
 
