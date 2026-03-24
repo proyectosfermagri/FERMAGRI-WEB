@@ -2674,19 +2674,19 @@ body {
 }
 
 .mhero-title {
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-weight: 800;
     color: #111;
-    line-height: 1.2;
-    margin: 0 0 14px;
-    letter-spacing: -0.5px;
+    line-height: 1.1;
+    margin: 0 0 16px;
+    letter-spacing: -0.8px;
     text-align: center;
 }
 
 .mhero-accent {
-    color: #ffffff;
+    color: #2D5A27; /* Green color from Image 2 */
     position: relative;
-    display: inline;
+    display: inline-block;
 }
 
 .mhero-accent::after {
@@ -2711,16 +2711,16 @@ body {
 .mhero-search {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     background: #f5f5f5;
     border: 1.5px solid #e0e0e0;
     border-radius: 12px;
-    padding: 13px 16px;
-    width: auto;
-    min-width: 200px;
+    padding: 14px 18px;
+    width: 100%;
+    max-width: 450px;
     box-sizing: border-box;
-    margin-bottom: 16px;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    margin: 0 auto 16px;
+    transition: all 0.2s ease;
 }
 
 .mhero-search:focus-within {
@@ -2763,16 +2763,13 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 14px 36px;
-    /* Más padding horizontal, ancho automático */
-    width: auto;
-    /* Ya no full-width */
-    min-width: 200px;
-    /* Mínimo para que no quede muy apretado */
+    gap: 10px;
+    padding: 16px 24px;
+    width: 100%;
+    max-width: 450px;
     border-radius: 12px;
     font-weight: 700;
-    font-size: 0.88rem;
+    font-size: 0.95rem;
     text-decoration: none;
     letter-spacing: 0.2px;
     transition: transform 0.15s, opacity 0.15s;
