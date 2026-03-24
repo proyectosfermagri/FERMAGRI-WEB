@@ -933,15 +933,15 @@ body {
     color: #2D5A27;
     font-size: 2.22rem;
     line-height: 1.1;
-    margin-bottom: 8px;
+    margin-bottom: 15px;
     font-weight: 700;
 }
 
 .separador-corto {
     width: 60px;
     height: 4px;
-    background-color: #2D5A27; /* Changed to green for visibility if needed */
-    margin-bottom: 15px;
+    background-color: #2D5A27; 
+    margin-bottom: 30px;
 }
 
 /*revisar esta linea de codigo */
