@@ -103,8 +103,58 @@ document.addEventListener('DOMContentLoaded', () => {
     // 5. LÓGICA DEL SLIDER (Ken Burns)
     let slideIndex = 0;
     let slideInterval;
-    const slides = document.querySelectorAll('.slide');
-    const dots = document.querySelectorAll('.dot');
+    let slides = document.querySelectorAll('.slide');
+    let dots = document.querySelectorAll('.dot');
+
+    async function initDynamicSlider() {
+        if (!document.querySelector('.slider')) return;
+
+        // Intentar cargar desde Supabase
+        if (window.sb) {
+            const { data, error } = await window.sb.from('slides').select('*').order('orden', { ascending: true });
+            
+            if (!error && data && data.length > 0) {
+                const sliderContainer = document.querySelector('.slider');
+                const dotsContainer = document.querySelector('.slider-dots');
+                
+                if (sliderContainer && dotsContainer) {
+                    sliderContainer.innerHTML = '';
+                    dotsContainer.innerHTML = '';
+
+                    data.forEach((s, idx) => {
+                        // Crear Slide
+                        const slideDiv = document.createElement('div');
+                        slideDiv.className = `slide ${idx === 0 ? 'active' : ''}`;
+                        slideDiv.innerHTML = `
+                            <div class="slide-bg" style="background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('${s.image_url}');"></div>
+                            <div class="hero-content">
+                                <h1>${s.title}</h1>
+                                <p>${s.subtitle || ''}</p>
+                                ${s.button_text ? `<a href="${s.button_link || '#'}" class="cta-button">${s.button_text}</a>` : ''}
+                            </div>
+                        `;
+                        sliderContainer.appendChild(slideDiv);
+
+                        // Crear Dot
+                        const dotSpan = document.createElement('span');
+                        dotSpan.className = `dot ${idx === 0 ? 'active' : ''}`;
+                        dotSpan.onclick = () => window.currentSlide(idx);
+                        dotsContainer.appendChild(dotSpan);
+                    });
+
+                    // Re-capturar elementos actualizados
+                    slides = document.querySelectorAll('.slide');
+                    dots = document.querySelectorAll('.dot');
+                }
+            }
+        }
+
+        // Iniciar slider con lo que haya (Supabase o Hardcoded)
+        if (slides.length > 0) {
+            showSlide(slideIndex);
+            if (window.innerWidth > 768) startTimer();
+        }
+    }
 
     function showSlide(n) {
         if (slides.length === 0) return;
@@ -113,12 +163,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (slideIndex >= slides.length) slideIndex = 0;
         if (slideIndex < 0) slideIndex = slides.length - 1;
 
-        // Limpiar todas las clases active
         slides.forEach(slide => slide.classList.remove('active'));
         dots.forEach(dot => dot.classList.remove('active'));
 
-        // Activar el slide y el punto correspondiente
-        slides[slideIndex].classList.add('active');
+        if (slides[slideIndex]) slides[slideIndex].classList.add('active');
         if (dots[slideIndex]) dots[slideIndex].classList.add('active');
     }
 
@@ -134,7 +182,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     function startTimer() {
-        slideInterval = setInterval(nextSlide, 7000); // 7 segundos por slide
+        clearInterval(slideInterval);
+        slideInterval = setInterval(nextSlide, 7000);
     }
 
     function resetTimer() {
@@ -142,11 +191,6 @@ document.addEventListener('DOMContentLoaded', () => {
         startTimer();
     }
 
-    if (slides.length > 0) {
-        showSlide(slideIndex);
-        // Solo activar el slider automático en escritorio
-        if (window.innerWidth > 768) {
-            startTimer();
-        }
-    }
+    // Ejecutar inicialización
+    initDynamicSlider();
 });

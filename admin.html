@@ -267,6 +267,8 @@
                 Calculadora</a>
             <a href="#" id="nav-distributors" onclick="switchView('distributors')"><i class="fas fa-map-marker-alt"></i>
                 Distribuidores</a>
+            <a href="#" id="nav-slides" onclick="switchView('slides')"><i class="fas fa-images"></i>
+                Slices Index</a>
             <a href="index.html" target="_blank"><i class="fas fa-external-link-alt"></i> Ver Web</a>
             <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Salir</a>
         </nav>
@@ -372,6 +374,29 @@
                         </tr>
                     </thead>
                     <tbody id="crops-list">
+                        <!-- Dinámico -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Seccion Slices Index -->
+        <div id="section-slides" style="display:none;">
+            <div class="header">
+                <h1>Gestión de Slices (Slider Index)</h1>
+                <button class="btn btn-primary" onclick="openSlideModal()"><i class="fas fa-plus"></i> Nuevo Slide</button>
+            </div>
+            <div class="card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Orden</th>
+                            <th>Fondo</th>
+                            <th>Título</th>
+                            <th>Subtítulo</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="slides-list">
                         <!-- Dinámico -->
                     </tbody>
                 </table>
@@ -609,6 +634,52 @@
             </form>
         </div>
     </div>
+    <!-- Modal Slides -->
+    <div id="modal-slide"
+        style="position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000;">
+        <div class="modal-content">
+            <h2 id="slide-modal-title">Editar Slide</h2>
+            <form id="slide-form" onsubmit="saveSlide(event)">
+                <input type="hidden" id="s-id">
+                <div class="grid-form">
+                    <div class="form-group">
+                        <label>Orden (1 el primero)</label>
+                        <input type="number" id="s-orden" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Imagen de Fondo (Slide)</label>
+                        <div class="upload-area" onclick="document.getElementById('file-slide').click()">
+                            <i class="fas fa-cloud-upload-alt"></i> Seleccionar Fondo
+                            <input type="file" id="file-slide" hidden accept="image/*"
+                                onchange="previewImg(this, 'slide-prev-thumb')">
+                            <img id="slide-prev-thumb" class="preview-thumb">
+                            <input type="hidden" id="s-imagen">
+                        </div>
+                    </div>
+                    <div class="form-group full">
+                        <label>Título (Principal)</label>
+                        <input type="text" id="s-titulo" required placeholder="Ej: Soluciones Agrícolas...">
+                    </div>
+                    <div class="form-group full">
+                        <label>Subtítulo (Descripción)</label>
+                        <textarea id="s-subtitulo" rows="2"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Texto Botón</label>
+                        <input type="text" id="s-btn-text" placeholder="Ej: Ver Portafolio">
+                    </div>
+                    <div class="form-group">
+                        <label>Link Botón (URL)</label>
+                        <input type="text" id="s-btn-link" placeholder="Ej: #productos o productos.html">
+                    </div>
+                </div>
+                <div style="margin-top: 30px; display: flex; justify-content: flex-end; gap: 10px;">
+                    <button type="button" class="btn btn-outline" onclick="closeSlideModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" id="btn-save-slide">Guardar Slide</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <script>
         const SUPABASE_URL = "https://bfwqmekquomqkydrxwvm.supabase.co";
@@ -626,11 +697,11 @@
                 loadProducts();
                 loadDistributors();
                 loadCrops();
+                loadSlides();
             } else {
                 document.getElementById('auth-error').style.display = 'block';
             }
         }
-
         function checkAuth() {
             if (localStorage.getItem('fermagri_auth') === 'true') {
                 document.getElementById('auth-overlay').style.display = 'none';
@@ -639,6 +710,7 @@
                 loadProducts();
                 loadDistributors();
                 loadCrops();
+                loadSlides();
             }
         }
 
@@ -646,10 +718,12 @@
             document.getElementById('section-products').style.display = view === 'products' ? 'block' : 'none';
             document.getElementById('section-distributors').style.display = view === 'distributors' ? 'block' : 'none';
             document.getElementById('section-calculator').style.display = view === 'calculator' ? 'block' : 'none';
+            document.getElementById('section-slides').style.display = view === 'slides' ? 'block' : 'none';
 
             document.getElementById('nav-products').classList.toggle('active', view === 'products');
             document.getElementById('nav-distributors').classList.toggle('active', view === 'distributors');
             document.getElementById('nav-calculator').classList.toggle('active', view === 'calculator');
+            document.getElementById('nav-slides').classList.toggle('active', view === 'slides');
         }
 
         function logout() {
@@ -1055,6 +1129,128 @@
             const { error } = await sb.from('calculadora_cultivos').delete().eq('id', id);
             if (error) alert(error.message);
             else loadCrops();
+        }
+
+        // --- SLIDES ---
+        let allSlides = [];
+
+        async function loadSlides() {
+            const { data, error } = await sb.from('slides').select('*').order('orden', { ascending: true });
+            
+            if (error) {
+                if (error.code === '42P01') { // Table not found
+                    const list = document.getElementById('slides-list');
+                    list.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:40px; color:#666;">
+                        <i class="fas fa-exclamation-triangle" style="font-size:2rem; color:#f39c12; margin-bottom:15px; display:block;"></i>
+                        <strong>La tabla 'slides' no ha sido creada en Supabase.</strong><br>
+                        Por favor, ejecuta el script <code>setup_slides_table.sql</code> en tu SQL Editor de Supabase para activar esta función.<br>
+                        <a href="setup_slides_table.sql" target="_blank" class="btn btn-outline" style="margin-top:15px;">Ver Script SQL</a>
+                    </td></tr>`;
+                    return;
+                }
+                return console.error("Error cargando slides:", error.message);
+            }
+            
+            allSlides = data;
+            renderSlidesTable(data);
+        }
+
+        function renderSlidesTable(data) {
+            const list = document.getElementById('slides-list');
+            list.innerHTML = '';
+            data.forEach(s => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><code># ${s.orden || '-'}</code></td>
+                    <td><img src="${s.image_url}" class="prod-img" style="width:120px; height:60px;"></td>
+                    <td><strong>${s.title}</strong></td>
+                    <td>${s.subtitle || '-'}</td>
+                    <td>
+                        <button class="btn btn-outline" onclick='editSlide(${JSON.stringify(s)})'><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-outline" style="color:red" onclick="deleteSlide(${s.id})"><i class="fas fa-trash"></i></button>
+                    </td>
+                `;
+                list.appendChild(tr);
+            });
+        }
+
+        function openSlideModal() {
+            document.getElementById('modal-slide').style.display = 'flex';
+            document.getElementById('slide-form').reset();
+            document.getElementById('s-id').value = '';
+            document.getElementById('slide-prev-thumb').style.display = 'none';
+            document.getElementById('slide-modal-title').innerText = "Nuevo Slide";
+        }
+
+        function closeSlideModal() {
+            document.getElementById('modal-slide').style.display = 'none';
+        }
+
+        window.editSlide = function(s) {
+            openSlideModal();
+            document.getElementById('slide-modal-title').innerText = "Editar Slide";
+            document.getElementById('s-id').value = s.id;
+            document.getElementById('s-orden').value = s.orden || 0;
+            document.getElementById('s-titulo').value = s.title;
+            document.getElementById('s-subtitulo').value = s.subtitle || '';
+            document.getElementById('s-btn-text').value = s.button_text || '';
+            document.getElementById('s-btn-link').value = s.button_link || '';
+
+            if (s.image_url) {
+                document.getElementById('s-imagen').value = s.image_url;
+                document.getElementById('slide-prev-thumb').src = s.image_url;
+                document.getElementById('slide-prev-thumb').style.display = 'block';
+            }
+        }
+
+        async function saveSlide(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-save-slide');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
+            btn.disabled = true;
+
+            const id = document.getElementById('s-id').value;
+            const file = document.getElementById('file-slide').files[0];
+            let url = document.getElementById('s-imagen').value;
+
+            if (file) {
+                const uploadedUrl = await uploadFile(file);
+                if (uploadedUrl) url = uploadedUrl;
+            }
+
+            const payload = {
+                orden: parseInt(document.getElementById('s-orden').value) || 0,
+                title: document.getElementById('s-titulo').value,
+                subtitle: document.getElementById('s-subtitulo').value,
+                button_text: document.getElementById('s-btn-text').value,
+                button_link: document.getElementById('s-btn-link').value,
+                image_url: url
+            };
+
+            let error;
+            if (id) {
+                const result = await sb.from('slides').update(payload).eq('id', id);
+                error = result.error;
+            } else {
+                const result = await sb.from('slides').insert([payload]);
+                error = result.error;
+            }
+
+            if (error) alert(error.message);
+            else {
+                closeSlideModal();
+                loadSlides();
+            }
+            btn.innerHTML = 'Guardar Slide';
+            btn.disabled = false;
+        }
+
+        async function deleteSlide(id) {
+            if (confirm('¿Estás seguro de eliminar este slide?')) {
+                const { error } = await sb.from('slides').delete().eq('id', id);
+                if (error) alert(error.message);
+                else loadSlides();
+            }
         }
 
         // --- STORAGE ---
