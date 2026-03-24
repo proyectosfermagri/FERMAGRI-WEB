@@ -144,6 +144,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (slides.length > 0) {
         showSlide(slideIndex);
-        startTimer();
+        // Solo activar el slider automático en escritorio
+        if (window.innerWidth > 768) {
+            startTimer();
+        }
     }
 });

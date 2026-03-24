@@ -21,12 +21,35 @@
 
     <div id="header-placeholder"></div>
 
+    <!-- ========= HERO MÓVIL CLEAN (solo mobile) ========= -->
+    <section class="mobile-hero mobile-only">
+        <h1 class="mhero-title">
+            Soluciones <span class="mhero-accent">Agrícolas</span><br>de Alto Rendimiento
+        </h1>
+        <p class="mhero-sub">
+            Impulsando la productividad del campo ecuatoriano con fertilizantes de alta eficiencia.
+        </p>
+        <div class="mhero-search">
+            <i class="fas fa-search"></i>
+            <input type="text" id="inputBuscadorCelular" placeholder="Buscar cultivo o producto..."
+                   onkeypress="if(event.key==='Enter') window.location.href='productos.html?buscar='+encodeURIComponent(this.value)">
+        </div>
+        <div class="mhero-btns">
+            <a href="calculadora.html" class="mhero-btn mhero-primary">
+                <i class="fas fa-seedling"></i> Ver Calculadora →
+            </a>
+            <a href="contacto.html" class="mhero-btn mhero-secondary">
+                Contactar a un asesor
+            </a>
+        </div>
+    </section>
 
-    <section class="slider-container" id="inicio">
+    <!-- Slider solo visible en DESKTOP -->
+    <section class="slider-container desktop-only" id="inicio">
         <div class="slider">
             <div class="slide active">
                 <div class="slide-bg"
-                    style="background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('IMAGENES/slide1.jpg');">
+                    style="background-image: linear-gradient(rgba(0,0,0,0.50), rgba(0,0,0,0.50)), url('IMAGENES/slide1.jpg');">
                 </div>
                 <div class="hero-content">
                     <h1>Soluciones Agrícolas de Alto Rendimiento</h1>
@@ -82,23 +105,47 @@
 
     <div class="productos-container">
         <a href="productos.html?cat=Edaficos" class="producto-card">
-            <img src="ICONOS/icono granular.webp" alt="Edáficos">
-            <h3>EDÁFICOS</h3>
+            <div class="pcat-icono">
+                <img src="ICONOS/icono granular.webp" alt="Edáficos">
+            </div>
+            <div class="pcat-info">
+                <h3>EDÁFICOS</h3>
+                <p>Fertilizantes de aplicación al suelo para nutrición de base.</p>
+            </div>
+            <i class="fas fa-chevron-right pcat-arrow"></i>
         </a>
 
         <a href="productos.html?cat=Solubles" class="producto-card">
-            <img src="ICONOS/icono solubles.webp" alt="Solubles">
-            <h3>SOLUBLES</h3>
+            <div class="pcat-icono">
+                <img src="ICONOS/icono solubles.webp" alt="Solubles">
+            </div>
+            <div class="pcat-info">
+                <h3>SOLUBLES</h3>
+                <p>Nutrición foliar y fertirrigación de alta concentración.</p>
+            </div>
+            <i class="fas fa-chevron-right pcat-arrow"></i>
         </a>
 
-        <a href="productos.html?cat=Master" class="producto-card">
-            <img src="ICONOS/icono master.webp" alt="Master Protec">
-            <h3>MASTER PROTEC</h3>
+        <a href="productos.html?cat=Master Protec" class="producto-card">
+            <div class="pcat-icono">
+                <img src="ICONOS/icono master.webp" alt="Master Protec">
+            </div>
+            <div class="pcat-info">
+                <h3>MASTER PROTEC</h3>
+                <p>Línea especializada en protección y fortalecimiento vegetal.</p>
+            </div>
+            <i class="fas fa-chevron-right pcat-arrow"></i>
         </a>
 
         <a href="productos.html?cat=Especializados" class="producto-card">
-            <img src="ICONOS/icono especializados.webp" alt="Especializados">
-            <h3>ESPECIALIZADOS</h3>
+            <div class="pcat-icono">
+                <img src="ICONOS/icono especializados.webp" alt="Especializados">
+            </div>
+            <div class="pcat-info">
+                <h3>ESPECIALIZADOS</h3>
+                <p>Formulaciones técnicas para cultivos de alta exigencia.</p>
+            </div>
+            <i class="fas fa-chevron-right pcat-arrow"></i>
         </a>
     </div>
     </section>

@@ -1,0 +1,43 @@
+/* --- AI RESTORED STYLES --- */
+
+/* 1. Circular Product Images */
+.producto-card img {
+    border-radius: 50% !important;
+    object-fit: cover !important;
+}
+
+/* 2. Mobile Header customizations */
+@media (max-width: 768px) {
+    /* Background Color */
+    .navbar {
+        background-color: #418431 !important;
+    }
+    
+    /* Increased logo size */
+    .navbar-brand img, .logo img {
+        transform: scale(2.5) !important;
+    }
+}
+
+/* 4. Ver Detalle Button Style */
+.btn-detalle {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: transparent !important;
+    color: #2D5A27 !important;
+    border: 2px solid #2D5A27 !important;
+    border-radius: 25px;
+    text-decoration: none !important;
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-align: center;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+}
+
+.btn-detalle:hover {
+    background-color: #2D5A27 !important;
+    color: #fff !important;
+}
+
+/* --- END AI RESTORED STYLES --- */

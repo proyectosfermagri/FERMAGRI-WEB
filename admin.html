@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,48 +18,232 @@
             --text: #333;
         }
 
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); margin: 0; display: flex; height: 100vh; }
-        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            display: flex;
+            height: 100vh;
+        }
+
         /* Auth Overlay */
-        #auth-overlay { position: fixed; inset: 0; background: var(--secondary); display: flex; align-items: center; justify-content: center; z-index: 9999; }
-        .auth-card { background: var(--white); padding: 40px; border-radius: 12px; width: 350px; text-align: center; }
-        .auth-card input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
-        .auth-card button { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        #auth-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .auth-card {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 12px;
+            width: 350px;
+            text-align: center;
+        }
+
+        .auth-card input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .auth-card button {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
 
         /* Sidebar */
-        aside { width: 250px; background: var(--secondary); color: white; padding: 20px; display: flex; flex-direction: column; }
-        aside h2 { font-size: 1.2rem; margin-bottom: 30px; color: var(--primary); }
-        nav a { color: #ccc; text-decoration: none; padding: 12px; border-radius: 6px; margin-bottom: 5px; display: block; transition: 0.3s; }
-        nav a:hover, nav a.active { background: #333; color: var(--primary); }
+        aside {
+            width: 250px;
+            background: var(--secondary);
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        aside h2 {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: var(--primary);
+        }
+
+        nav a {
+            color: #ccc;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            display: block;
+            transition: 0.3s;
+        }
+
+        nav a:hover,
+        nav a.active {
+            background: #333;
+            color: var(--primary);
+        }
 
         /* Main Content */
-        main { flex: 1; overflow-y: auto; padding: 30px; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        .btn { padding: 10px 20px; border-radius: 6px; border: none; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-outline { border: 1px solid #ddd; background: white; }
+        main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-outline {
+            border: 1px solid #ddd;
+            background: white;
+        }
 
         /* Table */
-        .card { background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); padding: 20px; }
-        table { width: 100%; border-collapse: collapse; }
-        th { text-align: left; padding: 15px; border-bottom: 2px solid #eee; color: #666; font-size: 0.9rem; }
-        td { padding: 15px; border-bottom: 1px solid #eee; vertical-align: middle; }
-        .prod-img { width: 50px; height: 50px; border-radius: 6px; object-fit: cover; background: #f9f9f9; }
-        
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 2px solid #eee;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+
+        .prod-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 6px;
+            object-fit: cover;
+            background: #f9f9f9;
+        }
+
         /* Modal */
-        #modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; }
-        .modal-content { background: white; width: 90%; max-width: 800px; max-height: 90vh; overflow-y: auto; border-radius: 12px; padding: 30px; }
-        .grid-form { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .form-group { display: flex; flex-direction: column; gap: 8px; }
-        .form-group.full { grid-column: span 2; }
-        input, select, textarea { padding: 10px; border: 1px solid #ddd; border-radius: 6px; }
-        label { font-weight: bold; font-size: 0.9rem; color: #555; }
-        
-        .upload-area { border: 2px dashed #ddd; padding: 15px; text-align: center; border-radius: 8px; cursor: pointer; transition: 0.3s; }
-        .upload-area:hover { border-color: var(--primary); background: #f0fff4; }
-        .preview-thumb { width: 100px; height: 100px; object-fit: cover; margin-top: 10px; display: none; border-radius: 4px; }
+        #modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 12px;
+            padding: 30px;
+        }
+
+        .grid-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group.full {
+            grid-column: span 2;
+        }
+
+        input,
+        select,
+        textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .upload-area {
+            border: 2px dashed #ddd;
+            padding: 15px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: #f0fff4;
+        }
+
+        .preview-thumb {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-top: 10px;
+            display: none;
+            border-radius: 4px;
+        }
     </style>
 </head>
+
 <body>
 
     <!-- Simple Login for Fermagri -->
@@ -68,15 +253,20 @@
             <h2>Acceso Admin</h2>
             <input type="password" id="admin-pass" placeholder="Contraseña de administrador">
             <button onclick="login()">Entrar</button>
-            <p id="auth-error" style="color:red; font-size:12px; margin-top:10px; display:none;">Contraseña incorrecta</p>
+            <p id="auth-error" style="color:red; font-size:12px; margin-top:10px; display:none;">Contraseña incorrecta
+            </p>
         </div>
     </div>
 
     <aside>
         <h2>FERMAGRI CMS</h2>
         <nav>
-            <a href="#" id="nav-products" class="active" onclick="switchView('products')"><i class="fas fa-box"></i> Productos</a>
-            <a href="#" id="nav-distributors" onclick="switchView('distributors')"><i class="fas fa-map-marker-alt"></i> Distribuidores</a>
+            <a href="#" id="nav-products" class="active" onclick="switchView('products')"><i class="fas fa-box"></i>
+                Productos</a>
+            <a href="#" id="nav-calculator" onclick="switchView('calculator')"><i class="fas fa-calculator"></i>
+                Calculadora</a>
+            <a href="#" id="nav-distributors" onclick="switchView('distributors')"><i class="fas fa-map-marker-alt"></i>
+                Distribuidores</a>
             <a href="index.html" target="_blank"><i class="fas fa-external-link-alt"></i> Ver Web</a>
             <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Salir</a>
         </nav>
@@ -88,8 +278,10 @@
             <div class="header">
                 <h1>Gestión de Productos</h1>
                 <div style="display:flex; gap:10px;">
-                    <input type="text" id="admin-search" placeholder="Buscar producto..." style="width: 250px; margin:0;" oninput="filterProducts()">
-                    <button class="btn btn-primary" onclick="openModal()"><i class="fas fa-plus"></i> Nuevo Producto</button>
+                    <input type="text" id="admin-search" placeholder="Buscar producto..."
+                        style="width: 250px; margin:0;" oninput="filterProducts()">
+                    <button class="btn btn-primary" onclick="openModal()"><i class="fas fa-plus"></i> Nuevo
+                        Producto</button>
                 </div>
             </div>
 
@@ -111,12 +303,37 @@
                 </table>
             </div>
         </div>
+        <!-- Seccion Calculadora -->
+        <div id="section-calculator" style="display:none;">
+            <div class="header">
+                <h1>Configuración Calculadora</h1>
+                <button class="btn btn-primary" onclick="openCropModal()"><i class="fas fa-plus"></i> Nuevo
+                    Cultivo</button>
+            </div>
+            <div class="card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cultivo</th>
+                            <th>N-P-K (ha)</th>
+                            <th>Prod. Gold</th>
+                            <th>Etapas</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="crops-list">
+                        <!-- Dinámico -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
         <!-- Seccion Distribuidores -->
         <div id="section-distributors" style="display:none;">
             <div class="header">
                 <h1>Distribuidores Autorizados</h1>
-                <button class="btn btn-primary" onclick="openDistModal()"><i class="fas fa-plus"></i> Nuevo Distribuidor</button>
+                <button class="btn btn-primary" onclick="openDistModal()"><i class="fas fa-plus"></i> Nuevo
+                    Distribuidor</button>
             </div>
 
             <div class="card">
@@ -131,6 +348,30 @@
                         </tr>
                     </thead>
                     <tbody id="distributors-list">
+                        <!-- Dinámico -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Seccion Calculadora -->
+        <div id="section-calculator" style="display:none;">
+            <div class="header">
+                <h1>Configuración Calculadora</h1>
+                <button class="btn btn-primary" onclick="openCropModal()"><i class="fas fa-plus"></i> Nuevo
+                    Cultivo</button>
+            </div>
+            <div class="card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cultivo</th>
+                            <th>N-P-K (ha)</th>
+                            <th>Prod. Gold</th>
+                            <th>Etapas</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="crops-list">
                         <!-- Dinámico -->
                     </tbody>
                 </table>
@@ -169,7 +410,8 @@
                     </div>
                     <div class="form-group full">
                         <label>Fórmula Real (Privada - Solo Interno)</label>
-                        <textarea id="p-formula-interna" rows="2" placeholder="Ej: Nitrógeno 40%, Fósforo 10%..."></textarea>
+                        <textarea id="p-formula-interna" rows="2"
+                            placeholder="Ej: Nitrógeno 40%, Fósforo 10%..."></textarea>
                     </div>
                     <div class="form-group">
                         <label>Concentración</label>
@@ -183,7 +425,8 @@
                         <label>Imagen Saco (Subir archivo)</label>
                         <div class="upload-area" onclick="document.getElementById('file-saco').click()">
                             <i class="fas fa-cloud-upload-alt"></i> Seleccionar Saco
-                            <input type="file" id="file-saco" hidden accept="image/*" onchange="previewImg(this, 'saco-prev')">
+                            <input type="file" id="file-saco" hidden accept="image/*"
+                                onchange="previewImg(this, 'saco-prev')">
                             <img id="saco-prev" class="preview-thumb">
                             <input type="hidden" id="p-imagen">
                         </div>
@@ -192,7 +435,8 @@
                         <label>Imagen Textura / Grano</label>
                         <div class="upload-area" onclick="document.getElementById('file-textura').click()">
                             <i class="fas fa-cloud-upload-alt"></i> Seleccionar Textura
-                            <input type="file" id="file-textura" hidden accept="image/*" onchange="previewImg(this, 'text-prev')">
+                            <input type="file" id="file-textura" hidden accept="image/*"
+                                onchange="previewImg(this, 'text-prev')">
                             <img id="text-prev" class="preview-thumb">
                             <input type="hidden" id="p-textura">
                         </div>
@@ -222,8 +466,83 @@
         </div>
     </div>
 
+    <!-- Modal Cultivos Calculadora -->
+    <div id="modal-crop"
+        style="position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000;">
+        <div class="modal-content" style="max-width: 900px;">
+            <h2 id="crop-modal-title">Editar Cultivo</h2>
+            <form id="crop-form" onsubmit="saveCrop(event)">
+                <input type="hidden" id="c-id">
+                <div class="grid-form">
+                    <div class="form-group">
+                        <label>Nombre del Cultivo</label>
+                        <input type="text" id="c-nombre" required placeholder="Ej: Arroz">
+                    </div>
+                    <div class="form-group" style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px;">
+                        <div><label>N (Nitrógeno)</label><input type="number" id="c-n" step="0.1"></div>
+                        <div><label>P (P₂O₅)</label><input type="number" id="c-p" step="0.1"></div>
+                        <div><label>K (K₂O)</label><input type="number" id="c-k" step="0.1"></div>
+                    </div>
+
+                    <div class="form-group full" style="background: #f0f7ff; padding: 15px; border-radius: 8px;">
+                        <label>Micronutrientes (kg/ha)</label>
+                        <div style="display:grid; grid-template-columns: repeat(8, 1fr); gap:10px; margin-top:5px;">
+                            <div><label style="font-size:10px;">Fe</label><input type="number" id="c-fe" step="0.01">
+                            </div>
+                            <div><label style="font-size:10px;">Mn</label><input type="number" id="c-mn" step="0.01">
+                            </div>
+                            <div><label style="font-size:10px;">Zn</label><input type="number" id="c-zn" step="0.01">
+                            </div>
+                            <div><label style="font-size:10px;">Cu</label><input type="number" id="c-cu" step="0.01">
+                            </div>
+                            <div><label style="font-size:10px;">B</label><input type="number" id="c-b" step="0.01">
+                            </div>
+                            <div><label style="font-size:10px;">Mo</label><input type="number" id="c-mo" step="0.01">
+                            </div>
+                            <div><label style="font-size:10px;">Cl</label><input type="number" id="c-cl" step="0.01">
+                            </div>
+                            <div><label style="font-size:10px;">MgO</label><input type="number" id="c-mgo" step="0.01">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group full"
+                        style="background: #fffbe6; padding: 15px; border-radius: 8px; border:1px solid #ffe58f;">
+                        <label style="display:flex; justify-content:space-between; align-items:center;">
+                            Productos Recomendados
+                            <button type="button" class="btn btn-outline"
+                                style="padding:4px 8px; font-size:12px; border-color:#d4b106; color:#856404;"
+                                onclick="addProductUI()"><i class="fas fa-plus"></i> Añadir Producto</button>
+                        </label>
+                        <div id="products-container"
+                            style="margin-top:10px; display:flex; flex-direction:column; gap:10px;">
+                            <!-- Productos dinámicos -->
+                        </div>
+                    </div>
+
+                    <div class="form-group full" style="background: #f9f9f9; padding: 15px; border-radius: 8px;">
+                        <label style="display:flex; justify-content:space-between; align-items:center;">
+                            Etapas Fenológicas
+                            <button type="button" class="btn btn-outline" style="padding:4px 8px; font-size:12px;"
+                                onclick="addStageUI()"><i class="fas fa-plus"></i> Añadir Etapa</button>
+                        </label>
+                        <div id="stages-container"
+                            style="margin-top:10px; display:flex; flex-direction:column; gap:10px;">
+                            <!-- Etapas dinámicas -->
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 30px; display: flex; justify-content: flex-end; gap: 10px;">
+                    <button type="button" class="btn btn-outline" onclick="closeCropModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" id="btn-save-crop">Guardar Cultivo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Modal Distribuidores -->
-    <div id="modal-dist" style="position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000;">
+    <div id="modal-dist"
+        style="position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000;">
         <div class="modal-content">
             <h2 id="dist-modal-title">Editar Distribuidor</h2>
             <form id="dist-form" onsubmit="saveDistributor(event)">
@@ -299,13 +618,14 @@
         // --- AUTH ---
         function login() {
             const pass = document.getElementById('admin-pass').value;
-            if (pass === "Fermagri2026") { 
+            if (pass === "Fermagri2026") {
                 localStorage.setItem('fermagri_auth', 'true');
                 document.getElementById('auth-overlay').style.display = 'none';
                 document.getElementById('app').style.display = 'block';
                 document.querySelector('aside').style.display = 'flex';
                 loadProducts();
                 loadDistributors();
+                loadCrops();
             } else {
                 document.getElementById('auth-error').style.display = 'block';
             }
@@ -318,15 +638,18 @@
                 document.querySelector('aside').style.display = 'flex';
                 loadProducts();
                 loadDistributors();
+                loadCrops();
             }
         }
 
         function switchView(view) {
             document.getElementById('section-products').style.display = view === 'products' ? 'block' : 'none';
             document.getElementById('section-distributors').style.display = view === 'distributors' ? 'block' : 'none';
-            
+            document.getElementById('section-calculator').style.display = view === 'calculator' ? 'block' : 'none';
+
             document.getElementById('nav-products').classList.toggle('active', view === 'products');
             document.getElementById('nav-distributors').classList.toggle('active', view === 'distributors');
+            document.getElementById('nav-calculator').classList.toggle('active', view === 'calculator');
         }
 
         function logout() {
@@ -340,7 +663,7 @@
         async function loadProducts() {
             const { data, error } = await sb.from('productos').select('*').order('nombre', { ascending: true });
             if (error) return alert(error.message);
-            
+
             allProducts = data.sort((a, b) => {
                 const ordA = (a.orden !== undefined && a.orden !== null) ? parseInt(a.orden) : 999;
                 const ordB = (b.orden !== undefined && b.orden !== null) ? parseInt(b.orden) : 999;
@@ -372,8 +695,8 @@
 
         function filterProducts() {
             const term = document.getElementById('admin-search').value.toLowerCase();
-            const filtered = allProducts.filter(p => 
-                p.nombre.toLowerCase().includes(term) || 
+            const filtered = allProducts.filter(p =>
+                p.nombre.toLowerCase().includes(term) ||
                 p.categoria.toLowerCase().includes(term)
             );
             renderTable(filtered);
@@ -408,13 +731,13 @@
             document.getElementById('p-presentacion').value = p.presentacion;
             document.getElementById('p-ficha').value = p.ficha;
             document.getElementById('p-seguridad').value = p.seguridad;
-            
-            if(p.imagen) {
+
+            if (p.imagen) {
                 document.getElementById('p-imagen').value = p.imagen;
                 document.getElementById('saco-prev').src = p.imagen;
                 document.getElementById('saco-prev').style.display = 'block';
             }
-            if(p.textura) {
+            if (p.textura) {
                 document.getElementById('p-textura').value = p.textura;
                 document.getElementById('text-prev').src = p.textura;
                 document.getElementById('text-prev').style.display = 'block';
@@ -428,11 +751,11 @@
             btn.disabled = true;
 
             const id = document.getElementById('p-id').value;
-            
+
             // Subir archivos si hay nuevos
             const fileSaco = document.getElementById('file-saco').files[0];
             const fileText = document.getElementById('file-textura').files[0];
-            
+
             let urlSaco = document.getElementById('p-imagen').value;
             let urlText = document.getElementById('p-textura').value;
 
@@ -485,7 +808,7 @@
         async function loadDistributors() {
             const { data, error } = await sb.from('distribuidores').select('*').order('provincia', { ascending: true });
             if (error) return console.error(error);
-            
+
             const list = document.getElementById('distributors-list');
             list.innerHTML = '';
             data.forEach(d => {
@@ -508,7 +831,7 @@
             document.getElementById('modal-dist').style.display = 'flex';
             const form = document.getElementById('dist-form');
             form.reset();
-            
+
             if (d) {
                 document.getElementById('dist-modal-title').innerText = "Editar Distribuidor";
                 document.getElementById('d-id').value = d.id;
@@ -570,18 +893,182 @@
             else loadDistributors();
         }
 
+        // --- CRUD CALCULADORA ---
+        async function loadCrops() {
+            const { data, error } = await sb.from('calculadora_cultivos').select('*').order('nombre_cultivo', { ascending: true });
+            if (error) return console.error(error);
+
+            const list = document.getElementById('crops-list');
+            list.innerHTML = '';
+            data.forEach(c => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${c.nombre_cultivo}</strong></td>
+                    <td>${c.n_ha}-${c.p_ha}-${c.k_ha}</td>
+                    <td>${c.productos_recomendados ? c.productos_recomendados.length : 0} prods</td>
+                    <td>${c.etapas ? c.etapas.length : 0} etapas</td>
+                    <td>
+                        <button class="btn btn-outline" onclick='openCropModal(${JSON.stringify(c)})'><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-outline" style="color:red" onclick="deleteCrop(${c.id})"><i class="fas fa-trash"></i></button>
+                    </td>
+                `;
+                list.appendChild(tr);
+            });
+        }
+
+        function openCropModal(c = null) {
+            document.getElementById('modal-crop').style.display = 'flex';
+            const form = document.getElementById('crop-form');
+            form.reset();
+            document.getElementById('stages-container').innerHTML = '';
+
+            if (c) {
+                document.getElementById('crop-modal-title').innerText = "Editar Cultivo";
+                document.getElementById('c-id').value = c.id;
+                document.getElementById('c-nombre').value = c.nombre_cultivo;
+                document.getElementById('c-n').value = c.n_ha;
+                document.getElementById('c-p').value = c.p_ha;
+                document.getElementById('c-k').value = c.k_ha;
+
+                // Micronutrientes
+                document.getElementById('c-fe').value = c.fe_ha || 0;
+                document.getElementById('c-mn').value = c.mn_ha || 0;
+                document.getElementById('c-zn').value = c.zn_ha || 0;
+                document.getElementById('c-cu').value = c.cu_ha || 0;
+                document.getElementById('c-b').value = c.b_ha || 0;
+                document.getElementById('c-mo').value = c.mo_ha || 0;
+                document.getElementById('c-cl').value = c.cl_ha || 0;
+                document.getElementById('c-mgo').value = c.mgo_ha || 0;
+
+                if (c.productos_recomendados) {
+                    c.productos_recomendados.forEach(p => addProductUI(p));
+                }
+
+                if (c.etapas) {
+                    c.etapas.forEach(s => addStageUI(s));
+                }
+            } else {
+                document.getElementById('crop-modal-title').innerText = "Nuevo Cultivo";
+                document.getElementById('c-id').value = "";
+                addProductUI(); // Añadir un producto vacío
+                addStageUI(); // Añadir una etapa por defecto
+            }
+        }
+
+        function addProductUI(p = null) {
+            const container = document.getElementById('products-container');
+            const div = document.createElement('div');
+            div.className = 'product-item-calc';
+            div.style = "display:grid; grid-template-columns: 1fr 2fr auto; gap:10px; background:white; padding:10px; border-radius:6px; position:relative; border:1px solid #ffe58f;";
+            div.innerHTML = `
+                <div class="form-group"><label>Nombre Producto</label><input type="text" class="p-name" value="${p ? p.name : ''}" placeholder="Ej: Fercacao Gold"></div>
+                <div class="form-group"><label>Descripción / Razón</label><input type="text" class="p-desc" value="${p ? p.desc : ''}" placeholder="Ej: Máxima asimilación..."></div>
+                <button type="button" onclick="this.parentElement.remove()" style="background:none; border:none; color:red; cursor:pointer; margin-top:20px;"><i class="fas fa-trash-alt"></i></button>
+            `;
+            container.appendChild(div);
+        }
+
+        function addStageUI(s = null) {
+            const container = document.getElementById('stages-container');
+            const div = document.createElement('div');
+            div.className = 'stage-item';
+            div.style = "display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px; border-bottom:1px solid #eee; padding-bottom:10px; position:relative;";
+            div.innerHTML = `
+                <div class="form-group"><label>Nombre Etapa</label><input type="text" class="s-name" value="${s ? s.name : ''}" placeholder="Ej: Cosecha"></div>
+                <div class="form-group"><label>Sacos/ha</label><input type="number" class="s-sacos" value="${s ? s.sacos_ha : ''}" step="0.1"></div>
+                <div class="form-group"><label>Nutrientes (sep. coma)</label><input type="text" class="s-nutrients" value="${s ? s.nutrients.join(', ') : ''}" placeholder="N, P, K"></div>
+                <div class="form-group full"><label>Recomendación formulada</label><textarea class="s-rec" rows="2">${s ? s.recommendations : ''}</textarea></div>
+                <div class="form-group full"><label>Alternativas Fermagri (sep. coma)</label><input type="text" class="s-simples" value="${s ? s.simples.join(', ') : ''}" placeholder="Producto A, Producto B"></div>
+                <button type="button" onclick="this.parentElement.remove()" style="position:absolute; right:0; top:0; background:none; border:none; color:red; cursor:pointer;"><i class="fas fa-times"></i></button>
+            `;
+            container.appendChild(div);
+        }
+
+        function closeCropModal() {
+            document.getElementById('modal-crop').style.display = 'none';
+        }
+
+        async function saveCrop(e) {
+            e.preventDefault();
+            const id = document.getElementById('c-id').value;
+            const btn = document.getElementById('btn-save-crop');
+            btn.disabled = true;
+            btn.innerText = "Guardando...";
+
+            // Recopilar productos
+            const prods = [];
+            document.querySelectorAll('.product-item-calc').forEach(el => {
+                prods.push({
+                    name: el.querySelector('.p-name').value,
+                    desc: el.querySelector('.p-desc').value
+                });
+            });
+
+            // Recopilar etapas
+            const stages = [];
+            document.querySelectorAll('.stage-item').forEach(el => {
+                stages.push({
+                    name: el.querySelector('.s-name').value,
+                    sacos_ha: parseFloat(el.querySelector('.s-sacos').value) || 0,
+                    nutrients: el.querySelector('.s-nutrients').value.split(',').map(n => n.trim()).filter(n => n !== ""),
+                    recommendations: el.querySelector('.s-rec').value,
+                    simples: el.querySelector('.s-simples').value.split(',').map(n => n.trim()).filter(n => n !== "")
+                });
+            });
+
+            const payload = {
+                nombre_cultivo: document.getElementById('c-nombre').value,
+                n_ha: parseFloat(document.getElementById('c-n').value) || 0,
+                p_ha: parseFloat(document.getElementById('c-p').value) || 0,
+                k_ha: parseFloat(document.getElementById('c-k').value) || 0,
+                fe_ha: parseFloat(document.getElementById('c-fe').value) || 0,
+                mn_ha: parseFloat(document.getElementById('c-mn').value) || 0,
+                zn_ha: parseFloat(document.getElementById('c-zn').value) || 0,
+                cu_ha: parseFloat(document.getElementById('c-cu').value) || 0,
+                b_ha: parseFloat(document.getElementById('c-b').value) || 0,
+                mo_ha: parseFloat(document.getElementById('c-mo').value) || 0,
+                cl_ha: parseFloat(document.getElementById('c-cl').value) || 0,
+                mgo_ha: parseFloat(document.getElementById('c-mgo').value) || 0,
+                productos_recomendados: prods,
+                etapas: stages
+            };
+
+            let res;
+            if (id) {
+                res = await sb.from('calculadora_cultivos').update(payload).eq('id', id);
+            } else {
+                res = await sb.from('calculadora_cultivos').insert([payload]);
+            }
+
+            if (res.error) {
+                alert("Error: " + res.error.message);
+            } else {
+                closeCropModal();
+                loadCrops();
+            }
+            btn.disabled = false;
+            btn.innerText = "Guardar Cultivo";
+        }
+
+        async function deleteCrop(id) {
+            if (!confirm("¿Seguro que quieres eliminar este cultivo?")) return;
+            const { error } = await sb.from('calculadora_cultivos').delete().eq('id', id);
+            if (error) alert(error.message);
+            else loadCrops();
+        }
+
         // --- STORAGE ---
         async function uploadFile(file) {
             const fileName = `${Date.now()}_${file.name.replace(/\s/g, '_')}`;
             const { data, error } = await sb.storage
                 .from('fermagri-assets')
                 .upload(fileName, file);
-            
+
             if (error) {
                 alert('Error al subir archivo: ' + error.message);
                 return null;
             }
-            
+
             const { data: { publicUrl } } = sb.storage.from('fermagri-assets').getPublicUrl(fileName);
             return publicUrl;
         }
@@ -601,4 +1088,5 @@
         checkAuth();
     </script>
 </body>
+
 </html>

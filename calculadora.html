@@ -130,6 +130,50 @@
         .p-card { background: white; padding: 20px; border-radius: 15px; border-left: 5px solid var(--accent); border: 1px solid var(--border); border-left: 6px solid var(--accent); }
         .p-card h5 { margin: 0 0 5px; color: var(--accent); font-size: 1.1rem; font-weight: 800; }
         .p-card p { margin: 0; color: #64748b; font-size: 0.9rem; }
+
+        /* ── Responsivo Móvil ── */
+        @media (max-width: 768px) {
+            .calc-hero {
+                padding: 70px 20px 80px;
+            }
+            .calc-hero h1 { font-size: 2rem; }
+            .calc-hero p { font-size: 0.95rem; }
+
+            .calculator-container {
+                margin: -40px 12px 40px;
+                padding: 24px 18px;
+                border-radius: 20px;
+            }
+
+            /* Formulario: apilado verticalmente */
+            .calc-form {
+                grid-template-columns: 1fr;
+                gap: 16px;
+                padding: 20px;
+            }
+
+            .btn-calc {
+                width: 100%;
+                justify-content: center;
+                padding: 16px;
+                font-size: 1rem;
+            }
+
+            /* NPK: 3 cols más compactas */
+            .npk-summary {
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 10px;
+            }
+            .npk-item { padding: 14px 8px; }
+            .npk-item span { font-size: 1.3rem; }
+            .npk-item strong { font-size: 0.65rem; }
+
+            /* Calendar grid: 1 columna */
+            .calendar-grid { grid-template-columns: 1fr; gap: 16px; }
+            .calendar-step { padding: 20px; }
+
+            .results-section { padding: 24px 16px; }
+        }
     </style>
 </head>
 <body class="light-theme">
@@ -146,16 +190,7 @@
             <div class="input-group">
                 <label>Selecciona tu cultivo</label>
                 <select id="crop-select">
-                    <option value="">-- Elige un cultivo --</option>
-                    <option value="Arroz">Arroz</option>
-                    <option value="Maiz">Maíz</option>
-                    <option value="Banano">Banano</option>
-                    <option value="Cacao">Cacao</option>
-                    <option value="Palma Africana">Palma Africana</option>
-                    <option value="Papas">Papas</option>
-                    <option value="Pitahaya">Pitahaya</option>
-                    <option value="Limón">Limón</option>
-                    <option value="Caña de Azúcar">Caña de Azúcar</option>
+                    <option value="" disabled selected>Cargando cultivos...</option>
                 </select>
             </div>
             <div class="input-group">
@@ -186,6 +221,7 @@
 
     <div id="footer-placeholder"></div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="main.js"></script>
     <script src="calculadora.js"></script>
     <script src="chatbot.js"></script>

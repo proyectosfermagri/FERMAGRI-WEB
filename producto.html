@@ -213,13 +213,13 @@
 
             // Mapa de palabras clave → nutriente normalizado
             const mapa = [
-                { claves: ['nitrógeno', 'nitrogeno', /\bn\b/, /\bnh4\b/, /\bno3\b/, 'ureico', 'ureica', 'urea'],   nutriente: 'N'  },
-                { claves: ['fósforo', 'fosforo', /\bp2o5\b/, /\bp\b/],                                              nutriente: 'P'  },
+                { claves: ['nitrógeno', 'nitrogeno', 'nitr', /\bn\b/, /\bnh4\b/, /\bno3\b/, 'ureico', 'ureica', 'urea'],   nutriente: 'N'  },
+                { claves: ['fósforo', 'fosforo', 'fosf', /\bp2o5\b/, /\bp\b/],                                              nutriente: 'P'  },
                 { claves: ['potasio', /\bk2o\b/, /\bk\b/, 'kali'],                                                  nutriente: 'K'  },
                 { claves: ['calcio', /\bca\b/, /\bcao\b/],                                                           nutriente: 'Ca' },
                 { claves: ['magnesio', /\bmg\b/, /\bmgo\b/],                                                         nutriente: 'Mg' },
                 { claves: ['azufre', 'sulfato', /\bs\b/, /\bso4\b/],                                                 nutriente: 'S'  },
-                { claves: ['boro', /\bb\b/, /\bb2o3\b/],                                                             nutriente: 'B'  },
+                { claves: ['boro', 'bóric', 'boric', /\bb\b/, /\bb2o3\b/],                                                             nutriente: 'B'  },
                 { claves: ['zinc', /\bzn\b/],                                                                         nutriente: 'Zn' },
                 { claves: ['hierro', /\bfe\b/],                                                                       nutriente: 'Fe' },
                 { claves: ['manganeso', /\bmn\b/],                                                                    nutriente: 'Mn' },
