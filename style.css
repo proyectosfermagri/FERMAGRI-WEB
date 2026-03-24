@@ -2568,30 +2568,46 @@ body {
 
     /* El título h3 ya no está oculto para que siempre se vea el nombre del producto en móvil */
 
-    /* ── Saco del producto: Círculo perfecto y centrado ── */
+    /* ── Saco del producto y Textura ── */
     #flip-card {
         height: 250px !important;
         width: 250px !important;
         max-width: 250px !important;
         margin: 30px auto 120px !important; /* Más margen abajo para el botón */
         scale: 1.1; 
-        border-radius: 50% !important;
         overflow: visible !important;
     }
 
     #flip-card .flip-card-inner,
     #flip-card .flip-card-front,
-    #flip-card .flip-card-back,
-    #flip-card .img-producto-destacado,
-    #flip-card .img-textura-full {
-        border-radius: 50% !important;
+    #flip-card .flip-card-back {
         width: 100% !important;
         height: 100% !important;
-        object-fit: cover !important;
     }
 
-    .flip-card-back {
+    /* Frente: Saco */
+    #flip-card .flip-card-front {
+        border-radius: 0 !important;
+    }
+
+    #flip-card .img-producto-destacado {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important; /* El saco no debe cortarse */
+        border-radius: 0 !important;
+    }
+
+    /* Reverso: Textura en Círculo */
+    #flip-card .flip-card-back {
+        border-radius: 50% !important;
         overflow: hidden !important;
+    }
+    
+    #flip-card .img-textura-full {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important; /* La textura llena el círculo */
+        border-radius: 50% !important;
     }
 
     .producto-visual {
