@@ -804,7 +804,7 @@ body {
 /* Sección Principal del Producto */
 /* --- SECCIÓN DETALLE DE PRODUCTO (UNIFICADA) --- */
 .detalle-producto-principal {
-    padding: 60px 0;
+    padding: 30px 0;
     background-color: #ffffff;
     /* Cambiado a blanco para seamless look */
     min-height: 70vh;
@@ -931,26 +931,26 @@ body {
 
 .producto-titulo {
     color: #2D5A27;
-    font-size: 2.8rem;
+    font-size: 2.22rem;
     line-height: 1.1;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     font-weight: 700;
 }
 
 .separador-corto {
     width: 60px;
     height: 4px;
-    background-color: #ffffff;
-    margin-bottom: 25px;
+    background-color: #2D5A27; /* Changed to green for visibility if needed */
+    margin-bottom: 15px;
 }
 
 /*revisar esta linea de codigo */
 
 .producto-descripcion {
-    font-size: 1.1rem;
-    line-height: 1.6;
+    font-size: 1rem;
+    line-height: 1.5;
     color: #444;
-    margin-bottom: 5%;
+    margin-bottom: 20px;
     text-align: justify;
     /* Alineación justificada solicitada por el usuario */
 }
@@ -1010,7 +1010,7 @@ body {
 
 /* Regresar */
 .regresar-contenedor {
-    margin-top: 40px;
+    margin-top: 25px;
 }
 
 .btn-regresar {
@@ -1038,7 +1038,7 @@ body {
 /* --- SECCIÓN PRODUCTOS RELACIONADOS --- */
 .relacionados {
     background: #f9f9f9;
-    padding: 60px 5%;
+    padding: 40px 5% 30px;
 }
 
 .contenedor-relacionados {
@@ -2582,10 +2582,10 @@ body {
 
     /* ── Saco del producto Escala más amplio para destacar la imagen ── */
     .flip-card {
-        height: 250px !important;
-        max-width: 150% !important;
-        margin: 50px auto 100px !important;
-        scale: 180%;
+        height: 220px !important;
+        max-width: 140% !important;
+        margin: 40px auto 120px !important;
+        scale: 160%;
     }
 
     .flip-card img,
@@ -2645,10 +2645,11 @@ body {
 
 
     .producto-titulo {
-        /* CAMBIO: Texto bajado 2 puntos (de 1.6rem a 1.45rem) y justificado centrado */
-        font-size: 3.5rem !important;
+        /* CAMBIO: Texto bajado a un tamaño más manejable para móvil */
+        font-size: 1.95rem !important;
         text-align: center !important;
-        line-height: 1.2 !important;
+        line-height: 1.1 !important;
+        margin-top: 0 !important;
     }
 
     /* ── Título sección sin tanto aire ── */
