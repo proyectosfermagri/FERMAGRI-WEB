@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sincronización de Micronutrientes a Supabase</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f7f6;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            text-align: center;
+        }
+
+        button {
+            background: #24b47e;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #1a8f62;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        #log {
+            margin-top: 20px;
+            text-align: left;
+            background: #222;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 8px;
+            height: 250px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 14px;
+            width: 100%;
+            border: 3px solid #ccc;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h2>🚀 Cargar Micronutrientes Base a Supabase</h2>
+        <p>El archivo de Excel (CSV) que creé anteriormente está guardado en tu computadora local. Esta herramienta
+            inyectará automática y mágicamente todos esos valores base directamente en tu base de datos (Nube) para cada
+            cultivo.</p>
+        <p style="color:#d35400; font-weight:bold;">¡Haz clic en el botón solo una vez!</p>
+
+        <button id="btn-sync" onclick="sincronizar()">📥 Iniciar Inyección de Datos</button>
+
+        <div id="log"></div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = "https://bfwqmekquomqkydrxwvm.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmd3FtZWtxdW9tcWt5ZHJ4d3ZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4OTEzMjIsImV4cCI6MjA4OTQ2NzMyMn0.Tatgp8Gs_5DN-zvmoWjW5IuhbrRQhMtCOxHFCwguHl0";
+        const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        const dataBase = [
+            { "nombre_cultivo": "Maiz", "mgo_ha": 35.0, "fe_ha": 2.0, "mn_ha": 0.5, "zn_ha": 0.4, "cu_ha": 0.1, "b_ha": 0.2, "mo_ha": 0.01, "cl_ha": 0.0 },
+            { "nombre_cultivo": "Limón", "mgo_ha": 25.0, "fe_ha": 0.8, "mn_ha": 0.4, "zn_ha": 0.3, "cu_ha": 0.1, "b_ha": 0.2, "mo_ha": 0.01, "cl_ha": 0.0 },
+            { "nombre_cultivo": "Banano", "mgo_ha": 70.0, "fe_ha": 3.0, "mn_ha": 2.0, "zn_ha": 0.6, "cu_ha": 0.2, "b_ha": 0.4, "mo_ha": 0.02, "cl_ha": 0.0 },
+            { "nombre_cultivo": "Palma Africana", "mgo_ha": 50.0, "fe_ha": 2.0, "mn_ha": 0.5, "zn_ha": 0.2, "cu_ha": 0.1, "b_ha": 0.4, "mo_ha": 0.01, "cl_ha": 0.0 },
+            { "nombre_cultivo": "Cacao", "mgo_ha": 25.0, "fe_ha": 0.5, "mn_ha": 0.3, "zn_ha": 0.4, "cu_ha": 0.2, "b_ha": 0.2, "mo_ha": 0.01, "cl_ha": 0.0 },
+            { "nombre_cultivo": "Papas", "mgo_ha": 40.0, "fe_ha": 1.5, "mn_ha": 0.3, "zn_ha": 0.2, "cu_ha": 0.1, "b_ha": 0.2, "mo_ha": 0.01, "cl_ha": 0.0 },
+            { "nombre_cultivo": "Arroz", "mgo_ha": 20.0, "fe_ha": 2.0, "mn_ha": 1.0, "zn_ha": 0.5, "cu_ha": 0.1, "b_ha": 0.1, "mo_ha": 0.01, "cl_ha": 0.0 },
+            { "nombre_cultivo": "Caña de Azucar", "mgo_ha": 50.0, "fe_ha": 3.5, "mn_ha": 1.5, "zn_ha": 0.8, "cu_ha": 0.2, "b_ha": 0.3, "mo_ha": 0.02, "cl_ha": 0.0 },
+            { "nombre_cultivo": "Pitahaya", "mgo_ha": 25.0, "fe_ha": 0.5, "mn_ha": 0.3, "zn_ha": 0.4, "cu_ha": 0.1, "b_ha": 0.2, "mo_ha": 0.01, "cl_ha": 0.0 }
+        ];
+
+        function printLog(msg) {
+            const l = document.getElementById('log');
+            l.style.display = 'block';
+            l.innerHTML += `> ${msg}<br>`;
+            l.scrollTop = l.scrollHeight;
+        }
+
+        async function sincronizar() {
+            const btn = document.getElementById('btn-sync');
+            btn.disabled = true;
+            btn.innerText = "⏳ Inyectando (Por favor espera)...";
+
+            printLog("Iniciando inyección masiva en la base de datos Supabase...");
+
+            let fallos = 0;
+
+            for (const item of dataBase) {
+                printLog(`[Subiendo] Procesando cultivo: ${item.nombre_cultivo}...`);
+
+                try {
+                    const { error } = await sb
+                        .from('calculadora_cultivos')
+                        .update({
+                            fe_ha: item.fe_ha,
+                            mn_ha: item.mn_ha,
+                            zn_ha: item.zn_ha,
+                            cu_ha: item.cu_ha,
+                            b_ha: item.b_ha,
+                            mo_ha: item.mo_ha,
+                            cl_ha: item.cl_ha,
+                            mgo_ha: item.mgo_ha
+                        })
+                        .eq('nombre_cultivo', item.nombre_cultivo);
+
+                    if (error) {
+                        printLog(`[Error] Falló al inyectar ${item.nombre_cultivo}: ${error.message}`);
+                        fallos++;
+                    } else {
+                        printLog(`[Éxito] ${item.nombre_cultivo} actualizado al 100%.`);
+                    }
+                } catch (e) {
+                    printLog(`[Excepción] ${e.message}`);
+                }
+            }
+
+            if (fallos === 0) {
+                printLog("✅ ¡TODOS LOS DATOS INSERTADOS CORRECTAMENTE!");
+                printLog("Refresca tu panel de Administrador ('admin.html') para ver la magia.");
+                btn.innerText = "✨ ¡Inyección Completada!";
+            } else {
+                printLog("⚠️ Hubo problemas con algunos cultivos, mira los registros arriba.");
+                btn.innerText = "Terminado con algunos errores";
+            }
+        }
+    </script>
+</body>
+
+</html>

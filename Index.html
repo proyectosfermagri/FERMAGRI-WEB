@@ -5,10 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fermagri | Nutrición Vegetal de Precisión</title>
-    <meta name="description" content="Fermagri ofrece fertilizantes de alta concentración y calidad para maximizar el rendimiento de sus cultivos. Nutrición vegetal de precisión en Ecuador.">
-    <meta name="keywords" content="fertilizantes, nutrición vegetal, agricultura, Ecuador, Fermagri, urea, potasio, nitrato, calcio, agrícola">
+    <meta name="description"
+        content="Fermagri ofrece fertilizantes de alta concentración y calidad para maximizar el rendimiento de sus cultivos. Nutrición vegetal de precisión en Ecuador.">
+    <meta name="keywords"
+        content="fertilizantes, nutrición vegetal, agricultura, Ecuador, Fermagri, urea, potasio, nitrato, calcio, agrícola">
     <meta property="og:title" content="Fermagri | Nutrición Vegetal de Precisión">
-    <meta property="og:description" content="Fertilizantes de alta eficiencia para maximizar el rendimiento de tus cultivos. Explora nuestro catálogo y herramientas agronómicas.">
+    <meta property="og:description"
+        content="Fertilizantes de alta eficiencia para maximizar el rendimiento de tus cultivos. Explora nuestro catálogo y herramientas agronómicas.">
     <meta property="og:image" content="https://fermagri.com/nosotros.jpg">
     <meta property="og:type" content="website">
     <link rel="stylesheet" href="style.css">
@@ -21,12 +24,35 @@
 
     <div id="header-placeholder"></div>
 
+    <!-- ========= HERO MÓVIL CLEAN (solo mobile) ========= -->
+    <section class="mobile-hero mobile-only">
+        <h1 class="mhero-title">
+            Soluciones <span class="mhero-accent">Agrícolas</span><br>de Alto Rendimiento
+        </h1>
+        <p class="mhero-sub">
+            Impulsando la productividad del campo ecuatoriano con fertilizantes de alta eficiencia.
+        </p>
+        <div class="mhero-search">
+            <i class="fas fa-search"></i>
+            <input type="text" id="inputBuscadorCelular" placeholder="Buscar cultivo o producto..."
+                onkeypress="window.ejecutarBusquedaHero(event)">
+        </div>
+        <div class="mhero-btns">
+            <button class="mhero-btn mhero-secondary" onclick="window.ejecutarBusquedaHero()">
+                <i class="fas fa-search"></i> BUSCAR →
+            </button>
+            <a href="calculadora.html" class="mhero-btn mhero-primary">
+                <i class="fas fa-leaf"></i> IR A CALCULADORA →
+            </a>
+        </div>
+    </section>
 
-    <section class="slider-container" id="inicio">
+    <!-- Slider solo visible en DESKTOP -->
+    <section class="slider-container desktop-only" id="inicio">
         <div class="slider">
             <div class="slide active">
                 <div class="slide-bg"
-                    style="background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('IMAGENES/slide1.jpg');">
+                    style="background-image: linear-gradient(rgba(0,0,0,0.50), rgba(0,0,0,0.50)), url('IMAGENES/slide1.jpg');">
                 </div>
                 <div class="hero-content">
                     <h1>Soluciones Agrícolas de Alto Rendimiento</h1>
@@ -71,38 +97,80 @@
         </div>
     </section>
 
+    <!-- Sección de resultados de búsqueda (oculta por defecto) -->
+    <section id="sec-resultados-busqueda" class="productos-seccion"
+        style="display:none; padding-top: 0; padding-bottom: 50px;">
+        <div class="titulo-seccion">
+            <h2 id="titulo-busqueda">RESULTADOS DE BÚSQUEDA</h2>
+            <div class="linea-verde"></div>
+        </div>
+        <div id="contenedor-resultados-busqueda" class="productos-grid"
+            style="max-width: 1200px; margin: 0 auto; padding: 20px;">
+            <!-- Aquí se cargarán los productos dinámicamente -->
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+            <button onclick="window.limpiarBusqueda()" class="btn-nutri"
+                style="padding: 10px 25px; cursor: pointer; border-radius: 5px; font-weight: bold; border: none; background-color: #e74c3c; color: white;">
+                <i class="fas fa-times"></i> LIMPIAR BÚSQUEDA
+            </button>
+        </div>
+    </section>
+
+    <!-- Bloque Unificado de Catálogo de Productos -->
     <section id="productos" class="productos-seccion">
         <div class="titulo-seccion">
             <h2 id="titulo-tipeado" data-texto="NUESTROS PRODUCTOS"></h2>
             <div class="linea-verde"></div>
         </div>
 
+        <div class="productos-container">
+            <a href="productos.html?cat=Edaficos" class="producto-card">
+                <div class="pcat-icono">
+                    <img src="ICONOS/icono granular.webp" alt="Edáficos">
+                </div>
+                <div class="pcat-info">
+                    <h3>EDÁFICOS</h3>
+                    <p>Fertilizantes de aplicación al suelo para nutrición de base.</p>
+                </div>
+                <i class="fas fa-chevron-right pcat-arrow"></i>
+            </a>
+
+            <a href="productos.html?cat=Solubles" class="producto-card">
+                <div class="pcat-icono">
+                    <img src="ICONOS/icono solubles.webp" alt="Solubles">
+                </div>
+                <div class="pcat-info">
+                    <h3>SOLUBLES</h3>
+                    <p>Nutrición foliar y fertirrigación de alta concentración.</p>
+                </div>
+                <i class="fas fa-chevron-right pcat-arrow"></i>
+            </a>
+
+            <a href="productos.html?cat=Master Protec" class="producto-card">
+                <div class="pcat-icono">
+                    <img src="ICONOS/icono master.webp" alt="Master Protec">
+                </div>
+                <div class="pcat-info">
+                    <h3>MASTER PROTEC</h3>
+                    <p>Línea especializada en protección y fortalecimiento vegetal.</p>
+                </div>
+                <i class="fas fa-chevron-right pcat-arrow"></i>
+            </a>
+
+            <a href="productos.html?cat=Especializados" class="producto-card">
+                <div class="pcat-icono">
+                    <img src="ICONOS/icono especializados.webp" alt="Especializados">
+                </div>
+                <div class="pcat-info">
+                    <h3>ESPECIALIZADOS</h3>
+                    <p>Formulaciones técnicas para cultivos de alta exigencia.</p>
+                </div>
+                <i class="fas fa-chevron-right pcat-arrow"></i>
+            </a>
+        </div>
     </section>
-    </div>
 
-    <div class="productos-container">
-        <a href="productos.html?cat=Edaficos" class="producto-card">
-            <img src="ICONOS/icono granular.webp" alt="Edáficos">
-            <h3>EDÁFICOS</h3>
-        </a>
-
-        <a href="productos.html?cat=Solubles" class="producto-card">
-            <img src="ICONOS/icono solubles.webp" alt="Solubles">
-            <h3>SOLUBLES</h3>
-        </a>
-
-        <a href="productos.html?cat=Master" class="producto-card">
-            <img src="ICONOS/icono master.webp" alt="Master Protec">
-            <h3>MASTER PROTEC</h3>
-        </a>
-
-        <a href="productos.html?cat=Especializados" class="producto-card">
-            <img src="ICONOS/icono especializados.webp" alt="Especializados">
-            <h3>ESPECIALIZADOS</h3>
-        </a>
-    </div>
-    </section>
-
+    <!-- Sección Sobre Nosotros -->
     <section id="nosotros" class="nosotros-seccion">
         <div class="nosotros-container">
             <div class="nosotros-texto">
@@ -135,6 +203,7 @@
         </div>
     </section>
 
+    <!-- Sección de Servicios -->
     <section class="seccion-servicios">
         <div class="container">
             <h2 class="titulo-servicios">SERVICIOS</h2>
@@ -163,27 +232,6 @@
     <div id="footer-placeholder"></div>
 
     <script>
-        // Función para cargar componentes externos
-        function cargarComponente(id, archivo) {
-            fetch(archivo)
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById(id).innerHTML = data;
-                })
-                .catch(error => console.error('Error cargando el componente:', error));
-        }
-
-        // Llamamos a la carga de ambos
-        cargarComponente('header-placeholder', 'header.html');
-        cargarComponente('footer-placeholder', 'footer.html');
-    </script>
-
-
-    <script>
-
-
-
-
         document.addEventListener("DOMContentLoaded", () => {
             const titulo = document.getElementById('titulo-tipeado');
 
@@ -238,9 +286,8 @@
                 observer.observe(titulo);
             }
         });
-        // ------------------------------------------
-
     </script>
+
     <!-- Los componentes se cargan automáticamente desde main.js -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="main.js"></script>

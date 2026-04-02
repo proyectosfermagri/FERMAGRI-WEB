@@ -53,6 +53,14 @@
     const chatInput = document.getElementById('bot-chat-input');
     const sendBtn = document.getElementById('bot-send-btn');
 
+    // Restrict WhatsApp bubble to Homepage on Mobile
+    if (window.innerWidth <= 768) {
+        const path = window.location.pathname.toLowerCase();
+        if (!path.endsWith('/') && !path.endsWith('index.html')) {
+            bubble.style.display = 'none';
+        }
+    }
+
     // Funciones de Flujo (Exportadas al objeto global para los onclicks de los botones inyectados)
     window.botFlow = {
         toggle: () => {

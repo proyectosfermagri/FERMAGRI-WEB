@@ -33,8 +33,9 @@
     <div class="filtros-contenedor">
         <button class="btn-filtro active" data-categoria="Edaficos">Edáficos</button>
         <button class="btn-filtro" data-categoria="Solubles">Solubles</button>
+        <button class="btn-filtro" data-categoria="Master Protec">Master Protec</button>
         <button class="btn-filtro" data-categoria="Especializados">Especializados</button>
-        <button class="btn-filtro" data-categoria="Master">Master Protec</button>
+        <button class="btn-filtro" data-categoria="Todos">Todos</button>
     </div>
 
     <section class="productos-seccion">
@@ -87,8 +88,48 @@
         // 2. LÓGICA DE FILTRADO (Buscador + Botones)
         function filtrar() {
             const texto = inputBuscadorLocal ? inputBuscadorLocal.value.toLowerCase().trim() : "";
-            const btnActivo = document.querySelector('.btn-filtro.active');
-            const categoriaActiva = btnActivo ? btnActivo.dataset.categoria : 'Todos';
+            let btnActivo = document.querySelector('.btn-filtro.active');
+            let categoriaActiva = btnActivo ? btnActivo.dataset.categoria : 'Todos';
+
+            // Auto-seleccionar categoría si el término existe en otra, pero no en la actual
+            if (texto !== "") {
+                const term = window.normalizeText(texto);
+                
+                // Matches en todo el catálogo
+                const globalMatches = listadoProductos.filter(p => {
+                    const nombre = window.normalizeText(p.nombre);
+                    const descripcion = window.normalizeText(Array.isArray(p.descripcion) ? p.descripcion.join(" ") : p.descripcion);
+                    const concentracion = window.normalizeText(p.concentracion);
+                    const categoria = window.normalizeText(p.categoria);
+                    return nombre.includes(term) || descripcion.includes(term) || concentracion.includes(term) || categoria.includes(term);
+                });
+
+                // Matches solo en la categoría actual
+                const matchesInActiveCat = globalMatches.filter(p => {
+                    const catProd = window.normalizeText(p.categoria);
+                    const catActiva = window.normalizeText(categoriaActiva);
+                    return (categoriaActiva === 'Todos' || catProd === catActiva);
+                });
+
+                // Si no hay resultados en la pestaña actual pero sí en otra categoría, cambiamos la pestaña activa
+                if (matchesInActiveCat.length === 0 && globalMatches.length > 0) {
+                    const nuevaOpcion = globalMatches[0].categoria;
+                    const botonCat = Array.from(botonesFiltro).find(b => {
+                        return window.normalizeText(b.dataset.categoria) === window.normalizeText(nuevaOpcion);
+                    });
+
+                    if (botonCat) {
+                        botonesFiltro.forEach(b => b.classList.remove('active'));
+                        botonCat.classList.add('active');
+                        categoriaActiva = botonCat.dataset.categoria;
+                        
+                        const titulo = document.getElementById('titulo-categoria');
+                        if (titulo) {
+                            titulo.textContent = botonCat.textContent.toUpperCase();
+                        }
+                    }
+                }
+            }
 
             const resultados = listadoProductos.filter(p => {
                 const term = window.normalizeText(texto);
@@ -97,14 +138,13 @@
                 const descripcion = window.normalizeText(Array.isArray(p.descripcion) ? p.descripcion.join(" ") : p.descripcion);
                 const concentracion = window.normalizeText(p.concentracion);
                 
-                // Si hay texto en el buscador, buscamos en todo
+                // Si hay texto en el buscador, buscamos en todo (dentro de la categoría activa)
                 if (term !== "") {
                     const coincideTexto = nombre.includes(term) || 
                                          descripcion.includes(term) || 
                                          concentracion.includes(term) ||
                                          categoria.includes(term);
                     
-                    // Si estamos en una categoría específica, también debe coincidir
                     const catProd = window.normalizeText(p.categoria);
                     const catActiva = window.normalizeText(categoriaActiva);
                     const coincideCat = (categoriaActiva === 'Todos' || catProd === catActiva);
