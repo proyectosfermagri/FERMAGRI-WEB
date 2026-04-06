@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
     <title>Panel de Administración | Fermagri</title>
     <!-- Supabase JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -65,13 +66,29 @@
             font-weight: bold;
         }
 
+        .auth-help {
+            color: #666;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 10px 0 0;
+        }
+
+        .session-badge {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-radius: 999px;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
         /* Sidebar */
         aside {
             width: 250px;
             background: var(--secondary);
             color: white;
             padding: 20px;
-            display: flex;
+            display: none;
             flex-direction: column;
         }
 
@@ -251,10 +268,11 @@
         <div class="auth-card">
             <img src="Logofermagriindex.svg.svg" height="40" alt="Fermagri">
             <h2>Acceso Admin</h2>
-            <input type="password" id="admin-pass" placeholder="Contraseña de administrador">
-            <button onclick="login()">Entrar</button>
-            <p id="auth-error" style="color:red; font-size:12px; margin-top:10px; display:none;">Contraseña incorrecta
-            </p>
+            <input type="email" id="admin-email" placeholder="Correo admin" autocomplete="email">
+            <input type="password" id="admin-pass" placeholder="Contraseña" autocomplete="current-password">
+            <button id="login-btn" onclick="login()">Entrar</button>
+            <p class="auth-help">Usa un usuario real de Supabase Auth. Este panel ya no acepta contraseñas hardcodeadas del frontend.</p>
+            <p id="auth-error" style="color:red; font-size:12px; margin-top:10px; display:none;"></p>
         </div>
     </div>
 
@@ -280,6 +298,7 @@
             <div class="header">
                 <h1>Gestión de Productos</h1>
                 <div style="display:flex; gap:10px;">
+                    <span id="session-email" class="session-badge"></span>
                     <input type="text" id="admin-search" placeholder="Buscar producto..."
                         style="width: 250px; margin:0;" oninput="filterProducts()">
                     <button class="btn btn-primary" onclick="openModal()"><i class="fas fa-plus"></i> Nuevo
@@ -686,32 +705,75 @@
         const SUPABASE_URL = "https://bfwqmekquomqkydrxwvm.supabase.co";
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmd3FtZWtxdW9tcWt5ZHJ4d3ZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4OTEzMjIsImV4cCI6MjA4OTQ2NzMyMn0.Tatgp8Gs_5DN-zvmoWjW5IuhbrRQhMtCOxHFCwguHl0";
         const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        let cmsBooted = false;
 
         // --- AUTH ---
-        function login() {
-            const pass = document.getElementById('admin-pass').value;
-            if (pass === "Fermagri2026") {
-                localStorage.setItem('fermagri_auth', 'true');
-                document.getElementById('auth-overlay').style.display = 'none';
-                document.getElementById('app').style.display = 'block';
-                document.querySelector('aside').style.display = 'flex';
-                loadProducts();
-                loadDistributors();
-                loadCrops();
-                loadSlides();
-            } else {
-                document.getElementById('auth-error').style.display = 'block';
+        async function login() {
+            const email = document.getElementById('admin-email').value.trim();
+            const password = document.getElementById('admin-pass').value;
+            const errorEl = document.getElementById('auth-error');
+            const loginBtn = document.getElementById('login-btn');
+
+            errorEl.style.display = 'none';
+            errorEl.textContent = '';
+
+            if (!email || !password) {
+                errorEl.textContent = 'Ingresa correo y contraseña.';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Entrando...';
+
+            const { error } = await sb.auth.signInWithPassword({ email, password });
+
+            if (error) {
+                errorEl.textContent = error.message;
+                errorEl.style.display = 'block';
+            }
+
+            loginBtn.disabled = false;
+            loginBtn.textContent = 'Entrar';
+        }
+
+        function showAuth() {
+            document.getElementById('auth-overlay').style.display = 'flex';
+            document.getElementById('app').style.display = 'none';
+            document.querySelector('aside').style.display = 'none';
+            document.getElementById('session-email').textContent = '';
+            cmsBooted = false;
+        }
+
+        async function showApp(session) {
+            document.getElementById('auth-overlay').style.display = 'none';
+            document.getElementById('app').style.display = 'block';
+            document.querySelector('aside').style.display = 'flex';
+            document.getElementById('session-email').textContent = session?.user?.email || 'Admin autenticado';
+
+            if (!cmsBooted) {
+                cmsBooted = true;
+                await Promise.allSettled([
+                    loadProducts(),
+                    loadDistributors(),
+                    loadCrops(),
+                    loadSlides()
+                ]);
             }
         }
-        function checkAuth() {
-            if (localStorage.getItem('fermagri_auth') === 'true') {
-                document.getElementById('auth-overlay').style.display = 'none';
-                document.getElementById('app').style.display = 'block';
-                document.querySelector('aside').style.display = 'flex';
-                loadProducts();
-                loadDistributors();
-                loadCrops();
-                loadSlides();
+
+        async function checkAuth() {
+            const { data, error } = await sb.auth.getSession();
+            if (error) {
+                console.error('Error comprobando sesión:', error.message);
+                showAuth();
+                return;
+            }
+
+            if (data.session) {
+                await showApp(data.session);
+            } else {
+                showAuth();
             }
         }
 
@@ -727,9 +789,9 @@
             document.getElementById('nav-slides').classList.toggle('active', view === 'slides');
         }
 
-        function logout() {
-            localStorage.removeItem('fermagri_auth');
-            location.reload();
+        async function logout() {
+            await sb.auth.signOut();
+            showAuth();
         }
 
         // --- CRUD ---
@@ -1144,8 +1206,7 @@
                     list.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:40px; color:#666;">
                         <i class="fas fa-exclamation-triangle" style="font-size:2rem; color:#f39c12; margin-bottom:15px; display:block;"></i>
                         <strong>La tabla 'slides' no ha sido creada en Supabase.</strong><br>
-                        Por favor, ejecuta el script <code>setup_slides_table.sql</code> en tu SQL Editor de Supabase para activar esta función.<br>
-                        <a href="setup_slides_table.sql" target="_blank" class="btn btn-outline" style="margin-top:15px;">Ver Script SQL</a>
+                        Ejecuta el script interno de provisionamiento en el SQL Editor de Supabase para activar esta función.
                     </td></tr>`;
                     return;
                 }
@@ -1281,6 +1342,14 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
+
+        sb.auth.onAuthStateChange(async (_event, session) => {
+            if (session) {
+                await showApp(session);
+            } else {
+                showAuth();
+            }
+        });
 
         checkAuth();
     </script>
