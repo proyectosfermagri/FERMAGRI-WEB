@@ -232,20 +232,13 @@
     const showSummaryStep = () => {
         const summary = buildSummary();
         addMsg("Listo. Ya tengo la informacion necesaria para derivarte de forma ordenada.");
-        addMsg(`**Resumen preparado para atencion:**<br>${escapeHtml(summary).replace(/\n/g, "<br>")}`);
-        addActions([
-            {
-                label: "Enviar por WhatsApp",
-                variant: "bot-btn-whatsapp",
-                onClick: () => openWhatsApp(summary),
-            },
-            {
-                label: "Empezar de nuevo",
-                onClick: resetConversation,
-            },
-        ]);
+        addMsg("Enseguida te voy a llevar a WhatsApp con tu caso ya preparado.");
         setInput(false);
         state.step = "done";
+
+        setTimeout(() => {
+            openWhatsApp(summary);
+        }, 700);
     };
 
     const showWelcome = () => {
