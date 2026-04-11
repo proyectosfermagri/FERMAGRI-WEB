@@ -2,5 +2,8 @@ User-agent: *
 Allow: /
 Disallow: /admin.html
 Disallow: /Cargar_Micronutrientes.html
+Disallow: /generador.html
 Disallow: /setup_slides_table.sql
+Disallow: /SUPABASE_STAGE2_AUTH.sql
+Disallow: /SECURITY_PHASE1_CHECKLIST.md
 Sitemap: https://fermagri.com/sitemap.xml

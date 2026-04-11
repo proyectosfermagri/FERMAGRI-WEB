@@ -1,278 +1,325 @@
 /**
- * FERMAGRI CHATBOT ELITE (V2 - Robusta)
+ * FERMAGRI CHATBOT
+ * Intake guiado para atencion al cliente con resumen a WhatsApp.
  */
 
-(function() {
-    console.log("Fermagri Bot: Inicializando...");
-
+(function () {
     const BOT_CONFIG = {
-        name: "Asistente Fermagri",
-        centralWhatsApp: "593987654321", 
-        welcomeMsg: "¡Hola! Bienvenido a Fermagri 🌿. Soy tu asistente virtual inteligente. ¿En qué podemos ayudarte hoy?",
-        technicalMsg: "Excelente. Contamos con ingenieros agrónomos listos para apoyarte. ¿Qué tipo de soporte necesitas?",
-        sourceSearchMsg: "Fermagri utiliza tecnología de vanguardia. ¿Qué **fuente nutricional** buscas hoy? (p. ej: Nitrógeno, Azufre, Boro)",
-        cropAdvisoryMsg: "Entendido. Para darte el mejor servicio, por favor cuéntanos brevemente tu cultivo y tu duda:",
+        name: "Atencion Fermagri",
+        centralWhatsApp: "+34657663133",
+        welcomeMsg: "Bienvenido a Fermagri. Soy el asistente virtual de atencion. En menos de un minuto voy a organizar tu solicitud para derivarte por WhatsApp con la persona indicada.",
     };
 
-    let distributors = [];
-    let products = [];
-    let currentMode = 'menu';
+    const state = {
+        booted: false,
+        step: "menu",
+        customerName: "",
+        customerType: "",
+        province: "",
+        category: "",
+        urgency: "",
+        detail: "",
+    };
 
-    // Inyectar HTML
+    const escapeHtml = (value) => String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+
+    const openWhatsApp = (message) => {
+        const phone = BOT_CONFIG.centralWhatsApp.replace(/\D/g, "");
+        const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+        window.open(url, "_blank", "noopener,noreferrer");
+    };
+
     const botHTML = `
         <div class="fermagri-bot-container">
             <div id="bot-window" class="bot-window" style="display:none;">
                 <div class="bot-header">
-                    <img src="logo_fermagri.png" alt="Bot" onerror="this.src='https://cdn-icons-png.flaticon.com/512/4712/4712035.png'">
-                    <div class="bot-info">
-                        <h4>${BOT_CONFIG.name}</h4>
-                        <p>En línea • Respuesta rápida</p>
+                    <div class="bot-header-main">
+                        <img src="logo_fermagri.png" alt="Fermagri" onerror="this.src='https://cdn-icons-png.flaticon.com/512/4712/4712035.png'">
+                        <div class="bot-info">
+                            <h4>${BOT_CONFIG.name}</h4>
+                            <p>Clasificacion previa antes de WhatsApp</p>
+                        </div>
                     </div>
+                    <button id="bot-close-btn" class="bot-icon-btn" type="button" aria-label="Cerrar chat">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
                 <div id="bot-body" class="bot-body"></div>
                 <div id="bot-input-area" class="bot-input-area" style="display:none;">
                     <div class="bot-search-box">
-                        <input type="text" id="bot-chat-input" placeholder="Escribe aquí...">
-                        <button id="bot-send-btn"><i class="fas fa-paper-plane"></i></button>
+                        <input type="text" id="bot-chat-input" placeholder="Escribe aqui...">
+                        <button id="bot-send-btn" type="button" aria-label="Enviar">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
                     </div>
                 </div>
-                <div class="bot-footer">Tecnología Fermagri © 2026</div>
+                <div class="bot-footer">
+                    <button id="bot-restart-btn" class="bot-footer-link" type="button">Empezar de nuevo</button>
+                </div>
             </div>
-            <div id="bot-bubble" class="bot-bubble">
+            <button id="bot-bubble" class="bot-bubble" type="button" aria-label="Abrir chat de atencion">
                 <i class="fab fa-whatsapp"></i>
-            </div>
+            </button>
         </div>
     `;
 
-    document.body.insertAdjacentHTML('beforeend', botHTML);
+    document.body.insertAdjacentHTML("beforeend", botHTML);
 
-    const bubble = document.getElementById('bot-bubble');
-    const windowEl = document.getElementById('bot-window');
-    const body = document.getElementById('bot-body');
-    const inputArea = document.getElementById('bot-input-area');
-    const chatInput = document.getElementById('bot-chat-input');
-    const sendBtn = document.getElementById('bot-send-btn');
+    const bubble = document.getElementById("bot-bubble");
+    const windowEl = document.getElementById("bot-window");
+    const body = document.getElementById("bot-body");
+    const inputArea = document.getElementById("bot-input-area");
+    const chatInput = document.getElementById("bot-chat-input");
+    const sendBtn = document.getElementById("bot-send-btn");
+    const closeBtn = document.getElementById("bot-close-btn");
+    const restartBtn = document.getElementById("bot-restart-btn");
 
-    // Restrict WhatsApp bubble to Homepage on Mobile
     if (window.innerWidth <= 768) {
         const path = window.location.pathname.toLowerCase();
-        if (!path.endsWith('/') && !path.endsWith('index.html')) {
-            bubble.style.display = 'none';
+        if (!path.endsWith("/") && !path.endsWith("index.html")) {
+            bubble.style.display = "none";
         }
     }
 
-    // Funciones de Flujo (Exportadas al objeto global para los onclicks de los botones inyectados)
-    window.botFlow = {
-        toggle: () => {
-            const isOpen = windowEl.style.display === 'flex';
-            windowEl.style.display = isOpen ? 'none' : 'flex';
-            if (!isOpen && body.children.length === 0) {
-                botFlow.addMsg(BOT_CONFIG.welcomeMsg);
-                botFlow.showMainMenu();
-                loadInitialData();
-            }
-        },
+    const scrollToBottom = () => {
+        body.scrollTop = body.scrollHeight;
+    };
 
-        addMsg: (text, type = 'bot') => {
-            const div = document.createElement('div');
-            div.className = `bot-msg msg-${type}`;
-            div.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            body.appendChild(div);
-            body.scrollTop = body.scrollHeight;
-        },
+    const setInput = (visible, placeholder = "Escribe aqui...") => {
+        inputArea.style.display = visible ? "block" : "none";
+        chatInput.value = "";
+        chatInput.placeholder = placeholder;
+        if (visible) chatInput.focus();
+    };
 
-        showMainMenu: () => {
-            const div = document.createElement('div');
-            div.className = "msg-buttons";
-            div.innerHTML = `
-                <button class="bot-btn" onclick="botFlow.startBuy()">🛒 Quiero comprar <i class="fas fa-chevron-right"></i></button>
-                <button class="bot-btn" onclick="botFlow.startTechnical()">🛠️ Soporte Técnico <i class="fas fa-chevron-right"></i></button>
-            `;
-            body.appendChild(div);
-            body.scrollTop = body.scrollHeight;
-        },
+    const addMsg = (text, type = "bot") => {
+        const div = document.createElement("div");
+        div.className = `bot-msg msg-${type}`;
+        div.innerHTML = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+        body.appendChild(div);
+        scrollToBottom();
+    };
 
-        startBuy: () => {
-            botFlow.addMsg("🛒 Quiero comprar productos.", 'user');
-            setTimeout(() => {
-                const provinces = [...new Set(distributors.map(d => d.provincia))].sort();
-                botFlow.addMsg("¡Perfecto! Ayudamos a alimentar al mundo. ¿En qué **provincia** te encuentras?");
-                
-                const select = document.createElement('select');
-                select.className = "province-select";
-                select.innerHTML = `<option value="">-- Elige provincia --</option>` + 
-                                  provinces.map(p => `<option value="${p}">${p}</option>`).join('');
-                select.onchange = (e) => botFlow.handleBuyProvince(e.target.value);
-                body.appendChild(select);
-            }, 400);
-        },
+    const addActions = (buttons) => {
+        const wrap = document.createElement("div");
+        wrap.className = "msg-buttons";
+        buttons.forEach((item) => {
+            const btn = document.createElement("button");
+            btn.className = `bot-btn ${item.variant || ""}`.trim();
+            btn.type = "button";
+            btn.textContent = item.label;
+            btn.onclick = item.onClick;
+            wrap.appendChild(btn);
+        });
+        body.appendChild(wrap);
+        scrollToBottom();
+    };
 
-        handleBuyProvince: (prov) => {
-            if (!prov) return;
-            botFlow.addMsg(`Me encuentro en ${prov}`, 'user');
-            setTimeout(() => {
-                const matches = distributors.filter(d => d.provincia === prov);
-                if (matches.length > 0) {
-                    botFlow.addMsg(`Aquí tienes distribuidores autorizados en ${prov}:`);
-                    matches.forEach(d => {
-                        const btn = document.createElement('button');
-                        btn.className = "bot-btn";
-                        btn.style.borderColor = "#25d366";
-                        
-                        // Normalización de número para Ecuador (593)
-                        let rawPhone = d.whatsapp.replace(/\D/g, "");
-                        if (rawPhone.startsWith('0')) rawPhone = '593' + rawPhone.substring(1);
-                        if (!rawPhone.startsWith('593')) rawPhone = '593' + rawPhone;
-                        
-                        btn.innerHTML = `<span><i class="fab fa-whatsapp"></i> ${d.nombre}</span> <i class="fas fa-external-link-alt"></i>`;
-                        btn.onclick = () => window.open(`https://wa.me/${rawPhone}?text=Hola, te contacto desde la web de Fermagri. Busco comprar productos en ${prov}.`, '_blank');
-                        body.appendChild(btn);
-                    });
-                } else {
-                    botFlow.addMsg("No tenemos distribuidores directos allí. Conéctate con nuestra central.");
-                    botFlow.startCentralLink();
-                }
-            }, 400);
-        },
+    const buildSummary = () => {
+        const fields = [
+            "Hola. Te comparto un nuevo caso recibido desde el chatbot web de Fermagri.",
+            "",
+            "Resumen del caso:",
+            `Nombre: ${state.customerName || "No indicado"}`,
+            `Tipo de contacto: ${state.customerType || "No indicado"}`,
+            `Provincia: ${state.province || "No indicada"}`,
+            `Categoria: ${state.category || "No indicada"}`,
+            `Prioridad percibida: ${state.urgency || "No indicada"}`,
+            `Detalle del cliente: ${state.detail || "No indicado"}`,
+        ];
+        return fields.join("\n");
+    };
 
-        startTechnical: () => {
-            botFlow.addMsg("🛠️ Necesito Soporte Técnico.", 'user');
-            setTimeout(() => {
-                botFlow.addMsg(BOT_CONFIG.technicalMsg);
-                const div = document.createElement('div');
-                div.className = "msg-buttons";
-                div.innerHTML = `
-                    <button class="bot-btn" onclick="botFlow.startAdvisory()">🌱 Asesoría a cultivos <i class="fas fa-chevron-right"></i></button>
-                    <button class="bot-btn" onclick="botFlow.startSearchSource()">📦 Por Fuente Nutricional <i class="fas fa-chevron-right"></i></button>
-                `;
-                body.appendChild(div);
-            }, 400);
-        },
+    const showCustomerTypeStep = () => {
+        state.step = "customer_type";
+        addMsg("Para orientarte de forma precisa, indícame qué tipo de contacto eres.");
+        addActions([
+            {
+                label: "Productor",
+                onClick: () => selectCustomerType("Productor"),
+            },
+            {
+                label: "Distribuidor",
+                onClick: () => selectCustomerType("Distribuidor"),
+            },
+            {
+                label: "Tecnico / asesor",
+                onClick: () => selectCustomerType("Tecnico / asesor"),
+            },
+            {
+                label: "Otro",
+                onClick: () => selectCustomerType("Otro"),
+            },
+        ]);
+        setInput(false);
+    };
 
-        startAdvisory: () => {
-            botFlow.addMsg("🌱 Necesito asesoría especializada.", 'user');
-            currentMode = 'advisory_input';
-            setTimeout(() => {
-                botFlow.addMsg(BOT_CONFIG.cropAdvisoryMsg);
-                inputArea.style.display = 'block';
-                chatInput.placeholder = "Describe tu cultivo o duda...";
-                chatInput.focus();
-            }, 400);
-        },
+    const showUrgencyStep = () => {
+        state.step = "urgency";
+        addMsg("Gracias. Indícame qué nivel de prioridad tiene tu caso.");
+        addActions([
+            {
+                label: "Alta",
+                onClick: () => selectUrgency("Alta"),
+            },
+            {
+                label: "Media",
+                onClick: () => selectUrgency("Media"),
+            },
+            {
+                label: "Baja",
+                onClick: () => selectUrgency("Baja"),
+            },
+        ]);
+        setInput(false);
+    };
 
-        startSearchSource: () => {
-            botFlow.addMsg("📦 Busco por Fuente Nutricional.", 'user');
-            currentMode = 'search_source';
-            setTimeout(() => {
-                botFlow.addMsg(BOT_CONFIG.sourceSearchMsg);
-                inputArea.style.display = 'block';
-                chatInput.placeholder = "Escriba aquí (ej: Azufre)...";
-                chatInput.focus();
-            }, 400);
-        },
+    const showCategoryStep = () => {
+        state.step = "category";
+        addMsg("Perfecto. Ahora selecciona el tema principal de tu consulta.");
+        addActions([
+            {
+                label: "Compra / cotizacion",
+                onClick: () => selectCategory("Compra / cotizacion"),
+            },
+            {
+                label: "Distribuidor / ubicacion",
+                onClick: () => selectCategory("Distribuidor / ubicacion"),
+            },
+            {
+                label: "Producto / catalogo",
+                onClick: () => selectCategory("Producto / catalogo"),
+            },
+            {
+                label: "Soporte tecnico",
+                onClick: () => selectCategory("Soporte tecnico"),
+            },
+            {
+                label: "Otro tema",
+                onClick: () => selectCategory("Otro tema"),
+            },
+        ]);
+        setInput(false);
+    };
 
-        handleSearch: (query) => {
-            if (!query) return;
-            botFlow.addMsg(`Busco: ${query}`, 'user');
-            
-            const results = products.filter(p => {
-                const q = window.normalizeText(query);
-                const name = window.normalizeText(p.nombre);
-                const cat = window.normalizeText(p.categoria);
-                const desc = window.normalizeText(Array.isArray(p.descripcion) ? p.descripcion.join(" ") : p.descripcion);
-                const conc = window.normalizeText(p.concentracion);
+    const selectCustomerType = (customerType) => {
+        state.customerType = customerType;
+        addMsg(customerType, "user");
+        state.step = "province";
+        addMsg("Gracias. Ahora indícame tu **provincia**.");
+        setInput(true, "Escribe tu provincia");
+    };
 
-                return name.includes(q) || desc.includes(q) || conc.includes(q) || cat.includes(q);
-            });
+    const selectCategory = (category) => {
+        state.category = category;
+        addMsg(category, "user");
+        showUrgencyStep();
+    };
 
-            setTimeout(() => {
-                if (results.length > 0) {
-                    botFlow.addMsg(`He encontrado estos productos:`);
-                    results.slice(0, 3).forEach(p => {
-                        const card = document.createElement('div');
-                        card.className = "mini-product-card";
-                        card.innerHTML = `
-                            <img src="${p.imagen || 'ICONOS/icono%20especializados.webp'}" alt="${p.nombre}" onerror="this.src='ICONOS/icono%20especializados.webp'">
-                            <div class="mini-product-info">
-                                <h5>${p.nombre || 'Producto Fermagri'}</h5>
-                                <p>${p.categoria || 'Complemento'}</p>
-                            </div>
-                            <a href="producto.html?id=${p.id}" class="btn-mini-detail">Ver Detalle</a>
-                        `;
-                        body.appendChild(card);
-                    });
-                    if (results.length > 3) {
-                        botFlow.addMsg(`Hay ${results.length - 3} más. <a href="productos.html?buscar=${query}" style="color:#1a4d2e; font-weight:bold;">Ver catálogo</a>`);
-                    }
-                } else {
-                    botFlow.addMsg("No encontramos una fuente nutricional exacta. ¿Deseas hablar con un consultor?");
-                    botFlow.startCentralLink();
-                }
-                // Asegurar scroll al final después de que se rendericen las tarjetas
-                setTimeout(() => { body.scrollTop = body.scrollHeight; }, 100);
-            }, 500);
-        },
+    const selectUrgency = (urgency) => {
+        state.urgency = urgency;
+        addMsg(urgency, "user");
+        state.step = "detail";
+        addMsg("Muy bien. **Describe brevemente tu caso** para que nuestro equipo lo reciba con contexto claro desde el inicio.");
+        setInput(true, "Describe aqui tu caso");
+    };
 
-        startCentralLink: () => {
-            const btn = document.createElement('button');
-            btn.className = "bot-btn";
-            btn.style.borderColor = "#25d366";
-            btn.innerHTML = `<span><i class="fab fa-whatsapp"></i> Chat con Oficina Central</span> <i class="fas fa-external-link-alt"></i>`;
-            btn.onclick = () => window.open(`https://wa.me/${BOT_CONFIG.centralWhatsApp}?text=Hola Fermagri, necesito asesoría técnica.`, '_blank');
-            body.appendChild(btn);
+    const showSummaryStep = () => {
+        const summary = buildSummary();
+        addMsg("Listo. Ya tengo la informacion necesaria para derivarte de forma ordenada.");
+        addMsg(`**Resumen preparado para atencion:**<br>${escapeHtml(summary).replace(/\n/g, "<br>")}`);
+        addActions([
+            {
+                label: "Enviar por WhatsApp",
+                variant: "bot-btn-whatsapp",
+                onClick: () => openWhatsApp(summary),
+            },
+            {
+                label: "Empezar de nuevo",
+                onClick: resetConversation,
+            },
+        ]);
+        setInput(false);
+        state.step = "done";
+    };
+
+    const showWelcome = () => {
+        addMsg(BOT_CONFIG.welcomeMsg);
+        addActions([
+            {
+                label: "Comenzar",
+                onClick: () => {
+                    addMsg("Quiero iniciar.", "user");
+                    state.step = "name";
+                    addMsg("Empecemos. ¿Cuál es tu **nombre**?");
+                    setInput(true, "Escribe tu nombre");
+                },
+            },
+            {
+                label: "Ir directo a WhatsApp",
+                variant: "bot-btn-whatsapp",
+                onClick: () => openWhatsApp("Hola Fermagri. Quisiera comunicarme con el area de atencion al cliente."),
+            },
+        ]);
+    };
+
+    const resetConversation = () => {
+        state.step = "menu";
+        state.customerName = "";
+        state.customerType = "";
+        state.province = "";
+        state.category = "";
+        state.urgency = "";
+        state.detail = "";
+        body.innerHTML = "";
+        setInput(false);
+        showWelcome();
+    };
+
+    const toggle = () => {
+        const isOpen = windowEl.style.display === "flex";
+        windowEl.style.display = isOpen ? "none" : "flex";
+        if (!isOpen && !state.booted) {
+            state.booted = true;
+            resetConversation();
         }
     };
 
-    // Eventos
-    bubble.onclick = botFlow.toggle;
-    sendBtn.onclick = handleUserInput;
-    chatInput.onkeypress = (e) => { if (e.key === 'Enter') handleUserInput(); };
+    const handleUserInput = () => {
+        const value = chatInput.value.trim();
+        if (!value) return;
 
-    function handleUserInput() {
-        const val = chatInput.value.trim();
-        if (!val) return;
         chatInput.value = "";
+        addMsg(escapeHtml(value), "user");
 
-        if (currentMode === 'search_source') {
-            botFlow.handleSearch(val);
-        } else if (currentMode === 'advisory_input') {
-            botFlow.addMsg("¡Perfecto! Preparando tu consulta...", 'bot');
-            
-            // Normalización central
-            let cPhone = BOT_CONFIG.centralWhatsApp.replace(/\D/g, "");
-            if (cPhone.startsWith('0')) cPhone = '593' + cPhone.substring(1);
-            if (!cPhone.startsWith('593')) cPhone = '593' + cPhone;
-
-            setTimeout(() => {
-                const msg = encodeURIComponent(`Hola experto Fermagri, tengo una consulta sobre mi cultivo: ${val}`);
-                window.open(`https://wa.me/${cPhone}?text=${msg}`, '_blank');
-                botFlow.addMsg("Se abrirá WhatsApp con tu mensaje listo. ¡Solo dale a enviar!");
-                inputArea.style.display = 'none';
-                botFlow.showMainMenu();
-            }, 800);
-        }
-    }
-
-    async function loadInitialData() {
-        console.log("Fermagri Bot: Cargando datos...");
-        if (distributors.length > 0) return;
-        
-        const client = window.sb || (window.supabase ? window.supabase : null);
-        if (!client) {
-            console.warn("Fermagri Bot: Supabase no detectado aún. Reintentando...");
-            setTimeout(loadInitialData, 1000);
+        if (state.step === "name") {
+            state.customerName = value;
+            showCustomerTypeStep();
             return;
         }
 
-        try {
-            const [dRes, pRes] = await Promise.all([
-                client.from('distribuidores').select('*'),
-                client.from('productos').select('*')
-            ]);
-            distributors = dRes.data || [];
-            products = pRes.data || [];
-            console.log("Fermagri Bot: Datos cargados correctamente.");
-        } catch (e) { console.error("Fermagri Bot: Error de carga", e); }
-    }
+        if (state.step === "province") {
+            state.province = value;
+            showCategoryStep();
+            return;
+        }
 
+        if (state.step === "detail") {
+            state.detail = value;
+            showSummaryStep();
+        }
+    };
+
+    bubble.onclick = toggle;
+    closeBtn.onclick = toggle;
+    restartBtn.onclick = resetConversation;
+    sendBtn.onclick = handleUserInput;
+    chatInput.onkeypress = (event) => {
+        if (event.key === "Enter") handleUserInput();
+    };
 })();
