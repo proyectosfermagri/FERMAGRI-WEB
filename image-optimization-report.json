@@ -1,0 +1,1429 @@
+{
+  "processedCount": 4,
+  "skippedCount": 108,
+  "failureCount": 0,
+  "beforeSizeBytes": 52398200,
+  "afterSizeBytes": 52327340,
+  "savingsBytes": 70860,
+  "savingsPercent": 0.13523365306441826,
+  "processed": [
+    {
+      "original": "IMAGENES/N40 Pepas.webp",
+      "final": "IMAGENES/N40 Pepas.webp",
+      "before": 405206,
+      "after": 367764,
+      "resized": false
+    },
+    {
+      "original": "IMAGENES/slide1.webp",
+      "final": "IMAGENES/slide1.webp",
+      "before": 233494,
+      "after": 223882,
+      "resized": false
+    },
+    {
+      "original": "IMAGENES/slide2.webp",
+      "final": "IMAGENES/slide2.webp",
+      "before": 228930,
+      "after": 216918,
+      "resized": false
+    },
+    {
+      "original": "IMAGENES/slide3.webp",
+      "final": "IMAGENES/slide3.webp",
+      "before": 523098,
+      "after": 511304,
+      "resized": false
+    }
+  ],
+  "skipped": [
+    {
+      "path": "IMAGENES/ACIDO-BORICO-25-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/ACIDO-BORICO.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/ACIDO-CITRICO-25-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/ACIDO-CITRICO.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/ACIDO-FOSFORICO---PRAYON-34-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/ACIDO-FOSFORICO.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/ACIDO-NITRICO.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/AZUFRE-TIGER-90.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/BORAX---ETIBOR48-25-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/BORAX-SOLUBLE.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/DAP.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/DESARROLLO-PREMIUM.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/EPSO-TOP.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/ESTA-KIESERIT.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FERCACAO GOLD.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FERTILIZANTE-10-30-10-PREMIUM.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FERTILIZANTE-15-15-15-PREMIUM.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FERTILIZANTE-8-20-20-PREMIUM.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOSFATO-MONOAMONICO---MAP-25-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOSFATO-MONOPOTASICO---MKP-25-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/DAP-(18-46-0)-50-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/DESARROLLO-PREMIUM.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/ESTA-KIESERITA-GR-50-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/FERCACAO-GOLD.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/FERTILIZANTE-10-30-10-PREMIUM.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/FERTILIZANTE-15-15-15-PREMIUM.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/FERTILIZANTE-8-20-20-PREMIUM.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/KALIMOP-GRANULAR-50-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/MAP-GR-(11-52-0)-50-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/MICROALGAE-K+-1-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/MURIATO-DE-POTASIO---SOLUMOP-50-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/MURIATO-DE-POTASIO-GR.-ROJO-50-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/NITRATO-DE-AMONIO-50-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/NITRATO-DE-CALCIO-33-CaO-URALCHEM-25-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/NITROFOS-32-PREMIUM.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/NPK-12-12-17+2MgO-25-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/NPK-COMPLEJO-16-16-16-50-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/NPK-COMPLEJO-19-09-19-50-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/NUTRICULTIVO-CACAO.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/NUTRICULTIVO-DESARROLLO.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/PALMERO-GOLD.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/SIEMBRA-PREMIUM.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/SOLUFOL-DESARROLLO-1-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/SOLUFOL-ENGROSE-1-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/SOLUFOL-INICIO-1-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/SOLUFOL-MULTIETAPA-1-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/SULFATO-DE-AMONIO-GR-50-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/SULFATO-DE-COBRE-25-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/SULFATO-DE-HIERROS-FERROSALT.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/SULFATO-DE-POTASIO---KALISOP-50-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/SULFATO-DE-POTASIO-SOLUBLE-25KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/SULFATO-DE-ZINC-GR.-25-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/ULEXITA-GRANULAR-50KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/UREA-GR-50-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/UREA-PRILADA-50-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/HUMIC+.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/KALIMOP.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/KALISOP.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/MAP-GRANULAR.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/MASTER-PROTEC-DESARROLLO.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/MASTER-PROTEC-FINALIZADOR.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/Master N35.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/Master N46.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/Master-N40.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/MicroAlgae.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/Muriato-de-Potasio-Granular.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/NITRATO-DE-AMONIO-50-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/NITRATO-DE-CALCIO-27%-CaO-25-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/NITRATO-DE-CALCIO-27.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/NITRATO-DE-POTASIO---ACF-25-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/NITROFOS-32-PREMIUM.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/NPK-12-12-17.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/NPK-13-3-43-SOLAR-25KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/NUTRICULTIVO-CACAO.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/NUTRICULTIVO-SOCA.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/Nitrato de calcio pepas.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/Nitrato de calcio.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/Nitrato-de-calcio.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/PALMERO GOLD.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/PATENTKALI.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/PEPAS PALMERO GOLD.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/PEPAS-FERCACAO-GOLD.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/PEPAS-N40.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/PLATANERO-GOLD.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/SIEMBRA-PREMIUM.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/SOLUFOL ENGROSE.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/SOLUFOL MULTI.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/SOLUFOl AMARILLO.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/SOLUFOl VERDE.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/SOLUMOP.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/SULFATO-DE-AMONIO-GR.-50-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/SULFATO-DE-COBRE-25-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/SULFATO-DE-HIERRO---FERROSALT-25-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/SULFATO-DE-MAGNESIO---EPSO-TOP-25-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/SULFATO-DE-MAGNESIO-CRISTALIZADO-25-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/SULFATO-DE-MANGANESO-SOLUBLE-25-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/SULFATO-DE-POTASIO---SOLU-K52--25KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/SULFATO-DE-POTASIO---SOLUKEM-25-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/SULFATO-DE-ZINC-FERROSALT-25-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/SULFATO-DE-ZINC-GR.-25-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/ULEXITA-GRANULAR-50KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/UREA-GR-50-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/UREA-PRILADA-50-KG.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/molibdato de amonio.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/multi.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/nutricultivo-desarrollo.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/nutricultivo-siembra.png",
+      "reason": "no-local-html-js-css-reference"
+    },
+    {
+      "path": "IMAGENES/nutricultivos desarrollo lithg box.png",
+      "reason": "no-local-html-js-css-reference"
+    }
+  ],
+  "failures": [],
+  "modifiedFiles": [],
+  "remainingLargeImages": [
+    {
+      "path": "IMAGENES/MicroAlgae.png",
+      "size": 1970784
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/SULFATO-DE-COBRE-25-KG.png",
+      "size": 991210
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/SOLUFOL-MULTIETAPA-1-KG.png",
+      "size": 928720
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/SOLUFOL-INICIO-1-KG.png",
+      "size": 905765
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/SOLUFOL-DESARROLLO-1-KG.png",
+      "size": 904501
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/NPK-12-12-17+2MgO-25-KG.png",
+      "size": 897849
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/NPK-COMPLEJO-16-16-16-50-KG.png",
+      "size": 886609
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/NPK-COMPLEJO-19-09-19-50-KG.png",
+      "size": 886609
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/ULEXITA-GRANULAR-50KG.png",
+      "size": 884671
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/SOLUFOL-ENGROSE-1-KG.png",
+      "size": 884631
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/SIEMBRA-PREMIUM.png",
+      "size": 861970
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/FERTILIZANTE-10-30-10-PREMIUM.png",
+      "size": 849877
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/PALMERO-GOLD.png",
+      "size": 830007
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/NUTRICULTIVO-DESARROLLO.png",
+      "size": 829334
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/FERTILIZANTE-8-20-20-PREMIUM.png",
+      "size": 815810
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/FERCACAO-GOLD.png",
+      "size": 809227
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/ESTA-KIESERITA-GR-50-KG.png",
+      "size": 800430
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/FERTILIZANTE-15-15-15-PREMIUM.png",
+      "size": 786402
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/DESARROLLO-PREMIUM.png",
+      "size": 785776
+    },
+    {
+      "path": "IMAGENES/PEPAS-N40.png",
+      "size": 780573
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/NITROFOS-32-PREMIUM.png",
+      "size": 760081
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/NUTRICULTIVO-CACAO.png",
+      "size": 751380
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/KALIMOP-GRANULAR-50-KG.png",
+      "size": 744283
+    },
+    {
+      "path": "IMAGENES/PEPAS-FERCACAO-GOLD.png",
+      "size": 733798
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/NITRATO-DE-CALCIO-33-CaO-URALCHEM-25-KG.png",
+      "size": 723142
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/SULFATO-DE-ZINC-GR.-25-KG.png",
+      "size": 713167
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/MICROALGAE-K+-1-KG.png",
+      "size": 710276
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/MURIATO-DE-POTASIO---SOLUMOP-50-KG.png",
+      "size": 692609
+    },
+    {
+      "path": "IMAGENES/PEPAS PALMERO GOLD.png",
+      "size": 684008
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/DAP-(18-46-0)-50-KG.png",
+      "size": 682774
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/MAP-GR-(11-52-0)-50-KG.png",
+      "size": 682634
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/MURIATO-DE-POTASIO-GR.-ROJO-50-KG.png",
+      "size": 678624
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/UREA-PRILADA-50-KG.png",
+      "size": 673789
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/SULFATO-DE-AMONIO-GR-50-KG.png",
+      "size": 660312
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/SULFATO-DE-POTASIO---KALISOP-50-KG.png",
+      "size": 659702
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/NITRATO-DE-AMONIO-50-KG.png",
+      "size": 651285
+    },
+    {
+      "path": "IMAGENES/nutricultivos desarrollo lithg box.png",
+      "size": 648590
+    },
+    {
+      "path": "IMAGENES/FOTOS PEPAS/UREA-GR-50-KG.png",
+      "size": 584709
+    },
+    {
+      "path": "IMAGENES/multi.png",
+      "size": 515322
+    }
+  ],
+  "secondPass": {
+    "pngProcessedCount": 98,
+    "pngSkippedCount": 8,
+    "pngFailureCount": 2,
+    "beforeSizeBytes": 52327340,
+    "afterSizeBytes": 16112699,
+    "savingsBytes": 36214641,
+    "savingsPercent": 69.20787680015839,
+    "pngProcessed": [
+      {
+        "path": "IMAGENES/ACIDO-BORICO-25-KG.png",
+        "before": 319476,
+        "after": 113387,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/ACIDO-BORICO.png",
+        "before": 300004,
+        "after": 97607,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/ACIDO-CITRICO-25-KG.png",
+        "before": 254745,
+        "after": 83658,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/ACIDO-FOSFORICO.png",
+        "before": 272265,
+        "after": 82230,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/ACIDO-NITRICO.png",
+        "before": 313641,
+        "after": 97665,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/AZUFRE-TIGER-90.png",
+        "before": 214066,
+        "after": 70095,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/BORAX---ETIBOR48-25-KG.png",
+        "before": 323920,
+        "after": 107461,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/BORAX-SOLUBLE.png",
+        "before": 261521,
+        "after": 87427,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/DAP.png",
+        "before": 215412,
+        "after": 60453,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/DESARROLLO-PREMIUM.png",
+        "before": 370304,
+        "after": 101901,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/EPSO-TOP.png",
+        "before": 251297,
+        "after": 66876,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/ESTA-KIESERIT.png",
+        "before": 265522,
+        "after": 68926,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FERCACAO GOLD.png",
+        "before": 318127,
+        "after": 94550,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FERTILIZANTE-10-30-10-PREMIUM.png",
+        "before": 381410,
+        "after": 99359,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FERTILIZANTE-15-15-15-PREMIUM.png",
+        "before": 359468,
+        "after": 100705,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FERTILIZANTE-8-20-20-PREMIUM.png",
+        "before": 390474,
+        "after": 103224,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOSFATO-MONOAMONICO---MAP-25-KG.png",
+        "before": 284318,
+        "after": 76168,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOSFATO-MONOPOTASICO---MKP-25-KG.png",
+        "before": 320111,
+        "after": 76477,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/DAP-(18-46-0)-50-KG.png",
+        "before": 682774,
+        "after": 114446,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/DESARROLLO-PREMIUM.png",
+        "before": 785776,
+        "after": 184266,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/ESTA-KIESERITA-GR-50-KG.png",
+        "before": 800430,
+        "after": 213399,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/FERCACAO-GOLD.png",
+        "before": 809227,
+        "after": 200100,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/FERTILIZANTE-10-30-10-PREMIUM.png",
+        "before": 849877,
+        "after": 216384,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/FERTILIZANTE-15-15-15-PREMIUM.png",
+        "before": 786402,
+        "after": 203102,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/FERTILIZANTE-8-20-20-PREMIUM.png",
+        "before": 815810,
+        "after": 213600,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/KALIMOP-GRANULAR-50-KG.png",
+        "before": 744283,
+        "after": 184399,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/MAP-GR-(11-52-0)-50-KG.png",
+        "before": 682634,
+        "after": 111069,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/MICROALGAE-K+-1-KG.png",
+        "before": 710276,
+        "after": 110247,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/MURIATO-DE-POTASIO---SOLUMOP-50-KG.png",
+        "before": 692609,
+        "after": 145059,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/MURIATO-DE-POTASIO-GR.-ROJO-50-KG.png",
+        "before": 678624,
+        "after": 238186,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/NITRATO-DE-AMONIO-50-KG.png",
+        "before": 651285,
+        "after": 136239,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/NITRATO-DE-CALCIO-33-CaO-URALCHEM-25-KG.png",
+        "before": 723142,
+        "after": 152600,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/NITROFOS-32-PREMIUM.png",
+        "before": 760081,
+        "after": 188535,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/NPK-12-12-17+2MgO-25-KG.png",
+        "before": 897849,
+        "after": 244868,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/NPK-COMPLEJO-16-16-16-50-KG.png",
+        "before": 886609,
+        "after": 244292,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/NPK-COMPLEJO-19-09-19-50-KG.png",
+        "before": 886609,
+        "after": 244292,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/NUTRICULTIVO-CACAO.png",
+        "before": 751380,
+        "after": 207796,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/NUTRICULTIVO-DESARROLLO.png",
+        "before": 829334,
+        "after": 226655,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/PALMERO-GOLD.png",
+        "before": 830007,
+        "after": 213479,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/SIEMBRA-PREMIUM.png",
+        "before": 861970,
+        "after": 214115,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/SOLUFOL-DESARROLLO-1-KG.png",
+        "before": 904501,
+        "after": 249410,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/SOLUFOL-ENGROSE-1-KG.png",
+        "before": 884631,
+        "after": 265190,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/SOLUFOL-INICIO-1-KG.png",
+        "before": 905765,
+        "after": 262763,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/SOLUFOL-MULTIETAPA-1-KG.png",
+        "before": 928720,
+        "after": 224707,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/SULFATO-DE-AMONIO-GR-50-KG.png",
+        "before": 660312,
+        "after": 142638,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/SULFATO-DE-COBRE-25-KG.png",
+        "before": 991210,
+        "after": 304399,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/SULFATO-DE-HIERROS-FERROSALT.png",
+        "before": 466236,
+        "after": 112042,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/SULFATO-DE-POTASIO---KALISOP-50-KG.png",
+        "before": 659702,
+        "after": 161924,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/SULFATO-DE-POTASIO-SOLUBLE-25KG.png",
+        "before": 494730,
+        "after": 102617,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/SULFATO-DE-ZINC-GR.-25-KG.png",
+        "before": 713167,
+        "after": 159811,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/ULEXITA-GRANULAR-50KG.png",
+        "before": 884671,
+        "after": 212819,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/UREA-GR-50-KG.png",
+        "before": 584709,
+        "after": 108669,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/UREA-PRILADA-50-KG.png",
+        "before": 673789,
+        "after": 143716,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/KALISOP.png",
+        "before": 248832,
+        "after": 58910,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/MAP-GRANULAR.png",
+        "before": 255715,
+        "after": 69557,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/MASTER-PROTEC-DESARROLLO.png",
+        "before": 386082,
+        "after": 103079,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/MASTER-PROTEC-FINALIZADOR.png",
+        "before": 369317,
+        "after": 101089,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/Master N35.png",
+        "before": 333943,
+        "after": 92789,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/Master N46.png",
+        "before": 338138,
+        "after": 95632,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/Master-N40.png",
+        "before": 379268,
+        "after": 102330,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/MicroAlgae.png",
+        "before": 1970784,
+        "after": 149752,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/Muriato-de-Potasio-Granular.png",
+        "before": 214545,
+        "after": 62520,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/NITRATO-DE-AMONIO-50-KG.png",
+        "before": 219484,
+        "after": 60410,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/NITRATO-DE-CALCIO-27%-CaO-25-KG.png",
+        "before": 227384,
+        "after": 64792,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/NITRATO-DE-CALCIO-27.png",
+        "before": 227384,
+        "after": 64792,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/NITRATO-DE-POTASIO---ACF-25-KG.png",
+        "before": 320326,
+        "after": 86023,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/NITROFOS-32-PREMIUM.png",
+        "before": 337803,
+        "after": 100021,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/NPK-12-12-17.png",
+        "before": 347781,
+        "after": 107562,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/NPK-13-3-43-SOLAR-25KG.png",
+        "before": 320084,
+        "after": 91667,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/NUTRICULTIVO-CACAO.png",
+        "before": 322825,
+        "after": 95088,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/NUTRICULTIVO-SOCA.png",
+        "before": 322783,
+        "after": 90022,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/Nitrato de calcio.png",
+        "before": 257001,
+        "after": 77263,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/Nitrato-de-calcio.png",
+        "before": 277640,
+        "after": 65258,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/PALMERO GOLD.png",
+        "before": 329171,
+        "after": 84300,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/PATENTKALI.png",
+        "before": 235281,
+        "after": 60777,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/PEPAS PALMERO GOLD.png",
+        "before": 684008,
+        "after": 182024,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/PEPAS-FERCACAO-GOLD.png",
+        "before": 733798,
+        "after": 173573,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/PEPAS-N40.png",
+        "before": 780573,
+        "after": 188522,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/PLATANERO-GOLD.png",
+        "before": 328434,
+        "after": 89148,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/SIEMBRA-PREMIUM.png",
+        "before": 374797,
+        "after": 95947,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/SOLUFOL ENGROSE.png",
+        "before": 224642,
+        "after": 61746,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/SOLUFOL MULTI.png",
+        "before": 276498,
+        "after": 74736,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/SOLUFOl AMARILLO.png",
+        "before": 208809,
+        "after": 56593,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/SOLUFOl VERDE.png",
+        "before": 261183,
+        "after": 71356,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/SULFATO-DE-COBRE-25-KG.png",
+        "before": 251156,
+        "after": 85700,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/SULFATO-DE-HIERRO---FERROSALT-25-KG.png",
+        "before": 252844,
+        "after": 80816,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/SULFATO-DE-MAGNESIO---EPSO-TOP-25-KG.png",
+        "before": 273151,
+        "after": 79446,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/SULFATO-DE-MAGNESIO-CRISTALIZADO-25-KG.png",
+        "before": 223722,
+        "after": 60496,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/SULFATO-DE-MANGANESO-SOLUBLE-25-KG.png",
+        "before": 269984,
+        "after": 76120,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/SULFATO-DE-POTASIO---SOLU-K52--25KG.png",
+        "before": 317609,
+        "after": 89297,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/SULFATO-DE-ZINC-FERROSALT-25-KG.png",
+        "before": 372496,
+        "after": 120510,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/SULFATO-DE-ZINC-GR.-25-KG.png",
+        "before": 226466,
+        "after": 66743,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/ULEXITA-GRANULAR-50KG.png",
+        "before": 290897,
+        "after": 85886,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/UREA-GR-50-KG.png",
+        "before": 225520,
+        "after": 64866,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/UREA-PRILADA-50-KG.png",
+        "before": 215006,
+        "after": 62523,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/nutricultivo-desarrollo.png",
+        "before": 328293,
+        "after": 87741,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/nutricultivo-siembra.png",
+        "before": 322769,
+        "after": 86958,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/nutricultivos desarrollo lithg box.png",
+        "before": 648590,
+        "after": 233005,
+        "resized": false,
+        "hadTransparency": true
+      }
+    ],
+    "pngSkipped": [
+      {
+        "path": "IMAGENES/ACIDO-CITRICO.png",
+        "reason": "under-200KB"
+      },
+      {
+        "path": "IMAGENES/ACIDO-FOSFORICO---PRAYON-34-KG.png",
+        "reason": "under-200KB"
+      },
+      {
+        "path": "IMAGENES/HUMIC+.png",
+        "reason": "under-200KB"
+      },
+      {
+        "path": "IMAGENES/KALIMOP.png",
+        "reason": "under-200KB"
+      },
+      {
+        "path": "IMAGENES/SOLUMOP.png",
+        "reason": "under-200KB"
+      },
+      {
+        "path": "IMAGENES/SULFATO-DE-AMONIO-GR.-50-KG.png",
+        "reason": "under-200KB"
+      },
+      {
+        "path": "IMAGENES/SULFATO-DE-POTASIO---SOLUKEM-25-KG.png",
+        "reason": "under-200KB"
+      },
+      {
+        "path": "IMAGENES/molibdato de amonio.png",
+        "reason": "under-200KB"
+      }
+    ],
+    "pngFailures": [
+      {
+        "path": "IMAGENES/Nitrato de calcio pepas.png",
+        "reason": "transparency-lost-restored"
+      },
+      {
+        "path": "IMAGENES/multi.png",
+        "reason": "transparency-lost-restored"
+      }
+    ],
+    "topSavings": [
+      {
+        "path": "IMAGENES/MicroAlgae.png",
+        "before": 1970784,
+        "after": 149752,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/SOLUFOL-MULTIETAPA-1-KG.png",
+        "before": 928720,
+        "after": 224707,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/SULFATO-DE-COBRE-25-KG.png",
+        "before": 991210,
+        "after": 304399,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/ULEXITA-GRANULAR-50KG.png",
+        "before": 884671,
+        "after": 212819,
+        "resized": false,
+        "hadTransparency": true
+      },
+      {
+        "path": "IMAGENES/FOTOS PEPAS/SOLUFOL-DESARROLLO-1-KG.png",
+        "before": 904501,
+        "after": 249410,
+        "resized": false,
+        "hadTransparency": true
+      }
+    ],
+    "remainingLargeImagesOver300KB": [
+      {
+        "path": "IMAGENES/multi.png",
+        "size": 515322
+      },
+      {
+        "path": "IMAGENES/slide3.webp",
+        "size": 511304
+      },
+      {
+        "path": "IMAGENES/Nitrato de calcio pepas.png",
+        "size": 433171
+      },
+      {
+        "path": "IMAGENES/N40 Pepas.webp",
+        "size": 367764
+      }
+    ]
+  }
+}
