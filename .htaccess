@@ -1,0 +1,5 @@
+# TEMP_HIDDEN_REDIRECTS - eliminar este bloque cuando se publiquen las secciones
+Redirect 302 /calculadora.html /
+Redirect 302 /distribuidores.html /
+Redirect 302 /videos.html /
+# END TEMP_HIDDEN_REDIRECTS
