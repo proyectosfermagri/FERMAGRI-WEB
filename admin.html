@@ -8,6 +8,8 @@
     <title>Panel de Administración | Fermagri</title>
     <!-- Supabase JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- SheetJS para leer Excel -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -301,6 +303,18 @@
                     <span id="session-email" class="session-badge"></span>
                     <input type="text" id="admin-search" placeholder="Buscar producto..."
                         style="width: 250px; margin:0;" oninput="filterProducts()">
+                    
+                    <!-- Botones para subida masiva de PDFs -->
+                    <label class="btn btn-outline" style="cursor:pointer; border-color:var(--primary); color:var(--primary);" title="Subir múltiples PDFs de Fichas Técnicas">
+                        <i class="fas fa-file-pdf"></i> Subir Fichas
+                        <input type="file" multiple accept=".pdf" hidden onchange="uploadBulkPDFs(this, 'ficha')">
+                    </label>
+
+                    <label class="btn btn-outline" style="cursor:pointer; border-color:#d4b106; color:#d4b106;" title="Subir múltiples PDFs de Hojas de Seguridad">
+                        <i class="fas fa-file-pdf"></i> Subir Hojas Seg.
+                        <input type="file" multiple accept=".pdf" hidden onchange="uploadBulkPDFs(this, 'seguridad')">
+                    </label>
+
                     <button class="btn btn-primary" onclick="openModal()"><i class="fas fa-plus"></i> Nuevo
                         Producto</button>
                 </div>
@@ -1341,6 +1355,59 @@
                 }
                 reader.readAsDataURL(input.files[0]);
             }
+        }
+
+        // --- SUBIDA MASIVA DE PDFs ---
+        async function uploadBulkPDFs(input, tipo) {
+            const files = input.files;
+            if (!files || files.length === 0) return;
+
+            let actualizados = 0;
+            let noEncontrados = [];
+
+            const labelBtn = input.parentElement;
+            const originalHTML = labelBtn.innerHTML;
+            labelBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subiendo...';
+            labelBtn.style.pointerEvents = 'none';
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                // Quitar extensión .pdf y posibles espacios al inicio/fin
+                let nombreArchivo = file.name.replace(/\.[^/.]+$/, "").trim();
+                
+                // Buscar producto ignorando mayúsculas y espacios
+                const productoDb = allProducts.find(p => 
+                    p.nombre.trim().toLowerCase() === nombreArchivo.toLowerCase()
+                );
+
+                if (productoDb) {
+                    // Subir archivo a Supabase Storage
+                    const fileName = `${Date.now()}_${tipo}_${file.name.replace(/\s/g, '_')}`;
+                    const { data, error } = await sb.storage.from('fermagri-assets').upload(fileName, file);
+                    
+                    if (!error) {
+                        const { data: { publicUrl } } = sb.storage.from('fermagri-assets').getPublicUrl(fileName);
+                        const payload = {};
+                        payload[tipo] = publicUrl; // tipo será 'ficha' o 'seguridad'
+                        
+                        const updateRes = await sb.from('productos').update(payload).eq('id', productoDb.id);
+                        if (!updateRes.error) {
+                            actualizados++;
+                        }
+                    } else {
+                        console.error(`Error subiendo ${file.name}:`, error.message);
+                    }
+                } else {
+                    noEncontrados.push(nombreArchivo);
+                }
+            }
+
+            labelBtn.innerHTML = originalHTML;
+            labelBtn.style.pointerEvents = 'auto';
+            input.value = ''; // Reset input
+
+            alert(`¡Subida completada!\n\nArchivos subidos y enlazados: ${actualizados}\n${noEncontrados.length > 0 ? 'Archivos sin coincidencia (revisa el nombre): ' + noEncontrados.join(', ') : ''}`);
+            loadProducts(); // Recargar tabla
         }
 
         sb.auth.onAuthStateChange(async (_event, session) => {

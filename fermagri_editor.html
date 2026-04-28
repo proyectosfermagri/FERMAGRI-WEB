@@ -1,0 +1,1841 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FERMAGRI — Editor de Calculadora</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- SheetJS para leer archivos Excel .xlsx -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <style>
+    :root {
+      --verde:       #2D5A27;
+      --verde-med:   #3d7a35;
+      --verde-light: #5aab4e;
+      --verde-pale:  #e8f5e9;
+      --verde-dark:  #1a3a16;
+      --gold:        #c9a84c;
+      --gold-light:  #f0d085;
+      --bg:          #f4f6f3;
+      --surface:     #ffffff;
+      --surface2:    #f9fafb;
+      --border:      #d1dbc8;
+      --text:        #1e2d1a;
+      --text-soft:   #5a6b55;
+      --danger:      #c0392b;
+      --danger-light:#fdecea;
+      --radius:      10px;
+      --shadow:      0 2px 14px rgba(45,90,39,.10);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      font-size: 14px;
+    }
+
+    /* ── HEADER ─────────────────────────────────────── */
+    header {
+      background: linear-gradient(135deg, var(--verde-dark) 0%, var(--verde) 60%, var(--verde-med) 100%);
+      color: white;
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.25);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo-badge {
+      width: 46px;
+      height: 46px;
+      background: white;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--verde);
+      letter-spacing: -1px;
+      flex-shrink: 0;
+    }
+    header h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: .5px;
+    }
+    header h1 span { color: var(--gold-light); }
+    header p { font-size: .76rem; opacity: .8; margin-top: 2px; }
+    .header-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .badge-auto {
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .badge-auto .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #4ade80;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+    /* ── TOOLBAR ────────────────────────────────────── */
+    .toolbar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 32px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .8rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all .2s;
+      letter-spacing: .3px;
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,.15); }
+    .btn:active { transform: translateY(0); }
+    .btn-primary { background: var(--verde); color: white; }
+    .btn-primary:hover { background: var(--verde-med); }
+    .btn-success { background: #16a34a; color: white; }
+    .btn-success:hover { background: #15803d; }
+    .btn-gold { background: var(--gold); color: white; }
+    .btn-gold:hover { background: #b8963a; }
+    .btn-outline {
+      background: transparent;
+      color: var(--verde);
+      border: 1.5px solid var(--verde);
+    }
+    .btn-outline:hover { background: var(--verde-pale); }
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-danger:hover { background: #a93226; }
+    .btn-cloud { background: #1a73e8; color: white; }
+    .btn-cloud:hover { background: #1557b0; }
+    .btn-sm { padding: 6px 12px; font-size: .74rem; }
+    .sep { width: 1px; height: 32px; background: var(--border); margin: 0 4px; }
+
+    /* ── TABS ───────────────────────────────────────── */
+    .tabs-wrap {
+      background: var(--surface);
+      border-bottom: 2px solid var(--border);
+      padding: 0 24px;
+      display: flex;
+      gap: 4px;
+    }
+    .tab {
+      padding: 14px 22px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .82rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      border-bottom: 3px solid transparent;
+      background: transparent;
+      color: var(--text-soft);
+      transition: all .2s;
+      letter-spacing: .3px;
+      margin-bottom: -2px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tab:hover { color: var(--verde); background: var(--verde-pale); border-radius: 8px 8px 0 0; }
+    .tab.active {
+      color: var(--verde);
+      border-bottom-color: var(--verde);
+      background: var(--verde-pale);
+      border-radius: 8px 8px 0 0;
+    }
+    .tab-icon { font-size: 1rem; }
+
+    /* ── MAIN CONTENT ────────────────────────────────── */
+    main { padding: 28px 32px; max-width: 1400px; margin: 0 auto; }
+
+    .sheet { display: none; }
+    .sheet.active { display: block; }
+
+    .sheet-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .sheet-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--verde-dark);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sheet-title::before {
+      content: '';
+      display: block;
+      width: 5px;
+      height: 22px;
+      background: var(--verde);
+      border-radius: 3px;
+    }
+    .count-badge {
+      background: var(--verde);
+      color: white;
+      border-radius: 12px;
+      padding: 2px 10px;
+      font-size: .72rem;
+      font-weight: 700;
+    }
+
+    /* ── TABLE ──────────────────────────────────────── */
+    .table-wrap {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: auto;
+      border: 1px solid var(--border);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .82rem;
+    }
+    thead th {
+      background: var(--verde);
+      color: white;
+      padding: 11px 14px;
+      text-align: left;
+      font-weight: 700;
+      font-size: .74rem;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      white-space: nowrap;
+      position: sticky;
+      top: 0;
+    }
+    thead th:first-child { border-radius: 8px 0 0 0; }
+    thead th:last-child { border-radius: 0 8px 0 0; text-align: center; }
+    tbody tr { border-bottom: 1px solid var(--border); transition: background .15s; }
+    tbody tr:hover { background: var(--verde-pale); }
+    tbody tr:last-child { border-bottom: none; }
+    td {
+      padding: 8px 10px;
+      vertical-align: middle;
+    }
+    td.actions { text-align: center; white-space: nowrap; }
+
+    /* Editable cells */
+    td[contenteditable="true"] {
+      outline: none;
+      cursor: text;
+      border-radius: 5px;
+      padding: 6px 10px;
+      min-width: 60px;
+      transition: background .15s, box-shadow .15s;
+    }
+    td[contenteditable="true"]:focus {
+      background: #fffde7;
+      box-shadow: inset 0 0 0 2px var(--gold);
+    }
+    td[contenteditable="true"].modified {
+      background: #fff8e1;
+    }
+    td input[type="number"], td input[type="text"] {
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 5px 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .8rem;
+      width: 100%;
+      background: white;
+      color: var(--text);
+      transition: border-color .2s;
+    }
+    td input:focus { outline: none; border-color: var(--verde); }
+
+    /* ── CULTIVO CARD (hoja 2) ───────────────────────── */
+    .crop-selector {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .crop-pill {
+      padding: 9px 22px;
+      border-radius: 24px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .82rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: 2px solid var(--border);
+      background: var(--surface);
+      color: var(--text-soft);
+      transition: all .2s;
+      letter-spacing: .3px;
+    }
+    .crop-pill:hover { border-color: var(--verde); color: var(--verde); background: var(--verde-pale); }
+    .crop-pill.active { border-color: var(--verde); background: var(--verde); color: white; }
+
+    .stages-container { display: flex; flex-direction: column; gap: 14px; }
+    .stage-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      animation: fadeIn .25s ease;
+    }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+    .stage-card-header {
+      background: linear-gradient(90deg, var(--verde) 0%, var(--verde-med) 100%);
+      color: white;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: .88rem;
+    }
+    .stage-num {
+      background: rgba(255,255,255,.2);
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: .85rem;
+      flex-shrink: 0;
+    }
+    .stage-card-body {
+      padding: 16px 18px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+    .stage-field label {
+      display: block;
+      font-size: .7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      letter-spacing: .6px;
+      margin-bottom: 5px;
+    }
+    .stage-field input, .stage-field textarea {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      padding: 7px 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .82rem;
+      color: var(--text);
+      background: var(--surface2);
+      transition: border-color .2s, background .2s;
+      resize: none;
+    }
+    .stage-field input:focus, .stage-field textarea:focus {
+      outline: none;
+      border-color: var(--verde);
+      background: white;
+    }
+    .stage-field.full { grid-column: 1 / -1; }
+    .stage-actions {
+      padding: 0 18px 14px;
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    /* ── PRODUCTOS (hoja 3) ─────────────────────────── */
+    .productos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 18px;
+    }
+    .producto-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      animation: fadeIn .25s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .producto-card-header {
+      padding: 14px 18px;
+      background: linear-gradient(90deg, var(--verde-dark) 0%, var(--verde) 100%);
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .cat-badge {
+      background: rgba(255,255,255,.18);
+      border-radius: 6px;
+      padding: 3px 10px;
+      font-size: .68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+    .producto-card-body {
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+    .prod-field label {
+      display: block;
+      font-size: .68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      letter-spacing: .5px;
+      margin-bottom: 4px;
+    }
+    .prod-field input, .prod-field textarea, .prod-field select {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      padding: 7px 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .8rem;
+      color: var(--text);
+      background: var(--surface2);
+      transition: border-color .2s;
+      resize: none;
+    }
+    .prod-field input:focus, .prod-field textarea:focus, .prod-field select:focus {
+      outline: none;
+      border-color: var(--verde);
+      background: white;
+    }
+    .producto-card-footer {
+      padding: 10px 18px 14px;
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── MODALS ─────────────────────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.5);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.3);
+      padding: 32px;
+      max-width: 520px;
+      width: calc(100% - 40px);
+      transform: translateY(20px);
+      transition: transform .25s;
+    }
+    .modal-overlay.open .modal { transform: none; }
+    .modal h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--verde-dark);
+      margin-bottom: 6px;
+    }
+    .modal p { color: var(--text-soft); font-size: .85rem; margin-bottom: 20px; }
+    .modal-field { margin-bottom: 14px; }
+    .modal-field label {
+      display: block;
+      font-size: .74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      letter-spacing: .5px;
+      margin-bottom: 5px;
+    }
+    .modal-field input, .modal-field select {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .85rem;
+      color: var(--text);
+      transition: border-color .2s;
+    }
+    .modal-field input:focus, .modal-field select:focus {
+      outline: none;
+      border-color: var(--verde);
+    }
+    .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; }
+
+    /* ── TOAST ──────────────────────────────────────── */
+    #toast-wrap {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 9999;
+    }
+    .toast {
+      background: var(--verde);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 10px;
+      box-shadow: 0 6px 24px rgba(0,0,0,.2);
+      font-size: .82rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: slideIn .3s ease;
+      max-width: 300px;
+    }
+    .toast.error { background: var(--danger); }
+    .toast.warn { background: #d97706; }
+    @keyframes slideIn { from{transform:translateX(40px);opacity:0} to{transform:none;opacity:1} }
+    @keyframes slideOut { to{transform:translateX(40px);opacity:0} }
+    .toast.out { animation: slideOut .3s ease forwards; }
+
+    /* ── STATUS BAR ─────────────────────────────────── */
+    #status-bar {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: var(--verde-dark);
+      color: rgba(255,255,255,.8);
+      font-size: .72rem;
+      padding: 5px 24px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      z-index: 200;
+    }
+    #status-bar span { display: flex; align-items: center; gap: 5px; }
+    #last-save { margin-left: auto; }
+
+    /* ── ADD ROW AREA ───────────────────────────────── */
+    .add-row-wrap {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    /* ── PRINT ──────────────────────────────────────── */
+    @media print {
+      header, .toolbar, .tabs-wrap, #status-bar, .actions, .btn, .add-row-wrap, .stage-actions, .producto-card-footer { display: none !important; }
+      main { padding: 0; }
+      .sheet { display: block !important; }
+      .sheet:not(.print-active) { display: none !important; }
+      body { font-size: 11px; }
+    }
+
+    /* ── RESPONSIVE ─────────────────────────────────── */
+    @media(max-width: 768px) {
+      header { padding: 14px 16px; flex-wrap: wrap; }
+      .header-right { width: 100%; }
+      .toolbar { padding: 10px 12px; }
+      main { padding: 16px 12px; }
+      .stage-card-body { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ── EMPTY STATE ────────────────────────────────── */
+    .empty-state {
+      text-align: center;
+      padding: 60px 30px;
+      color: var(--text-soft);
+    }
+    .empty-state .icon { font-size: 3rem; margin-bottom: 14px; }
+    .empty-state h3 { font-size: 1.1rem; margin-bottom: 8px; color: var(--text); }
+    .empty-state p { font-size: .84rem; }
+
+    /* ── HIGHLIGHT SEARCH ───────────────────────────── */
+    .search-bar {
+      padding: 8px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .82rem;
+      width: 220px;
+      transition: border-color .2s;
+    }
+    .search-bar:focus { outline: none; border-color: var(--verde); }
+
+    /* ── SUPABASE SYNC SECTION ──────────────────────── */
+    .sync-section {
+      background: #e3f0fd;
+      border: 1.5px solid #90c2f5;
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .sync-section .sync-icon { font-size: 2rem; }
+    .sync-section h3 { font-size: .92rem; font-weight: 700; color: #1a56a0; margin-bottom: 4px; }
+    .sync-section p { font-size: .78rem; color: #1e6fa0; }
+    .sync-section input {
+      border: 1.5px solid #90c2f5;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .8rem;
+      width: 360px;
+      max-width: 100%;
+    }
+    .sync-section input:focus { outline: none; border-color: #1a73e8; }
+  </style>
+</head>
+<body>
+
+<!-- ████ HEADER ████ -->
+<header>
+  <div class="logo-badge">FG</div>
+  <div>
+    <h1>FERMAGRI <span>Editor de Calculadora</span></h1>
+    <p>Jefe Técnico — edita cultivos, etapas y productos· v2.0</p>
+  </div>
+  <div class="header-right">
+    <div class="badge-auto" id="supabase-status">
+      <div class="dot" style="background:#facc15;"></div>
+      CARGANDO DATOS…
+    </div>
+    <div class="badge-auto">
+      <div class="dot"></div>
+      AUTO-GUARDADO ACTIVO
+    </div>
+  </div>
+</header>
+
+<!-- ████ TOOLBAR ████ -->
+<div class="toolbar">
+  <label class="btn btn-outline" for="xlsx-import" title="Importar Excel Base_Calculadora_Fermagri.xlsx (2 pestañas)" style="background:#f0fff4; border-color:#16a34a; color:#16a34a; font-weight:700;">
+    📊 Importar Excel (.xlsx)
+    <input type="file" id="xlsx-import" accept=".xlsx,.xls" style="display:none" onchange="importExcel(this)" />
+  </label>
+  <button class="btn btn-success" onclick="exportCSV()" title="Exportar datos actuales a CSV">📤 Exportar CSV</button>
+  <div class="sep"></div>
+  <button class="btn btn-primary" onclick="addCultivoRow()" title="Agregar nuevo cultivo">➕ Nuevo Cultivo</button>
+  <button class="btn btn-gold" onclick="printCurrentSheet()" title="Imprimir hoja activa">🖨️ Imprimir / PDF</button>
+  <div class="sep"></div>
+  
+  <label class="btn btn-outline" style="cursor:pointer; border-color:#2a5da8; color:#2a5da8;" title="Subir múltiples PDFs de Fichas Técnicas">
+    <i class="fas fa-file-pdf"></i> Subir Fichas
+    <input type="file" multiple accept=".pdf" style="display:none" onchange="uploadBulkPDFs(this, 'ficha')">
+  </label>
+  <label class="btn btn-outline" style="cursor:pointer; border-color:#d4b106; color:#d4b106;" title="Subir múltiples PDFs de Hojas de Seguridad">
+    <i class="fas fa-file-pdf"></i> Subir Hojas Seg.
+    <input type="file" multiple accept=".pdf" style="display:none" onchange="uploadBulkPDFs(this, 'seguridad')">
+  </label>
+  
+  <div class="sep"></div>
+  <input type="text" class="search-bar" id="global-search" placeholder="🔍 Buscar..." oninput="globalSearch(this.value)" />
+  <div class="sep"></div>
+  <button class="btn btn-cloud" onclick="openSyncModal()" title="Publicar cambios en la calculadora web">🚀 Publicar en Calculadora</button>
+</div>
+
+<!-- ████ TABS ████ -->
+<div class="tabs-wrap">
+  <button class="tab active" onclick="switchTab(0, this)" id="tab-0">
+    <span class="tab-icon">🌱</span> Cultivos &amp; NPK
+  </button>
+  <button class="tab" onclick="switchTab(1, this)" id="tab-1">
+    <span class="tab-icon">📅</span> Etapas Fenológicas
+  </button>
+  <button class="tab" onclick="switchTab(2, this)" id="tab-2">
+    <span class="tab-icon">🧪</span> Productos Recomendados
+  </button>
+</div>
+
+<!-- ████ MAIN ████ -->
+<main>
+
+  <!-- ════ HOJA 1: Cultivos & NPK ════ -->
+  <div class="sheet active" id="sheet-0">
+    <div class="sheet-header">
+      <div class="sheet-title">
+        Cultivos &amp; Requerimientos Nutricionales
+        <span class="count-badge" id="cultivos-count">0</span>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="addCultivoRow()">➕ Agregar Cultivo</button>
+    </div>
+
+    <div class="table-wrap">
+      <table id="tbl-cultivos">
+        <thead>
+          <tr>
+            <th>Cultivo</th>
+            <th>Rend. (t/ha)</th>
+            <th title="Nitrógeno kg/ha">N (kg/ha)</th>
+            <th title="Fósforo kg/ha">P₂O₅ (kg/ha)</th>
+            <th title="Potasio kg/ha">K₂O (kg/ha)</th>
+            <th title="Magnesio">MgO</th>
+            <th title="Hierro">Fe</th>
+            <th title="Manganeso">Mn</th>
+            <th title="Zinc">Zn</th>
+            <th title="Cobre">Cu</th>
+            <th title="Boro">B</th>
+            <th title="Molibdeno">Mo</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tbody-cultivos"></tbody>
+      </table>
+    </div>
+
+    <div class="add-row-wrap">
+      <button class="btn btn-outline btn-sm" onclick="addCultivoRow()">➕ Agregar fila</button>
+      <span style="color:var(--text-soft);font-size:.75rem;">— Haz clic en cualquier celda para editar directamente</span>
+    </div>
+  </div>
+
+  <!-- ════ HOJA 2: Etapas Fenológicas ════ -->
+  <div class="sheet" id="sheet-1">
+    <div class="sheet-header">
+      <div class="sheet-title">
+        Etapas Fenológicas por Cultivo
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="addStage()">➕ Nueva Etapa</button>
+    </div>
+
+    <div class="crop-selector" id="crop-selector-stages"></div>
+    <div class="stages-container" id="stages-container"></div>
+  </div>
+
+  <!-- ════ HOJA 3: Productos Recomendados ════ -->
+  <div class="sheet" id="sheet-2">
+    <div class="sheet-header">
+      <div class="sheet-title">
+        Productos Recomendados por Cultivo
+        <span class="count-badge" id="prods-count">0</span>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="addProducto()">➕ Nuevo Producto</button>
+    </div>
+    <div class="productos-grid" id="productos-grid"></div>
+  </div>
+
+</main>
+
+<!-- ████ STATUS BAR ████ -->
+<div id="status-bar">
+  <span>🌿 FERMAGRI — Editor Calculadora</span>
+  <span id="edit-count">✏️ 0 cambios sin sincronizar</span>
+  <span id="last-save">💾 Nunca guardado</span>
+</div>
+
+<!-- ████ TOAST AREA ████ -->
+<div id="toast-wrap"></div>
+
+<!-- ████ MODAL: Nuevo Cultivo ████ -->
+<div class="modal-overlay" id="modal-cultivo">
+  <div class="modal">
+    <h2>🌱 Nuevo Cultivo</h2>
+    <p>Completa los datos del nuevo cultivo. Podrás editar todos los valores directamente en la tabla.</p>
+    <div class="modal-field">
+      <label>Nombre del Cultivo *</label>
+      <input type="text" id="new-cultivo-name" placeholder="Ej: Maíz, Banano, Arroz…" />
+    </div>
+    <div class="modal-field">
+      <label>Rendimiento Referencial (t/ha)</label>
+      <input type="number" id="new-cultivo-rend" placeholder="10" min="0" step="0.1" />
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('modal-cultivo')">Cancelar</button>
+      <button class="btn btn-primary" onclick="confirmAddCultivo()">✔ Agregar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ████ MODAL: Publicar en Calculadora ████ -->
+<div class="modal-overlay" id="modal-sync">
+  <div class="modal">
+    <h2>🚀 Publicar en la Calculadora</h2>
+    <p>Esta acción sube los datos al servidor y la calculadora web se actualizará de inmediato para todos los usuarios.</p>
+    <div class="modal-field">
+      <label>Clave de Publicación (suministrada por el administrador)</label>
+      <input type="password" id="sync-key" placeholder="Ingresa la clave…" autocomplete="off" />
+    </div>
+    <div style="background:#e8f5e9;border:1px solid #a5d6a7;border-radius:8px;padding:12px 14px;font-size:.78rem;color:#1b5e20;margin-top:4px;">
+      ✅ Esta operación actualizará <strong id="sync-count">0</strong> cultivos en la calculadora. Los datos anteriores en Supabase se conservan y solo se actualizan los cultivos que edites.
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('modal-sync')">Cancelar</button>
+      <button class="btn btn-cloud" onclick="syncSupabase()">🚀 Publicar Ahora</button>
+    </div>
+  </div>
+</div>
+
+<!-- ████ MODAL: Nueva Etapa ████ -->
+<div class="modal-overlay" id="modal-stage">
+  <div class="modal">
+    <h2>📅 Nueva Etapa Fenológica</h2>
+    <p>Agrega una etapa al cultivo seleccionado.</p>
+    <div class="modal-field">
+      <label>Cultivo</label>
+      <select id="new-stage-crop"></select>
+    </div>
+    <div class="modal-field">
+      <label>Nombre de la Etapa</label>
+      <input type="text" id="new-stage-name" placeholder="Ej: Siembra, Desarrollo, Maduración…" />
+    </div>
+    <div class="modal-field">
+      <label>Semana (número)</label>
+      <input type="number" id="new-stage-week" placeholder="1" min="1" />
+    </div>
+    <div class="modal-field">
+      <label>Sacos / Ha estimados</label>
+      <input type="number" id="new-stage-sacos" placeholder="4" step="0.5" min="0" />
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('modal-stage')">Cancelar</button>
+      <button class="btn btn-primary" onclick="confirmAddStage()">✔ Agregar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ████ MODAL: Nuevo Producto ████ -->
+<div class="modal-overlay" id="modal-producto">
+  <div class="modal">
+    <h2>🧪 Nuevo Producto Recomendado</h2>
+    <p>Asocia un producto Fermagri a un cultivo.</p>
+    <div class="modal-field">
+      <label>Cultivo</label>
+      <select id="new-prod-crop"></select>
+    </div>
+    <div class="modal-field">
+      <label>Nombre del Producto</label>
+      <input type="text" id="new-prod-name" placeholder="Ej: Nutricultivo Siembra" />
+    </div>
+    <div class="modal-field">
+      <label>Categoría</label>
+      <select id="new-prod-cat">
+        <option>Master</option>
+        <option>Solubles</option>
+        <option>Especializados</option>
+        <option>Edaficos</option>
+      </select>
+    </div>
+    <div class="modal-field">
+      <label>Descripción corta</label>
+      <input type="text" id="new-prod-desc" placeholder="Breve descripción del producto…" />
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('modal-producto')">Cancelar</button>
+      <button class="btn btn-primary" onclick="confirmAddProducto()">✔ Agregar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ████ SCRIPT ████ -->
+<script>
+// ══════════════════════════════════════════════════
+//  ESTADO GLOBAL
+// ══════════════════════════════════════════════════
+const SUPABASE_URL  = "https://bfwqmekquomqkydrxwvm.supabase.co";
+const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmd3FtZWtxdW9tcWt5ZHJ4d3ZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4OTEzMjIsImV4cCI6MjA4OTQ2NzMyMn0.Tatgp8Gs_5DN-zvmoWjW5IuhbrRQhMtCOxHFCwguHl0";
+
+let cultivosData = [];    // [{nombre, rend, n, p, k, mgo, fe, mn, zn, cu, b, mo, etapas:[], productos:[]}]
+let unsavedCount = 0;
+let activeTab = 0;
+let selectedCropForStages = null;
+
+// ──────────────────────────────────────────────────
+//  DATOS POR DEFECTO (extraídos del proyecto real)
+// ──────────────────────────────────────────────────
+const DEFAULT_DATA = [
+  {
+    nombre: "Maíz", rend: 10,
+    n: 160, p: 80, k: 120,
+    mgo: 35, fe: 2.0, mn: 0.5, zn: 0.4, cu: 0.1, b: 0.2, mo: 0.01,
+    etapas: [
+      { name:"Siembra", week:1, sacos_ha:4, nutrients:["N","P","Zn"], recommendations:"Aplicar Nutricultivo Siembra a 4 sacos/ha.", simples:["Nutricultivo Siembra"] },
+      { name:"Desarrollo", week:4, sacos_ha:5, nutrients:["N","K","MgO"], recommendations:"Aplicar Master Protec N40 + MgO.", simples:["Master Protec N40"] },
+      { name:"Producción", week:8, sacos_ha:3, nutrients:["K","Ca"], recommendations:"Aplicar complejo K-Ca para engrose.", simples:["Nitrato de Calcio"] }
+    ],
+    productos: [
+      { name:"Nutricultivo Siembra", cat:"Edaficos", desc:"Formulado para la etapa de siembra en gramíneas." },
+      { name:"Master Protec N40", cat:"Master", desc:"Nitrógeno de liberación controlada con inhibidor de ureasa." }
+    ]
+  },
+  {
+    nombre: "Banano", rend: 50,
+    n: 300, p: 60, k: 500,
+    mgo: 70, fe: 3.0, mn: 2.0, zn: 0.6, cu: 0.2, b: 0.4, mo: 0.02,
+    etapas: [
+      { name:"Establecimiento", week:1, sacos_ha:5, nutrients:["N","P","K"], recommendations:"Plan completo de establecimiento con NPK balanceado.", simples:["Nutricultivo Desarrollo"] },
+      { name:"Macollamiento", week:10, sacos_ha:6, nutrients:["N","K","MgO"], recommendations:"Refuerzo nitrogenado + potásico.", simples:["Master Protec N35","Nutricultivo Desarrollo"] }
+    ],
+    productos: [
+      { name:"Nutricultivo Desarrollo", cat:"Edaficos", desc:"Optimiza el vigor y asimilación en desarrollo." },
+      { name:"Solufol Desarrollo", cat:"Especializados", desc:"Foliar balanceado para periodo de crecimiento." }
+    ]
+  },
+  {
+    nombre: "Palma Africana", rend: 25,
+    n: 200, p: 80, k: 300,
+    mgo: 50, fe: 2.0, mn: 0.5, zn: 0.2, cu: 0.1, b: 0.4, mo: 0.01,
+    etapas: [
+      { name:"Siembra", week:1, sacos_ha:4, nutrients:["P","K","B"], recommendations:"Establecimiento con Nutricultivo Siembra + Boro.", simples:["Nutricultivo Siembra"] },
+      { name:"Producción", week:24, sacos_ha:6, nutrients:["N","K","MgO"], recommendations:"Fertilización de mantenimiento en producción.", simples:["Master Protec N40","Nutricultivo Desarrollo"] }
+    ],
+    productos: [
+      { name:"Master Protec N40", cat:"Master", desc:"Fertilizante granulado de liberación lenta." },
+      { name:"Nutricultivo Desarrollo", cat:"Edaficos", desc:"Formulado para etapa de crecimiento." }
+    ]
+  },
+  {
+    nombre: "Arroz", rend: 6,
+    n: 120, p: 60, k: 80,
+    mgo: 20, fe: 2.0, mn: 1.0, zn: 0.5, cu: 0.1, b: 0.1, mo: 0.01,
+    etapas: [
+      { name:"Siembra", week:1, sacos_ha:4, nutrients:["N","P","Zn"], recommendations:"Aplicar Nutricultivo Siembra a la siembra.", simples:["Nutricultivo Siembra"] },
+      { name:"Macollamiento", week:4, sacos_ha:3, nutrients:["N","K"], recommendations:"Aplicar Master Protec N35 al macollamiento.", simples:["Master Protec N35"] }
+    ],
+    productos: [
+      { name:"Nutricultivo Siembra", cat:"Edaficos", desc:"Nutrición completa para la fase de siembra en arroz." },
+      { name:"Master Protec N35", cat:"Master", desc:"Nitrógeno estabilizado para macollamiento." }
+    ]
+  },
+  {
+    nombre: "Limón", rend: 30,
+    n: 150, p: 70, k: 200,
+    mgo: 25, fe: 0.8, mn: 0.4, zn: 0.3, cu: 0.1, b: 0.2, mo: 0.01,
+    etapas: [
+      { name:"Inicio", week:1, sacos_ha:3, nutrients:["N","P","Zn"], recommendations:"Plan de inicio con Solufol Inicio foliar.", simples:["Solufol Inicio"] },
+      { name:"Producción", week:12, sacos_ha:4, nutrients:["K","Ca","B"], recommendations:"Plan K-Ca para calidad de fruto.", simples:["Nitrato de Calcio","Solufol Engrose"] }
+    ],
+    productos: [
+      { name:"Solufol Inicio", cat:"Especializados", desc:"NPK balanceado para etapas iniciales foliares." },
+      { name:"Nitrato de Calcio", cat:"Solubles", desc:"Calcio + Nitrógeno nítrico para calidad y vida poscosecha." }
+    ]
+  },
+  {
+    nombre: "Cacao", rend: 2,
+    n: 80, p: 40, k: 120,
+    mgo: 25, fe: 0.5, mn: 0.3, zn: 0.4, cu: 0.2, b: 0.2, mo: 0.01,
+    etapas: [
+      { name:"Establecimiento", week:1, sacos_ha:3, nutrients:["P","Zn","B"], recommendations:"Establecimiento con fósforo y microelementos.", simples:["Nutricultivo Siembra","Solufol Inicio"] }
+    ],
+    productos: [
+      { name:"Solufol Multiproposito", cat:"Especializados", desc:"Multinutriente foliar para corrección de deficiencias." }
+    ]
+  },
+  {
+    nombre: "Papas", rend: 40,
+    n: 180, p: 200, k: 250,
+    mgo: 40, fe: 1.5, mn: 0.3, zn: 0.2, cu: 0.1, b: 0.2, mo: 0.01,
+    etapas: [
+      { name:"Siembra", week:1, sacos_ha:5, nutrients:["P","K","Zn"], recommendations:"Alto fósforo en siembra para tubérculo.", simples:["Nutricultivo Siembra"] },
+      { name:"Tuberización", week:7, sacos_ha:4, nutrients:["K","Ca","B"], recommendations:"Plan K-Ca para calidad de tubérculo.", simples:["Nitrato de Calcio","Solufol Engrose"] }
+    ],
+    productos: [
+      { name:"Nutricultivo Siembra", cat:"Edaficos", desc:"Base nutricional para siembra de papa." },
+      { name:"Solufol Engrose", cat:"Especializados", desc:"Foliar para etapa de engrose de tubérculo." }
+    ]
+  },
+  {
+    nombre: "Caña de Azúcar", rend: 100,
+    n: 250, p: 80, k: 350,
+    mgo: 50, fe: 3.5, mn: 1.5, zn: 0.8, cu: 0.2, b: 0.3, mo: 0.02,
+    etapas: [
+      { name:"Plantación", week:1, sacos_ha:5, nutrients:["N","P","K"], recommendations:"Nutrición completa de establecimiento.", simples:["Nutricultivo Siembra"] },
+      { name:"Gran Crecimiento", week:10, sacos_ha:7, nutrients:["N","K","MgO"], recommendations:"Máximo nitrógeno + potasio para biomasa.", simples:["Master Protec N46","Nutricultivo Desarrollo"] }
+    ],
+    productos: [
+      { name:"Master Protec N46", cat:"Master", desc:"Máxima concentración de nitrógeno para caña." },
+      { name:"Nutricultivo Desarrollo", cat:"Edaficos", desc:"Formulado para la etapa de gran crecimiento." }
+    ]
+  },
+  {
+    nombre: "Pitahaya", rend: 15,
+    n: 100, p: 60, k: 150,
+    mgo: 25, fe: 0.5, mn: 0.3, zn: 0.4, cu: 0.1, b: 0.2, mo: 0.01,
+    etapas: [
+      { name:"Establecimiento", week:1, sacos_ha:3, nutrients:["P","Zn","B"], recommendations:"Plan de establecimiento con micro balanceados.", simples:["Solufol Inicio"] }
+    ],
+    productos: [
+      { name:"Solufol Inicio", cat:"Especializados", desc:"NPK balanceado + microelementos para inicio." }
+    ]
+  }
+];
+
+// ══════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', async () => {
+  // Intentar cargar desde Supabase primero; si falla, usar localStorage
+  const loaded = await loadFromSupabase();
+  if (!loaded) loadFromStorage();
+  renderAll();
+  // Auto-save cada 60 seg
+  setInterval(saveToStorage, 60000);
+});
+
+async function loadFromSupabase() {
+  const statusEl = document.getElementById('supabase-status');
+  try {
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+    const { data, error } = await sb
+      .from('calculadora_cultivos')
+      .select('*')
+      .order('nombre_cultivo', { ascending: true });
+
+    if (error || !data || data.length === 0) throw new Error(error?.message || 'Sin datos');
+
+    cultivosData = data.map(item => ({
+      nombre:   item.nombre_cultivo,
+      rend:     item.rend        || 0,
+      n:        item.n_ha        || 0,
+      p:        item.p_ha        || 0,
+      k:        item.k_ha        || 0,
+      mgo:      item.mgo_ha      || 0,
+      fe:       item.fe_ha       || 0,
+      mn:       item.mn_ha       || 0,
+      zn:       item.zn_ha       || 0,
+      cu:       item.cu_ha       || 0,
+      b:        item.b_ha        || 0,
+      mo:       item.mo_ha       || 0,
+      etapas:   item.etapas              || [],
+      productos: item.productos_recomendados || []
+    }));
+
+    // Guardar en localStorage como respaldo
+    saveToStorage();
+
+    statusEl.innerHTML = '<div class="dot"></div> DATOS CARGADOS DE SUPABASE';
+    statusEl.style.background = 'rgba(74,222,128,.18)';
+    toast(`✅ ${cultivosData.length} cultivos cargados desde la base de datos`, 'success');
+    return true;
+  } catch (err) {
+    statusEl.innerHTML = '<div class="dot" style="background:#f87171"></div> SIN CONEXIÓN — MODO LOCAL';
+    statusEl.style.background = 'rgba(248,113,113,.15)';
+    return false;
+  }
+}
+
+function loadFromStorage() {
+  try {
+    const saved = localStorage.getItem('fermagri_editor_v2');
+    if (saved) {
+      cultivosData = JSON.parse(saved);
+      toast('📦 Datos recuperados del guardado local', 'success');
+    } else {
+      cultivosData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+      toast('🌱 Datos de ejemplo cargados. Importa tu CSV o edita directamente.', 'warn');
+    }
+  } catch(e) {
+    cultivosData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+  }
+}
+
+function saveToStorage() {
+  localStorage.setItem('fermagri_editor_v2', JSON.stringify(cultivosData));
+  const now = new Date().toLocaleTimeString('es-EC');
+  document.getElementById('last-save').textContent = `💾 Guardado ${now}`;
+}
+
+function renderAll() {
+  renderCultivosTable();
+  renderCropSelector();
+  renderProductos();
+  updateCounts();
+}
+
+// ══════════════════════════════════════════════════
+//  HOJA 1: TABLA CULTIVOS & NPK
+// ══════════════════════════════════════════════════
+function renderCultivosTable() {
+  const tbody = document.getElementById('tbody-cultivos');
+  tbody.innerHTML = '';
+
+  cultivosData.forEach((c, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td contenteditable="true" data-field="nombre" data-idx="${i}" class="cultivo-name"
+          style="font-weight:700;color:var(--verde-dark);">${esc(c.nombre)}</td>
+      <td contenteditable="true" data-field="rend" data-idx="${i}">${c.rend}</td>
+      <td contenteditable="true" data-field="n" data-idx="${i}">${c.n}</td>
+      <td contenteditable="true" data-field="p" data-idx="${i}">${c.p}</td>
+      <td contenteditable="true" data-field="k" data-idx="${i}">${c.k}</td>
+      <td contenteditable="true" data-field="mgo" data-idx="${i}">${c.mgo}</td>
+      <td contenteditable="true" data-field="fe" data-idx="${i}">${c.fe}</td>
+      <td contenteditable="true" data-field="mn" data-idx="${i}">${c.mn}</td>
+      <td contenteditable="true" data-field="zn" data-idx="${i}">${c.zn}</td>
+      <td contenteditable="true" data-field="cu" data-idx="${i}">${c.cu}</td>
+      <td contenteditable="true" data-field="b" data-idx="${i}">${c.b}</td>
+      <td contenteditable="true" data-field="mo" data-idx="${i}">${c.mo}</td>
+      <td class="actions">
+        <button class="btn btn-outline btn-sm" onclick="viewCultivo(${i})" title="Ver etapas">📅</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteCultivo(${i})" title="Eliminar">🗑️</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  // Eventos de edición inline
+  tbody.querySelectorAll('[contenteditable="true"]').forEach(cell => {
+    cell.addEventListener('blur', onCellEdit);
+    cell.addEventListener('input', () => cell.classList.add('modified'));
+  });
+}
+
+function onCellEdit(e) {
+  const cell = e.target;
+  const idx = parseInt(cell.dataset.idx);
+  const field = cell.dataset.field;
+  const raw = cell.textContent.trim();
+  const numFields = ['rend','n','p','k','mgo','fe','mn','zn','cu','b','mo'];
+  const val = numFields.includes(field) ? parseFloat(raw) || 0 : raw;
+
+  if (field === 'nombre' && raw === '') {
+    cell.textContent = cultivosData[idx].nombre;
+    toast('El nombre no puede estar vacío', 'error');
+    return;
+  }
+
+  cultivosData[idx][field] = val;
+  cell.classList.remove('modified');
+  markChanged();
+  saveToStorage();
+
+  // Si cambió el nombre, actualizar referencia en etapas/productos
+  if (field === 'nombre') {
+    renderCropSelector();
+    renderProductos();
+  }
+}
+
+function addCultivoRow() {
+  openModal('modal-cultivo');
+  document.getElementById('new-cultivo-name').focus();
+}
+
+function confirmAddCultivo() {
+  const name = document.getElementById('new-cultivo-name').value.trim();
+  const rend = parseFloat(document.getElementById('new-cultivo-rend').value) || 0;
+
+  if (!name) { toast('Ingresa el nombre del cultivo', 'error'); return; }
+  if (cultivosData.some(c => c.nombre.toLowerCase() === name.toLowerCase())) {
+    toast('Ya existe un cultivo con ese nombre', 'error'); return;
+  }
+
+  cultivosData.push({ nombre: name, rend, n: 0, p: 0, k: 0, mgo: 0, fe: 0, mn: 0, zn: 0, cu: 0, b: 0, mo: 0, etapas: [], productos: [] });
+  closeModal('modal-cultivo');
+  document.getElementById('new-cultivo-name').value = '';
+  document.getElementById('new-cultivo-rend').value = '';
+  renderAll();
+  markChanged();
+  toast(`✅ Cultivo "${name}" agregado`);
+}
+
+function deleteCultivo(idx) {
+  const c = cultivosData[idx];
+  if (!confirm(`¿Eliminar el cultivo "${c.nombre}" y todas sus etapas y productos?`)) return;
+  cultivosData.splice(idx, 1);
+  renderAll();
+  markChanged();
+  toast(`🗑️ Cultivo eliminado`);
+}
+
+function viewCultivo(idx) {
+  selectedCropForStages = cultivosData[idx].nombre;
+  switchTab(1, document.getElementById('tab-1'));
+  setTimeout(() => {
+    const pill = document.querySelector(`.crop-pill[data-name="${CSS.escape(selectedCropForStages)}"]`);
+    if (pill) pill.click();
+  }, 50);
+}
+
+// ══════════════════════════════════════════════════
+//  HOJA 2: ETAPAS FENOLÓGICAS
+// ══════════════════════════════════════════════════
+function renderCropSelector() {
+  const wrap = document.getElementById('crop-selector-stages');
+  const current = selectedCropForStages || (cultivosData[0] && cultivosData[0].nombre);
+  wrap.innerHTML = '';
+
+  cultivosData.forEach(c => {
+    const pill = document.createElement('button');
+    pill.className = 'crop-pill' + (c.nombre === current ? ' active' : '');
+    pill.textContent = c.nombre;
+    pill.dataset.name = c.nombre;
+    pill.onclick = () => {
+      document.querySelectorAll('.crop-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      selectedCropForStages = c.nombre;
+      renderStages(c.nombre);
+    };
+    wrap.appendChild(pill);
+  });
+
+  if (current) renderStages(current);
+}
+
+function renderStages(cropName) {
+  const c = cultivosData.find(x => x.nombre === cropName);
+  const container = document.getElementById('stages-container');
+  if (!c) { container.innerHTML = ''; return; }
+
+  if (!c.etapas || c.etapas.length === 0) {
+    container.innerHTML = `<div class="empty-state"><div class="icon">📭</div><h3>Sin etapas</h3><p>Este cultivo aún no tiene etapas fenológicas. Haz clic en "Nueva Etapa" para agregar.</p></div>`;
+    return;
+  }
+
+  container.innerHTML = '';
+  c.etapas.forEach((etapa, ei) => {
+    const card = document.createElement('div');
+    card.className = 'stage-card';
+    card.innerHTML = `
+      <div class="stage-card-header">
+        <div class="stage-num">${ei + 1}</div>
+        <span class="stage-name-display">${esc(etapa.name)}</span>
+        <span style="font-size:.72rem;opacity:.75;margin-left:auto;">Semana ${etapa.week || '?'} &nbsp;·&nbsp; ${etapa.sacos_ha || 0} sacos/ha</span>
+      </div>
+      <div class="stage-card-body">
+        <div class="stage-field">
+          <label>Nombre de la Etapa</label>
+          <input type="text" value="${esc(etapa.name)}" onchange="updateStage('${cropName}',${ei},'name',this.value)" />
+        </div>
+        <div class="stage-field">
+          <label>Semana</label>
+          <input type="number" min="1" value="${etapa.week || ''}" onchange="updateStage('${cropName}',${ei},'week',+this.value)" />
+        </div>
+        <div class="stage-field">
+          <label>Sacos / Ha</label>
+          <input type="number" min="0" step="0.5" value="${etapa.sacos_ha || 0}" onchange="updateStage('${cropName}',${ei},'sacos_ha',+this.value)" />
+        </div>
+        <div class="stage-field">
+          <label>Nutrientes Clave (separados por coma)</label>
+          <input type="text" value="${(etapa.nutrients||[]).join(', ')}" placeholder="N, P, K, Zn…" onchange="updateStage('${cropName}',${ei},'nutrients',this.value.split(',').map(x=>x.trim()).filter(Boolean))" />
+        </div>
+        <div class="stage-field full">
+          <label>Recomendación General</label>
+          <textarea rows="2" onchange="updateStage('${cropName}',${ei},'recommendations',this.value)">${esc(etapa.recommendations || '')}</textarea>
+        </div>
+        <div class="stage-field full">
+          <label>Alternativas Simples Fermagri (separadas por coma)</label>
+          <input type="text" value="${(etapa.simples||[]).join(', ')}" placeholder="Ej: Nutricultivo Siembra, Master Protec N40" onchange="updateStage('${cropName}',${ei},'simples',this.value.split(',').map(x=>x.trim()).filter(Boolean))" />
+        </div>
+      </div>
+      <div class="stage-actions">
+        <button class="btn btn-danger btn-sm" onclick="deleteStage('${cropName}',${ei})">🗑️ Eliminar Etapa</button>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function updateStage(cropName, ei, field, value) {
+  const c = cultivosData.find(x => x.nombre === cropName);
+  if (!c) return;
+  c.etapas[ei][field] = value;
+  markChanged();
+  saveToStorage();
+  // Refrescar el header inline
+  const cards = document.querySelectorAll('.stage-card');
+  if (cards[ei]) {
+    const hdr = cards[ei].querySelector('.stage-name-display');
+    if (hdr && field === 'name') hdr.textContent = value;
+  }
+}
+
+function deleteStage(cropName, ei) {
+  if (!confirm('¿Eliminar esta etapa?')) return;
+  const c = cultivosData.find(x => x.nombre === cropName);
+  if (!c) return;
+  c.etapas.splice(ei, 1);
+  renderStages(cropName);
+  markChanged();
+  saveToStorage();
+  toast('🗑️ Etapa eliminada');
+}
+
+function addStage() {
+  const sel = document.getElementById('new-stage-crop');
+  sel.innerHTML = cultivosData.map(c => `<option value="${esc(c.nombre)}">${esc(c.nombre)}</option>`).join('');
+  if (selectedCropForStages) sel.value = selectedCropForStages;
+  openModal('modal-stage');
+}
+
+function confirmAddStage() {
+  const cropName = document.getElementById('new-stage-crop').value;
+  const name = document.getElementById('new-stage-name').value.trim();
+  const week = parseInt(document.getElementById('new-stage-week').value) || 1;
+  const sacos = parseFloat(document.getElementById('new-stage-sacos').value) || 0;
+  if (!name) { toast('Ingresa el nombre de la etapa', 'error'); return; }
+  const c = cultivosData.find(x => x.nombre === cropName);
+  if (!c) return;
+  c.etapas.push({ name, week, sacos_ha: sacos, nutrients: [], recommendations: '', simples: [] });
+  closeModal('modal-stage');
+  document.getElementById('new-stage-name').value = '';
+  selectedCropForStages = cropName;
+  renderCropSelector();
+  markChanged();
+  saveToStorage();
+  toast(`✅ Etapa "${name}" agregada a ${cropName}`);
+}
+
+// ══════════════════════════════════════════════════
+//  HOJA 3: PRODUCTOS
+// ══════════════════════════════════════════════════
+function renderProductos() {
+  const grid = document.getElementById('productos-grid');
+  grid.innerHTML = '';
+  let total = 0;
+
+  cultivosData.forEach((c, ci) => {
+    (c.productos || []).forEach((p, pi) => {
+      total++;
+      const card = document.createElement('div');
+      card.className = 'producto-card';
+      card.innerHTML = `
+        <div class="producto-card-header">
+          <div style="flex:1">
+            <div style="font-weight:700;font-size:.92rem;">${esc(p.name)}</div>
+            <div style="font-size:.72rem;opacity:.8;margin-top:2px;">Cultivo: ${esc(c.nombre)}</div>
+          </div>
+          <span class="cat-badge">${esc(p.cat || '')}</span>
+        </div>
+        <div class="producto-card-body">
+          <div class="prod-field">
+            <label>Nombre del Producto</label>
+            <input type="text" value="${esc(p.name)}" onchange="updateProducto(${ci},${pi},'name',this.value)" />
+          </div>
+          <div class="prod-field">
+            <label>Categoría</label>
+            <select onchange="updateProducto(${ci},${pi},'cat',this.value)">
+              ${['Master','Solubles','Especializados','Edaficos'].map(cat => `<option ${p.cat===cat?'selected':''}>${cat}</option>`).join('')}
+            </select>
+          </div>
+          <div class="prod-field">
+            <label>Descripción Corta</label>
+            <textarea rows="2" onchange="updateProducto(${ci},${pi},'desc',this.value)">${esc(p.desc || '')}</textarea>
+          </div>
+        </div>
+        <div class="producto-card-footer">
+          <button class="btn btn-danger btn-sm" onclick="deleteProducto(${ci},${pi})">🗑️ Eliminar</button>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  });
+
+  if (total === 0) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="icon">🧪</div><h3>Sin productos</h3><p>Agrega productos recomendados por cultivo.</p></div>`;
+  }
+
+  document.getElementById('prods-count').textContent = total;
+}
+
+function updateProducto(ci, pi, field, value) {
+  cultivosData[ci].productos[pi][field] = value;
+  markChanged();
+  saveToStorage();
+}
+
+function deleteProducto(ci, pi) {
+  if (!confirm('¿Eliminar este producto?')) return;
+  cultivosData[ci].productos.splice(pi, 1);
+  renderProductos();
+  markChanged();
+  saveToStorage();
+  toast('🗑️ Producto eliminado');
+}
+
+function addProducto() {
+  const sel = document.getElementById('new-prod-crop');
+  sel.innerHTML = cultivosData.map(c => `<option value="${esc(c.nombre)}">${esc(c.nombre)}</option>`).join('');
+  openModal('modal-producto');
+}
+
+function confirmAddProducto() {
+  const cropName = document.getElementById('new-prod-crop').value;
+  const name = document.getElementById('new-prod-name').value.trim();
+  const cat = document.getElementById('new-prod-cat').value;
+  const desc = document.getElementById('new-prod-desc').value.trim();
+  if (!name) { toast('Ingresa el nombre del producto', 'error'); return; }
+  const c = cultivosData.find(x => x.nombre === cropName);
+  if (!c) return;
+  if (!c.productos) c.productos = [];
+  c.productos.push({ name, cat, desc });
+  closeModal('modal-producto');
+  document.getElementById('new-prod-name').value = '';
+  document.getElementById('new-prod-desc').value = '';
+  renderProductos();
+  markChanged();
+  saveToStorage();
+  toast(`✅ Producto "${name}" agregado`);
+}
+
+// ══════════════════════════════════════════════════
+//  CSV IMPORT / EXPORT
+// ══════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
+//  EXCEL (.xlsx) IMPORT — lee 2 pestañas a la vez
+// ══════════════════════════════════════════════════
+function importExcel(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = new Uint8Array(e.target.result);
+      const workbook = XLSX.read(data, { type: 'array' });
+
+      // ── Buscar las pestañas por nombre (flexible) ──
+      const sheetNames = workbook.SheetNames;
+      toast(`📊 Leyendo: ${sheetNames.join(', ')}`, 'success');
+
+      // Pestaña 1: NPK / Cultivos (busca por nombre parcial)
+      const npkSheet = sheetNames.find(n =>
+        n.toLowerCase().includes('npk') ||
+        n.toLowerCase().includes('cultivo') ||
+        n.toLowerCase().includes('macro')
+      );
+
+      // Pestaña 2: Etapas Fenológicas
+      const etapaSheet = sheetNames.find(n =>
+        n.toLowerCase().includes('etapa') ||
+        n.toLowerCase().includes('fenol') ||
+        n.toLowerCase().includes('fase')
+      );
+
+      if (!npkSheet) {
+        toast('⚠️ No encontré la pestaña de cultivos/NPK. Nombre esperado: "Base_NPK_Cultivos" o similar.', 'error');
+        input.value = ''; return;
+      }
+      if (!etapaSheet) {
+        toast('⚠️ No encontré la pestaña de etapas. Nombre esperado: "Base_Etapas_Fenologicas" o similar.', 'error');
+        input.value = ''; return;
+      }
+
+      // ── Leer JSON de cada pestaña ──
+      const npkRows    = XLSX.utils.sheet_to_json(workbook.Sheets[npkSheet],    { defval: '' });
+      const etapaRows  = XLSX.utils.sheet_to_json(workbook.Sheets[etapaSheet],  { defval: '' });
+
+      // ── Parsear Cultivos & NPK ──────────────────────
+      const nuevosData = [];
+      npkRows.forEach(row => {
+        const nombre = (row['cultivo'] || row['Cultivo'] || row['CULTIVO'] || '').toString().trim();
+        if (!nombre) return;
+
+        const g = (k) => parseFloat(row[k] || row[k.toLowerCase()] || 0) || 0;
+
+        nuevosData.push({
+          nombre,
+          rend:     g('rendimiento_t_ha') || g('Rendimiento_t_ha') || g('rend') || 0,
+          // Macros primarios
+          n:   g('N_kg_ha')    || g('n_kg_ha')    || g('N')    || 0,
+          p:   g('P2O5_kg_ha') || g('p2o5_kg_ha') || g('P')    || 0,
+          k:   g('K2O_kg_ha')  || g('k2o_kg_ha')  || g('K')    || 0,
+          // Macros secundarios
+          cao: g('CaO_kg_ha')  || g('cao_kg_ha')  || g('Ca')   || 0,
+          mgo: g('MgO_kg_ha')  || g('mgo_kg_ha')  || g('MgO')  || 0,
+          s:   g('S_kg_ha')    || g('s_kg_ha')    || g('S')    || 0,
+          // Micronutrientes
+          fe:  g('Fe_kg_ha')   || g('fe_kg_ha')   || g('Fe')   || 0,
+          mn:  g('Mn_kg_ha')   || g('mn_kg_ha')   || g('Mn')   || 0,
+          zn:  g('Zn_kg_ha')   || g('zn_kg_ha')   || g('Zn')   || 0,
+          cu:  g('Cu_kg_ha')   || g('cu_kg_ha')   || g('Cu')   || 0,
+          b:   g('B_kg_ha')    || g('b_kg_ha')    || g('B')    || 0,
+          mo:  g('Mo_kg_ha')   || g('mo_kg_ha')   || g('Mo')   || 0,
+          cl:  g('Cl_kg_ha')   || g('cl_kg_ha')   || g('Cl')   || 0,
+          etapas: [],
+          productos: [] // los productos los maneja el admin / editor manualmente
+        });
+      });
+
+      // ── Parsear Etapas Fenológicas ──────────────────
+      etapaRows.forEach(row => {
+        const cultivoNombre = (row['cultivo'] || row['Cultivo'] || '').toString().trim();
+        if (!cultivoNombre) return;
+
+        const cultivo = nuevosData.find(c =>
+          c.nombre.toLowerCase() === cultivoNombre.toLowerCase()
+        );
+        if (!cultivo) return; // etapa sin cultivo padre la ignoramos
+
+        const nutrientes = (row['nutrientes_clave'] || row['Nutrientes_clave'] || '')
+          .toString().split(',').map(n => n.trim()).filter(Boolean);
+
+        const simples = (row['alternativas_simples'] || row['Alternativas_simples'] || '')
+          .toString().split(',').map(s => s.trim()).filter(Boolean);
+
+        cultivo.etapas.push({
+          name:            (row['etapa_nombre'] || row['Etapa_nombre'] || `Etapa ${cultivo.etapas.length + 1}`).toString().trim(),
+          week:            parseInt(row['etapa_num'] || row['Etapa_num'] || cultivo.etapas.length + 1) || 1,
+          sacos_ha:        parseFloat(row['sacos_por_ha'] || row['Sacos_por_ha'] || 0) || 0,
+          nutrients:       nutrientes,
+          recommendations: (row['recomendacion_formulada'] || row['Recomendacion_formulada'] || '').toString().trim(),
+          simples:         simples
+        });
+      });
+
+      // Preservar productos existentes si el cultivo ya estaba cargado
+      nuevosData.forEach(nuevo => {
+        const existente = cultivosData.find(c => c.nombre.toLowerCase() === nuevo.nombre.toLowerCase());
+        if (existente && existente.productos && existente.productos.length > 0) {
+          nuevo.productos = existente.productos;
+        }
+      });
+
+      cultivosData = nuevosData;
+      renderAll();
+      saveToStorage();
+      markChanged();
+
+      toast(`✅ Excel importado: ${cultivosData.length} cultivos, ${etapaRows.length} etapas`, 'success');
+    } catch(err) {
+      toast('❌ Error al leer el Excel: ' + err.message, 'error');
+      console.error(err);
+    }
+    input.value = '';
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function parseFullCSV(lines, headers, sep) {
+  // Formato exportado por esta herramienta
+  const nameCol = headers.indexOf('nombre_cultivo') >= 0 ? 'nombre_cultivo' : 'cultivo';
+  const newData = [];
+
+  lines.slice(1).forEach(line => {
+    if (!line.trim()) return;
+    const cols = parseCSVLine(line, sep);
+    const obj = {};
+    headers.forEach((h, i) => { obj[h] = cols[i] !== undefined ? cols[i].trim() : ''; });
+    const nombre = obj[nameCol] || obj['cultivo'] || '';
+    if (!nombre) return;
+
+    let existente = newData.find(x => x.nombre === nombre);
+    if (!existente) {
+      existente = {
+        nombre,
+        rend: parseFloat(obj['rend'] || obj['rendimiento_referencial__t_ha_'] || 0) || 0,
+        n: parseFloat(obj['n_ha'] || obj['n'] || 0) || 0,
+        p: parseFloat(obj['p_ha'] || obj['p'] || 0) || 0,
+        k: parseFloat(obj['k_ha'] || obj['k'] || 0) || 0,
+        mgo: parseFloat(obj['mgo_ha'] || obj['mgo'] || 0) || 0,
+        fe: parseFloat(obj['fe_ha'] || obj['fe'] || 0) || 0,
+        mn: parseFloat(obj['mn_ha'] || obj['mn'] || 0) || 0,
+        zn: parseFloat(obj['zn_ha'] || obj['zn'] || 0) || 0,
+        cu: parseFloat(obj['cu_ha'] || obj['cu'] || 0) || 0,
+        b: parseFloat(obj['b_ha'] || obj['b'] || 0) || 0,
+        mo: parseFloat(obj['mo_ha'] || obj['mo'] || 0) || 0,
+        etapas: [],
+        productos: []
+      };
+      newData.push(existente);
+    }
+  });
+
+  if (newData.length === 0) { toast('No se encontraron datos válidos en el CSV', 'error'); return; }
+  cultivosData = newData;
+  renderAll();
+  markChanged();
+  saveToStorage();
+  toast(`✅ ${newData.length} cultivos importados desde CSV`);
+}
+
+function parseCSVLine(line, sep) {
+  // Handle quoted fields
+  const results = [];
+  let cur = '';
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') {
+      if (inQuotes && line[i+1] === '"') { cur += '"'; i++; }
+      else inQuotes = !inQuotes;
+    } else if (ch === sep && !inQuotes) {
+      results.push(cur); cur = '';
+    } else {
+      cur += ch;
+    }
+  }
+  results.push(cur);
+  return results;
+}
+
+function exportCSV() {
+  const rows = [
+    ['nombre_cultivo','rend','n_ha','p_ha','k_ha','mgo_ha','fe_ha','mn_ha','zn_ha','cu_ha','b_ha','mo_ha',
+     'etapas_json','productos_json']
+  ];
+
+  cultivosData.forEach(c => {
+    rows.push([
+      c.nombre, c.rend, c.n, c.p, c.k, c.mgo, c.fe, c.mn, c.zn, c.cu, c.b, c.mo,
+      JSON.stringify(c.etapas || []),
+      JSON.stringify(c.productos || [])
+    ].map(v => {
+      const s = String(v);
+      return s.includes(',') || s.includes('"') || s.includes('\n') ? `"${s.replace(/"/g,'""')}"` : s;
+    }));
+  });
+
+  const csv = rows.map(r => r.join(',')).join('\r\n');
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `Base_Calculadora_Fermagri_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('📤 CSV exportado exitosamente');
+}
+
+// ══════════════════════════════════════════════════
+//  SUPABASE SYNC
+// ══════════════════════════════════════════════════
+function openSyncModal() {
+  document.getElementById('sync-count').textContent = cultivosData.length;
+  openModal('modal-sync');
+}
+
+async function syncSupabase() {
+  const key = document.getElementById('sync-key').value.trim();
+  if (!key) { toast('Ingresa la Service Role Key', 'error'); return; }
+
+  const btn = document.querySelector('#modal-sync .btn-cloud');
+  btn.textContent = '⏳ Sincronizando…';
+  btn.disabled = true;
+
+  try {
+    for (const c of cultivosData) {
+      const payload = {
+        nombre_cultivo: c.nombre,
+        rend: c.rend,
+        n_ha: c.n, p_ha: c.p, k_ha: c.k,
+        mgo_ha: c.mgo, fe_ha: c.fe, mn_ha: c.mn,
+        zn_ha: c.zn, cu_ha: c.cu, b_ha: c.b, mo_ha: c.mo,
+        etapas: c.etapas,
+        productos_recomendados: c.productos
+      };
+
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/calculadora_cultivos?nombre_cultivo=eq.${encodeURIComponent(c.nombre)}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': key,
+          'Authorization': `Bearer ${key}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok && res.status !== 204) {
+        // Intentar INSERT si PATCH falla (registro nuevo)
+        const res2 = await fetch(`${SUPABASE_URL}/rest/v1/calculadora_cultivos`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': key,
+            'Authorization': `Bearer ${key}`,
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify(payload)
+        });
+        if (!res2.ok) throw new Error(`Error en ${c.nombre}: ${res2.status}`);
+      }
+    }
+
+    closeModal('modal-sync');
+    document.getElementById('sync-key').value = '';
+    toast(`☁️ ${cultivosData.length} cultivos sincronizados con Supabase`);
+    unsavedCount = 0;
+    updateEditCount();
+  } catch(err) {
+    toast('Error de sincronización: ' + err.message, 'error');
+  } finally {
+    btn.textContent = '☁️ Sincronizar Ahora';
+    btn.disabled = false;
+  }
+}
+
+// ══════════════════════════════════════════════════
+//  BÚSQUEDA GLOBAL
+// ══════════════════════════════════════════════════
+function globalSearch(q) {
+  q = q.toLowerCase();
+  if (!q) {
+    document.querySelectorAll('#tbody-cultivos tr').forEach(r => r.style.display = '');
+    return;
+  }
+  document.querySelectorAll('#tbody-cultivos tr').forEach(row => {
+    const txt = row.textContent.toLowerCase();
+    row.style.display = txt.includes(q) ? '' : 'none';
+  });
+}
+
+// ══════════════════════════════════════════════════
+//  IMPRIMIR
+// ══════════════════════════════════════════════════
+function printCurrentSheet() {
+  document.querySelectorAll('.sheet').forEach(s => s.classList.remove('print-active'));
+  document.querySelectorAll('.sheet')[activeTab].classList.add('print-active');
+  window.print();
+}
+
+// ══════════════════════════════════════════════════
+//  UTILIDADES
+// ══════════════════════════════════════════════════
+function switchTab(idx, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.sheet').forEach(s => s.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(`sheet-${idx}`).classList.add('active');
+  activeTab = idx;
+  if (idx === 1) renderCropSelector();
+}
+
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+// Close on backdrop click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) overlay.classList.remove('open');
+  });
+});
+
+function markChanged() {
+  unsavedCount++;
+  updateEditCount();
+}
+function updateEditCount() {
+  document.getElementById('edit-count').textContent =
+    unsavedCount > 0 ? `✏️ ${unsavedCount} cambios sin sincronizar` : '✅ Todo sincronizado';
+}
+function updateCounts() {
+  document.getElementById('cultivos-count').textContent = cultivosData.length;
+}
+
+function esc(str) {
+  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function toast(msg, type = 'success') {
+  const wrap = document.getElementById('toast-wrap');
+  const el = document.createElement('div');
+  el.className = `toast ${type === 'error' ? 'error' : type === 'warn' ? 'warn' : ''}`;
+  el.innerHTML = `<span>${msg}</span>`;
+  wrap.appendChild(el);
+  setTimeout(() => {
+    el.classList.add('out');
+    setTimeout(() => el.remove(), 300);
+  }, 3800);
+}
+// ══════════════════════════════════════════════════
+//  SUBIDA MASIVA DE PDFs AL CATÁLOGO GENERAL
+// ══════════════════════════════════════════════════
+async function uploadBulkPDFs(input, tipo) {
+  const files = input.files;
+  if (!files || files.length === 0) return;
+
+  const labelBtn = input.parentElement;
+  const originalHTML = labelBtn.innerHTML;
+  labelBtn.innerHTML = '⏳ Subiendo...';
+  labelBtn.style.pointerEvents = 'none';
+
+  let actualizados = 0;
+  let noEncontrados = [];
+
+  try {
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+    // Obtener catálogo de productos
+    const { data: productosDb, error: errDb } = await sb.from('productos').select('id, nombre');
+    if (errDb || !productosDb) throw new Error('Error de conexión con base de datos.');
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      let nombreArchivo = file.name.replace(/\.[^/.]+$/, "").trim();
+
+      const producto = productosDb.find(p => p.nombre.trim().toLowerCase() === nombreArchivo.toLowerCase());
+
+      if (producto) {
+        const fileName = `${Date.now()}_${tipo}_${file.name.replace(/\s/g, '_')}`;
+        const { error: uploadErr } = await sb.storage.from('fermagri-assets').upload(fileName, file);
+
+        if (!uploadErr) {
+          const { data: { publicUrl } } = sb.storage.from('fermagri-assets').getPublicUrl(fileName);
+          const payload = {};
+          payload[tipo] = publicUrl;
+
+          const { error: updateErr } = await sb.from('productos').update(payload).eq('id', producto.id);
+          if (!updateErr) actualizados++;
+        }
+      } else {
+        noEncontrados.push(nombreArchivo);
+      }
+    }
+
+    toast(`✅ ${actualizados} PDFs subidos y enlazados exitosamente.`);
+    if (noEncontrados.length > 0) {
+      alert(`Los siguientes PDFs no encontraron coincidencia con el catálogo de productos:\n\n${noEncontrados.join(', ')}\n\nPor favor, verifica el nombre.`);
+    }
+  } catch (error) {
+    toast(`❌ Error: ${error.message}`, 'error');
+  }
+
+  labelBtn.innerHTML = originalHTML;
+  labelBtn.style.pointerEvents = 'auto';
+  input.value = '';
+}
+</script>
+</body>
+</html>

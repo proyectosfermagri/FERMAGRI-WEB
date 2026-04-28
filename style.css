@@ -343,6 +343,16 @@ body {
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
+/* p dentro del slider con mayor peso visual */
+.hero-content p.hero-destacado {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+    color: #f8f9fa;
+}
+
 /* p dentro del slider empieza invisible */
 .slide .hero-content p {
     opacity: 0;
