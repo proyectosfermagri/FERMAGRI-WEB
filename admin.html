@@ -273,7 +273,8 @@
             <input type="email" id="admin-email" placeholder="Correo admin" autocomplete="email">
             <input type="password" id="admin-pass" placeholder="Contraseña" autocomplete="current-password">
             <button id="login-btn" onclick="login()">Entrar</button>
-            <p class="auth-help">Usa un usuario real de Supabase Auth. Este panel ya no acepta contraseñas hardcodeadas del frontend.</p>
+            <p class="auth-help">Usa un usuario real de Supabase Auth. Este panel ya no acepta contraseñas hardcodeadas
+                del frontend.</p>
             <p id="auth-error" style="color:red; font-size:12px; margin-top:10px; display:none;"></p>
         </div>
     </div>
@@ -303,14 +304,17 @@
                     <span id="session-email" class="session-badge"></span>
                     <input type="text" id="admin-search" placeholder="Buscar producto..."
                         style="width: 250px; margin:0;" oninput="filterProducts()">
-                    
+
                     <!-- Botones para subida masiva de PDFs -->
-                    <label class="btn btn-outline" style="cursor:pointer; border-color:var(--primary); color:var(--primary);" title="Subir múltiples PDFs de Fichas Técnicas">
+                    <label class="btn btn-outline"
+                        style="cursor:pointer; border-color:var(--primary); color:var(--primary);"
+                        title="Subir múltiples PDFs de Fichas Técnicas">
                         <i class="fas fa-file-pdf"></i> Subir Fichas
                         <input type="file" multiple accept=".pdf" hidden onchange="uploadBulkPDFs(this, 'ficha')">
                     </label>
 
-                    <label class="btn btn-outline" style="cursor:pointer; border-color:#d4b106; color:#d4b106;" title="Subir múltiples PDFs de Hojas de Seguridad">
+                    <label class="btn btn-outline" style="cursor:pointer; border-color:#d4b106; color:#d4b106;"
+                        title="Subir múltiples PDFs de Hojas de Seguridad">
                         <i class="fas fa-file-pdf"></i> Subir Hojas Seg.
                         <input type="file" multiple accept=".pdf" hidden onchange="uploadBulkPDFs(this, 'seguridad')">
                     </label>
@@ -509,12 +513,24 @@
                         <input type="text" id="p-presentacion" placeholder="Ej: 50 kg">
                     </div>
                     <div class="form-group">
-                        <label>Link Ficha Técnica (PDF)</label>
-                        <input type="text" id="p-ficha">
+                        <label>Ficha Técnica (PDF)</label>
+                        <div class="upload-area" onclick="document.getElementById('file-ficha-indiv').click()"
+                            style="border-color:var(--primary);">
+                            <i class="fas fa-file-pdf"></i> <span id="label-ficha">Subir PDF Ficha</span>
+                            <input type="file" id="file-ficha-indiv" hidden accept=".pdf"
+                                onchange="uploadIndividualPDF(this, 'p-ficha', 'label-ficha')">
+                            <input type="hidden" id="p-ficha">
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label>Link Hoja de Seguridad (PDF)</label>
-                        <input type="text" id="p-seguridad">
+                        <label>Hoja de Seguridad (PDF)</label>
+                        <div class="upload-area" onclick="document.getElementById('file-seg-indiv').click()"
+                            style="border-color:#d4b106;">
+                            <i class="fas fa-file-medical"></i> <span id="label-seguridad">Subir PDF Seguridad</span>
+                            <input type="file" id="file-seg-indiv" hidden accept=".pdf"
+                                onchange="uploadIndividualPDF(this, 'p-seguridad', 'label-seguridad')">
+                            <input type="hidden" id="p-seguridad">
+                        </div>
                     </div>
                 </div>
                 <div style="margin-top: 30px; display: flex; justify-content: flex-end; gap: 10px;">
@@ -861,6 +877,10 @@
             document.getElementById('saco-prev').style.display = 'none';
             document.getElementById('text-prev').style.display = 'none';
             document.getElementById('modal-title').innerText = "Nuevo Producto";
+
+            // Reset labels PDF
+            document.getElementById('label-ficha').innerText = "Subir PDF Ficha";
+            document.getElementById('label-seguridad').innerText = "Subir PDF Seguridad";
         }
 
         function closeModal() {
@@ -880,8 +900,11 @@
             document.getElementById('p-dosis').value = p.dosis;
             document.getElementById('p-origen').value = p.origen;
             document.getElementById('p-presentacion').value = p.presentacion;
-            document.getElementById('p-ficha').value = p.ficha;
-            document.getElementById('p-seguridad').value = p.seguridad;
+            document.getElementById('p-ficha').value = p.ficha || '';
+            document.getElementById('p-seguridad').value = p.seguridad || '';
+
+            if (p.ficha) document.getElementById('label-ficha').innerHTML = '<i class="fas fa-check"></i> Archivo vinculado';
+            if (p.seguridad) document.getElementById('label-seguridad').innerHTML = '<i class="fas fa-check"></i> Archivo vinculado';
 
             if (p.imagen) {
                 document.getElementById('p-imagen').value = p.imagen;
@@ -1331,7 +1354,10 @@
 
         // --- STORAGE ---
         async function uploadFile(file) {
-            const fileName = `${Date.now()}_${file.name.replace(/\s/g, '_')}`;
+            // Sanitizar nombre: quitar acentos y caracteres raros
+            const cleanName = file.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9.-]/g, "_");
+            const fileName = `${Date.now()}_${cleanName}`;
+            
             const { data, error } = await sb.storage
                 .from('fermagri-assets')
                 .upload(fileName, file);
@@ -1357,6 +1383,60 @@
             }
         }
 
+        // --- UTILIDADES ---
+        function normalizeStr(str) {
+            if (!str) return "";
+            return str.toLowerCase()
+                      .normalize("NFD")
+                      .replace(/[\u0300-\u036f]/g, "")
+                      .trim();
+        }
+
+        // --- SUBIDA INDIVIDUAL DE PDFs ---
+        async function uploadIndividualPDF(input, targetId, labelId) {
+            const file = input.files[0];
+            if (!file) return;
+
+            const labelEl = document.getElementById(labelId);
+            const originalHTML = labelEl.innerHTML;
+
+            try {
+                labelEl.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subiendo...';
+                
+                // Sanitizar nombre para URL (reemplazar espacios y quitar acentos)
+                const cleanNameForURL = normalizeStr(file.name).replace(/\s+/g, "_");
+                const fileName = `${Date.now()}_indiv_${cleanNameForURL}.${file.name.split('.').pop()}`;
+                
+                console.log("Iniciando subida individual santizada:", fileName);
+
+                const { data, error } = await sb.storage
+                    .from('fermagri-assets')
+                    .upload(fileName, file, {
+                        cacheControl: '3600',
+                        upsert: false
+                    });
+
+                if (error) {
+                    console.error("Error de Supabase Storage:", error);
+                    throw error;
+                }
+
+                console.log("Subida exitosa, obteniendo URL pública...");
+                const { data: { publicUrl } } = sb.storage.from('fermagri-assets').getPublicUrl(fileName);
+
+                document.getElementById(targetId).value = publicUrl;
+                labelEl.innerHTML = '<i class="fas fa-check" style="color:green"></i> Listo: ' + file.name.substring(0, 10) + '...';
+                console.log("URL obtenida y asignada:", publicUrl);
+
+            } catch (err) {
+                console.error("Error fatal en uploadIndividualPDF:", err);
+                alert("Error crítico al subir: " + (err.message || "Error desconocido"));
+                labelEl.innerHTML = originalHTML;
+            } finally {
+                input.value = ''; // Limpiar input para permitir re-subir el mismo archivo
+            }
+        }
+
         // --- SUBIDA MASIVA DE PDFs ---
         async function uploadBulkPDFs(input, tipo) {
             const files = input.files;
@@ -1372,30 +1452,49 @@
 
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
-                // Quitar extensión .pdf y posibles espacios al inicio/fin
-                let nombreArchivo = file.name.replace(/\.[^/.]+$/, "").trim();
+                // 1. LIMPIEZA DEL NOMBRE DEL ARCHIVO PARA BUSCAR PRODUCTO
+                let nombreArchivo = file.name.replace(/\.[^/.]+$/, "").trim(); // Quitar .pdf
                 
-                // Buscar producto ignorando mayúsculas y espacios
-                const productoDb = allProducts.find(p => 
-                    p.nombre.trim().toLowerCase() === nombreArchivo.toLowerCase()
-                );
+                // Normalizar para comparación (quitar acentos, MSDS, guiones)
+                let nombreLimpio = normalizeStr(nombreArchivo);
+                
+                // Limpieza agresiva de MSDS y variaciones
+                nombreLimpio = nombreLimpio.replace(/^msds[\s_-]*/i, ""); 
+                nombreLimpio = nombreLimpio.replace(/^hoja[\s_-]de[\s_-]seguridad[\s_-]*/i, "");
+                
+                // Extraer la parte principal antes de cualquier guion, paréntesis o coma
+                let partePrincipal = nombreLimpio.split(/[-–—(,/]/)[0].trim();
+                
+                // 2. BÚSQUEDA INTELIGENTE EN LA DB
+                const productoDb = allProducts.find(p => {
+                    const pNombre = normalizeStr(p.nombre);
+                    // Reglas de coincidencia mejoradas
+                    return pNombre === partePrincipal || 
+                           pNombre === nombreLimpio ||
+                           (partePrincipal.length > 3 && pNombre.includes(partePrincipal)) || 
+                           (pNombre.length > 3 && partePrincipal.includes(pNombre));
+                });
 
                 if (productoDb) {
                     // Subir archivo a Supabase Storage
-                    const fileName = `${Date.now()}_${tipo}_${file.name.replace(/\s/g, '_')}`;
+                    const ext = file.name.split('.').pop();
+                    
+                    // Sanitizar nombre para URL
+                    const cleanNameForURL = normalizeStr(file.name).replace(/[^a-z0-9]/g, "_");
+                    const fileName = `${Date.now()}_${tipo}_${cleanNameForURL}.${ext}`;
+                    
                     const { data, error } = await sb.storage.from('fermagri-assets').upload(fileName, file);
                     
                     if (!error) {
                         const { data: { publicUrl } } = sb.storage.from('fermagri-assets').getPublicUrl(fileName);
+                        const colName = (tipo === 'ficha') ? 'ficha' : 'seguridad';
                         const payload = {};
-                        payload[tipo] = publicUrl; // tipo será 'ficha' o 'seguridad'
+                        payload[colName] = publicUrl; 
                         
                         const updateRes = await sb.from('productos').update(payload).eq('id', productoDb.id);
                         if (!updateRes.error) {
                             actualizados++;
                         }
-                    } else {
-                        console.error(`Error subiendo ${file.name}:`, error.message);
                     }
                 } else {
                     noEncontrados.push(nombreArchivo);
