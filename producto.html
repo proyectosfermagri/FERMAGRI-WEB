@@ -38,25 +38,21 @@
     <div class="contenedor-producto">
         
         <div class="producto-visual">
-            
-            <div class="flip-card" id="flip-card">
-                <div class="flip-card-inner">
-                    <!-- Frente: Saco del Producto -->
-                    <div class="flip-card-front">
-                        <img id="img-producto" src="" alt="Saco" class="img-producto-destacado">
+            <div class="galeria-producto">
+                <div class="visor-principal">
+                    <img id="img-visor" src="" alt="Vista del producto" class="img-producto-destacado" style="transition: opacity 0.2s ease;">
+                </div>
+                <div class="miniaturas-contenedor">
+                    <div class="miniatura activa" onclick="cambiarImagenGaleria('empaque')" id="thumb-empaque">
+                        <img id="img-producto" src="" alt="Empaque">
+                        <span>Empaque</span>
                     </div>
-                    <!-- Reverso: Textura del Grano -->
-                    <div class="flip-card-back">
-                        <img id="img-textura" src="" alt="Textura del producto" class="img-textura-full">
+                    <div class="miniatura" onclick="cambiarImagenGaleria('textura')" id="thumb-textura">
+                        <img id="img-textura" src="" alt="Producto">
+                        <span>Producto</span>
                     </div>
                 </div>
             </div>
-
-            <!-- Botón para girar el producto -->
-            <button class="btn-girar" onclick="document.getElementById('flip-card').classList.toggle('flipped')">
-                <i class="fas fa-sync-alt"></i> Ver Producto / Fertilizante
-            </button>
-            
         </div>
 
         <div class="producto-contenido">
@@ -123,6 +119,7 @@
                 // Cargar Imágenes
                 document.getElementById('img-producto').src = producto.imagen;
                 document.getElementById('img-textura').src = producto.textura || 'IMAGENES/default-grano.png';
+                document.getElementById('img-visor').src = producto.imagen;
                 document.getElementById('nombre-producto').innerHTML = producto.nombre;
                 
                 // 1. Lógica para Concentración
@@ -196,6 +193,27 @@
             initProducto(); // Fallback
         }
     });
+
+    window.cambiarImagenGaleria = function(tipo) {
+        const visor = document.getElementById('img-visor');
+        const thumbEmpaque = document.getElementById('thumb-empaque');
+        const thumbTextura = document.getElementById('thumb-textura');
+        
+        visor.style.opacity = 0;
+        
+        setTimeout(() => {
+            if (tipo === 'empaque') {
+                visor.src = document.getElementById('img-producto').src;
+                thumbEmpaque.classList.add('activa');
+                thumbTextura.classList.remove('activa');
+            } else {
+                visor.src = document.getElementById('img-textura').src;
+                thumbTextura.classList.add('activa');
+                thumbEmpaque.classList.remove('activa');
+            }
+            visor.style.opacity = 1;
+        }, 150);
+    }
 
     function mostrarRelacionados(productoActual) {
         const contenedor = document.getElementById('grid-relacionados');

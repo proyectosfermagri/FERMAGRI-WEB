@@ -816,111 +816,107 @@ body {
     padding: 0 20px;
 }
 
-/* Área Visual del Producto (3D Flip) */
+/* Área Visual del Producto (Galería Premium) */
 .producto-visual {
     flex: 1;
-    text-align: center;
-    position: relative;
-    padding-bottom: 20px;
-    perspective: 1000px;
-    /* Necesario para el efecto 3D */
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: -50px;
-    /* Subimos solo el producto como pidió el usuario */
+    position: relative;
+    padding-bottom: 20px;
 }
 
-.flip-card {
-    background-color: transparent;
+.galeria-producto {
     width: 100%;
     max-width: 450px;
-    height: 550px;
-    perspective: 1000px;
-    margin: 0 auto 20px;
-    position: relative;
-    z-index: 5;
-}
-
-/* Sombra de piso ovalada eliminada a petición del usuario */
-
-.flip-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    transition: transform 0.8s;
-    transform-style: preserve-3d;
-    z-index: 2;
-}
-
-/* Clase añadida vía JS o botón para girar */
-.flip-card.flipped .flip-card-inner {
-    transform: rotateY(180deg);
-}
-
-.flip-card-front,
-.flip-card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    /* Respetando la transparencia solicita por el usuario */
+    flex-direction: column;
+    gap: 20px;
 }
 
-.flip-card-back {
-    transform: rotateY(180deg);
-    background: transparent;
-    border-radius: 50%; /* Changed to 50% to prevent clipping the circle */
-    overflow: hidden;
+.visor-principal {
+    width: 100%;
+    height: 450px;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    background: #fdfdfd;
+    border-radius: 12px;
+    padding: 20px;
 }
 
 .img-producto-destacado {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    filter: drop-shadow(10px 10px 15px rgba(0, 0, 0, 0.1));
-}
-
-.img-textura-full {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-    /* Vuelve a ser circular para las pepas */
+    object-fit: contain;
+    filter: drop-shadow(5px 15px 20px rgba(0,0,0,0.08));
 }
 
-/* Botón interactivo debajo de la imagen */
-.btn-girar {
-    background-color: #2D5A27;
-    color: white;
-    border: none;
-    padding: 10px 25px;
-    border-radius: 30px;
-    font-size: 1rem;
-    font-weight: 600;
+.miniaturas-contenedor {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.miniatura {
+    width: 80px;
+    height: 80px;
+    border: 2px solid #eaeaea;
+    border-radius: 8px;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(45, 90, 39, 0.3);
+    overflow: hidden;
+    position: relative;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
-    gap: 10px;
-    position: relative;
-    z-index: 10;
+    justify-content: center;
+    background: #fff;
 }
 
-.btn-girar:hover {
-    background-color: #1e3d1a;
+.miniatura:hover {
+    border-color: #7ab87a;
     transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(45, 90, 39, 0.4);
 }
+
+.miniatura.activa {
+    border-color: #2D5A27;
+    box-shadow: 0 4px 10px rgba(45, 90, 39, 0.2);
+}
+
+.miniatura img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.miniatura span {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: rgba(255,255,255,0.9);
+    color: #333;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-align: center;
+    padding: 3px 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.miniatura:hover span, .miniatura.activa span {
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .visor-principal {
+        height: 350px;
+    }
+    .miniatura {
+        width: 70px;
+        height: 70px;
+    }
+}
+
 
 /* Área de Contenido / Texto */
 .producto-contenido {
@@ -2109,10 +2105,7 @@ body {
     /* Ajusta según tu diseño */
 }
 
-.producto-visual:hover .img-producto-destacado {
-    transform: translateX(20px);
-    /* El saco se mueve un poco a la derecha */
-}
+
 
 
 /* --- FORMATO DE LISTA PARA LA DESCRIPCIÓN --- */
