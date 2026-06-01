@@ -6,7 +6,7 @@
 (function () {
     const BOT_CONFIG = {
         name: "Atencion Fermagri",
-        centralWhatsApp: "+34657663133",
+        centralWhatsApp: "+593991406383",
         welcomeMsg: "Bienvenido a Fermagri. Soy el asistente virtual de atencion. En menos de un minuto voy a organizar tu solicitud para derivarte por WhatsApp con la persona indicada.",
     };
 
