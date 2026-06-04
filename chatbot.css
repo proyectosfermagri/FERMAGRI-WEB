@@ -16,6 +16,7 @@
 }
 
 .bot-bubble {
+    position: relative;
     width: 60px;
     height: 60px;
     background: var(--chat-accent);
@@ -31,9 +32,33 @@
     animation: botPulse 4s infinite ease-in-out;
 }
 
+/* Aro animado: una línea que se dibuja y se borra girando alrededor del ícono */
+.bot-bubble::before {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    padding: 3px; /* grosor del aro */
+    background: conic-gradient(from 0deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0) 55%,
+        rgba(255, 255, 255, 0.95) 80%,
+        rgba(255, 255, 255, 0) 100%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    animation: botRingSpin 2.4s linear infinite;
+    pointer-events: none;
+}
+
 @keyframes botPulse {
     0%, 100% { transform: scale(1) translateY(0); }
     50% { transform: scale(1.1) translateY(-5px); }
+}
+
+@keyframes botRingSpin {
+    to { transform: rotate(360deg); }
 }
 
 .bot-window {

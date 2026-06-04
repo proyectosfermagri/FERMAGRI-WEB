@@ -14,3 +14,7 @@ PSD/
 
 # Supabase CLI local state
 supabase/.temp/
+
+# Artefactos de herramientas (Playwright / uimax)
+.playwright-mcp/
+.uimax-reviews.json

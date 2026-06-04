@@ -11,6 +11,30 @@ body {
     overflow-x: hidden;
 }
 
+/* Reserva el alto del header/footer inyectados por fetch (evita salto de layout / CLS) */
+#header-placeholder {
+    min-height: 116px;
+}
+
+@media (max-width: 768px) {
+    #header-placeholder {
+        min-height: 120px;
+    }
+}
+
+/* Utilidad: contenido visible solo para lectores de pantalla */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
 /* 2. Navegación (PC y General) */
 .navbar {
     padding: 0 5%;
@@ -325,14 +349,16 @@ body {
 }
 
 /* Animaciones de entrada — solo dentro del slider */
-.hero-content h1 {
+.hero-content h1,
+.hero-content h2 {
     font-size: 3.8rem;
     margin-bottom: 20px;
     text-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
 }
 
-/* h1 dentro del slider empieza invisible y sube al activarse */
-.slide .hero-content h1 {
+/* Titular dentro del slider empieza invisible y sube al activarse */
+.slide .hero-content h1,
+.slide .hero-content h2 {
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 0.8s ease-out 0.5s, transform 0.8s ease-out 0.5s;
@@ -378,6 +404,7 @@ body {
 }
 
 .slide.active .hero-content h1,
+.slide.active .hero-content h2,
 .slide.active .hero-content p {
     opacity: 1;
     transform: translateY(0);
@@ -654,8 +681,8 @@ body {
     max-width: 280px;
 }
 
-.footer-links h4,
-.footer-contacto h4 {
+.footer-links h2,
+.footer-contacto h2 {
     color: #9fd34f;
     /* Verde claro de marca (antes amarillo) */
     margin-bottom: 25px;
@@ -698,8 +725,8 @@ body {
 }
 
 /* Línea estética bajo los títulos del footer (opcional) */
-.footer-links h4::after,
-.footer-contacto h4::after {
+.footer-links h2::after,
+.footer-contacto h2::after {
     content: '';
     display: block;
     width: 30px;
@@ -1102,7 +1129,7 @@ body {
 
 .productos-grid .producto-card p {
     font-size: 0.85rem;
-    color: #888;
+    color: #666;
     margin: 0;
 }
 
@@ -1902,9 +1929,9 @@ body {
 
 .btn-filtro {
     padding: 10px 25px;
-    border: 2px solid #7ab929;
+    border: 2px solid #2D5A27;
     background: transparent;
-    color: #7ab929;
+    color: #2D5A27;
     border-radius: 25px;
     cursor: pointer;
     font-weight: bold;
@@ -1913,7 +1940,7 @@ body {
 
 .btn-filtro:hover,
 .btn-filtro.active {
-    background: #7ab929;
+    background: #2D5A27;
     color: white;
 }
 
@@ -1935,9 +1962,9 @@ body {
 }
 
 .btn-filtro {
-    border: 1.5px solid #7ab929;
+    border: 1.5px solid #2D5A27;
     background: white;
-    color: #7ab929;
+    color: #2D5A27;
     padding: 8px 25px;
     border-radius: 20px;
     font-weight: 600;
@@ -1948,9 +1975,9 @@ body {
 /* Clase que se activa cuando el producto coincide con la categoría */
 .btn-filtro.active,
 .btn-filtro:hover {
-    background: #7ab929;
+    background: #2D5A27;
     color: white;
-    box-shadow: 0 4px 12px rgba(122, 185, 41, 0.3);
+    box-shadow: 0 4px 12px rgba(45, 90, 39, 0.3);
 }
 
 /* Ajuste de las tarjetas */
@@ -2000,9 +2027,9 @@ body {
 
 /* Estilo de los botones (como los de tu captura image_998dc0.png) */
 .btn-filtro {
-    border: 1px solid #7ab929 !important;
+    border: 1px solid #2D5A27 !important;
     background: white !important;
-    color: #7ab929 !important;
+    color: #2D5A27 !important;
     padding: 8px 25px !important;
     border-radius: 20px !important;
     cursor: pointer !important;
@@ -2012,7 +2039,7 @@ body {
 
 .btn-filtro.active,
 .btn-filtro:hover {
-    background: #7ab929 !important;
+    background: #2D5A27 !important;
     color: white !important;
 }
 
@@ -2197,7 +2224,7 @@ body {
 }
 
 .btn-filtro.active {
-    background-color: #4CAF50;
+    background-color: #2D5A27;
     color: white;
 }
 
@@ -3063,7 +3090,8 @@ body {
 }
 
 /* Titular con más presencia y aire */
-.slider-container .hero-content h1 {
+.slider-container .hero-content h1,
+.slider-container .hero-content h2 {
     font-size: 4.3rem;
     font-weight: 700;
     line-height: 1.05;
@@ -3199,7 +3227,8 @@ body {
         padding: 24px;
     }
 
-    .slider-container .hero-content h1 {
+    .slider-container .hero-content h1,
+    .slider-container .hero-content h2 {
         font-size: 2.4rem;
         line-height: 1.12;
         letter-spacing: -0.4px;
@@ -3353,10 +3382,11 @@ body {
 
     .productos-container .pcat-info h3 {
         width: 100%;
-        font-size: 0.62rem;
-        letter-spacing: 0;
+        font-size: 0.58rem;
+        letter-spacing: -0.2px;
         line-height: 1.2;
-        overflow-wrap: break-word;
+        overflow-wrap: normal;
+        word-break: keep-all;
     }
 
     /* Chips compactos: la descripción se oculta en móvil (sigue en escritorio y en Productos) */

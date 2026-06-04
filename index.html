@@ -14,22 +14,52 @@
         content="Fertilizantes de alta eficiencia para maximizar el rendimiento de tus cultivos. Explora nuestro catálogo y herramientas agronómicas.">
     <meta property="og:image" content="https://fermagri.com/nosotros.jpg">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://fermagri.com/index.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Fermagri | Nutrición Vegetal de Precisión">
+    <meta name="twitter:description" content="Fertilizantes de alta concentración y calidad para maximizar el rendimiento de tus cultivos en Ecuador.">
+    <meta name="twitter:image" content="https://fermagri.com/nosotros.jpg">
+    <link rel="canonical" href="https://fermagri.com/index.html">
+    <link rel="preload" as="image" href="IMAGENES/slide1.webp" fetchpriority="high">
     <link rel="icon" type="image/svg+xml" href="Logofermagriindex.svg.svg">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="chatbot.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Fermagri",
+      "url": "https://fermagri.com",
+      "logo": "https://fermagri.com/Logofermagriindex.svg.svg",
+      "description": "Nutrición vegetal de precisión: fertilizantes de alta concentración y calidad para maximizar el rendimiento de los cultivos en Ecuador.",
+      "email": "info@fermagri.ec",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "EC",
+        "addressLocality": "Guayaquil",
+        "streetAddress": "Vía a Daule km 15.5"
+      },
+      "sameAs": [
+        "https://www.facebook.com/pages/Fertilizantes-y-quimicos-Fermagri/762355317115945",
+        "https://www.instagram.com/fermagriecuador/"
+      ]
+    }
+    </script>
 </head>
 
 <body>
 
     <div id="header-placeholder"></div>
 
+    <main>
+    <h1 class="sr-only">Fermagri — Soluciones agrícolas de alto rendimiento y nutrición vegetal de precisión</h1>
     <!-- ========= HERO MÓVIL CLEAN (solo mobile) ========= -->
     <section class="mobile-hero mobile-only">
-        <h1 class="mhero-title">
+        <h2 class="mhero-title">
             Soluciones <span class="mhero-accent">Agrícolas</span><br>de Alto Rendimiento
-        </h1>
+        </h2>
         <p class="mhero-sub">
             Impulsando la productividad del campo ecuatoriano con fertilizantes de alta eficiencia.
         </p>
@@ -56,7 +86,7 @@
                     style="background-image: linear-gradient(118deg, rgba(11,38,21,0.88) 0%, rgba(18,55,30,0.58) 52%, rgba(45,90,39,0.66) 100%), url('IMAGENES/slide1.webp');">
                 </div>
                 <div class="hero-content">
-                    <h1>Soluciones Agrícolas de Alto Rendimiento</h1>
+                    <h2>Soluciones Agrícolas de Alto Rendimiento</h2>
                     <p>Impulsando la productividad del campo ecuatoriano.</p>
                     <button class="cta-button"
                         onclick="document.getElementById('productos').scrollIntoView({behavior: 'smooth'})">Ver
@@ -69,7 +99,7 @@
                     style="background-image: linear-gradient(118deg, rgba(11,38,21,0.88) 0%, rgba(18,55,30,0.58) 52%, rgba(45,90,39,0.66) 100%), url('IMAGENES/slide2.webp');">
                 </div>
                 <div class="hero-content">
-                    <h1>Fertilidad y Productividad</h1>
+                    <h2>Fertilidad y Productividad</h2>
                     <p>Fórmulas de alta eficiencia para nutrición vegetal.</p>
                     <div class="hero-btns">
                         <a href="productos.html" class="btn btn-primary">VER PRODUCTOS</a>
@@ -84,7 +114,7 @@
                     style="background-image: linear-gradient(118deg, rgba(11,38,21,0.88) 0%, rgba(18,55,30,0.58) 52%, rgba(45,90,39,0.66) 100%), url('IMAGENES/slide3.webp');">
                 </div>
                 <div class="hero-content">
-                    <h1>Línea Master Protec</h1>
+                    <h2>Línea Master Protec</h2>
                     <p>Menos volatilización, más absorción, mejores cosechas.</p>
                     <button class="cta-button">Conocer más</button>
                 </div>
@@ -120,14 +150,14 @@
     <!-- Bloque Unificado de Catálogo de Productos -->
     <section id="productos" class="productos-seccion">
         <div class="titulo-seccion">
-            <h2 id="titulo-tipeado" data-texto="NUESTROS PRODUCTOS"></h2>
+            <h2 id="titulo-tipeado" data-texto="NUESTROS PRODUCTOS" aria-label="NUESTROS PRODUCTOS"></h2>
             <div class="linea-verde"></div>
         </div>
 
         <div class="productos-container">
             <a href="productos.html?cat=Edaficos" class="producto-card">
                 <div class="pcat-icono">
-                    <img src="ICONOS/icono granular.webp" alt="Edáficos">
+                    <img src="ICONOS/icono granular.webp" alt="Edáficos" loading="lazy">
                 </div>
                 <div class="pcat-info">
                     <h3>EDÁFICOS</h3>
@@ -138,7 +168,7 @@
 
             <a href="productos.html?cat=Solubles" class="producto-card">
                 <div class="pcat-icono">
-                    <img src="ICONOS/icono solubles.webp" alt="Solubles">
+                    <img src="ICONOS/icono solubles.webp" alt="Solubles" loading="lazy">
                 </div>
                 <div class="pcat-info">
                     <h3>SOLUBLES</h3>
@@ -149,7 +179,7 @@
 
             <a href="productos.html?cat=Master Protec" class="producto-card">
                 <div class="pcat-icono">
-                    <img src="ICONOS/icono master.webp" alt="Master Protec">
+                    <img src="ICONOS/icono master.webp" alt="Master Protec" loading="lazy">
                 </div>
                 <div class="pcat-info">
                     <h3>MASTER PROTEC</h3>
@@ -160,7 +190,7 @@
 
             <a href="productos.html?cat=Especializados" class="producto-card">
                 <div class="pcat-icono">
-                    <img src="ICONOS/icono especializados.webp" alt="Especializados">
+                    <img src="ICONOS/icono especializados.webp" alt="Especializados" loading="lazy">
                 </div>
                 <div class="pcat-info">
                     <h3>ESPECIALIZADOS</h3>
@@ -171,7 +201,7 @@
 
             <a href="productos.html?cat=Organicos" class="producto-card">
                 <div class="pcat-icono">
-                    <img src="ICONOS/icono organicos.webp" alt="Orgánicos">
+                    <img src="ICONOS/icono organicos.webp" alt="Orgánicos" loading="lazy">
                 </div>
                 <div class="pcat-info">
                     <h3>ORGÁNICOS</h3>
@@ -210,7 +240,7 @@
                 </div>
             </div>
             <div class="nosotros-imagen">
-                <img src="nosotros.jpg" alt="Equipo Fermagri en el campo">
+                <img src="nosotros.jpg" alt="Equipo Fermagri en el campo" loading="lazy">
             </div>
         </div>
     </section>
@@ -240,6 +270,7 @@
             </div>
         </div>
     </section>
+    </main>
 
     <div id="footer-placeholder"></div>
 
@@ -249,43 +280,24 @@
 
             if (titulo) {
                 const textoAEscribir = titulo.getAttribute('data-texto');
-                let i = 0;
-                let borrando = false;
+                // Texto base visible siempre (SEO + sin parpadeo si el JS no corre)
+                titulo.textContent = textoAEscribir;
 
                 function efectoEscritura() {
-                    const textoActual = titulo.innerHTML;
+                    let i = 0;
+                    titulo.textContent = '';
 
-                    if (!borrando && i <= textoAEscribir.length) {
-                        // Escribiendo
-                        titulo.innerHTML = textoAEscribir.substring(0, i);
-                        i++;
-
-                        // Si terminó de escribir, espera 2 segundos y empieza a borrar
-                        if (i > textoAEscribir.length) {
-                            borrando = true;
-                            setTimeout(efectoEscritura, 2000);
-                            return;
-                        }
-                    } else if (borrando && i >= 0) {
-                        // Borrando
-                        titulo.innerHTML = textoAEscribir.substring(0, i);
-                        i--;
-
-                        // Si terminó de borrar, espera un poco y vuelve a escribir
-                        if (i < 0) {
-                            borrando = false;
-                            i = 0;
-                            setTimeout(efectoEscritura, 500);
-                            return;
+                    function escribir() {
+                        if (i <= textoAEscribir.length) {
+                            titulo.textContent = textoAEscribir.substring(0, i);
+                            i++;
+                            setTimeout(escribir, 100);
                         }
                     }
-
-                    // Velocidad: más lento al borrar, más rápido al escribir
-                    const velocidad = borrando ? 50 : 100;
-                    setTimeout(efectoEscritura, velocidad);
+                    escribir();
                 }
 
-                // Usamos el observador para que el bucle inicie solo cuando el usuario lo vea
+                // El observador dispara la animación una sola vez al entrar en vista
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {

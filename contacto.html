@@ -10,6 +10,12 @@
     <meta property="og:description" content="Estamos listos para asesorarte en la nutrición de tus cultivos. Habla con un experto.">
     <meta property="og:image" content="https://fermagri.com/nosotros.jpg">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://fermagri.com/contacto.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Contacto y Asesoría | Fermagri">
+    <meta name="twitter:description" content="Estamos listos para asesorarte en la nutrición de tus cultivos. Habla con un experto.">
+    <meta name="twitter:image" content="https://fermagri.com/nosotros.jpg">
+    <link rel="canonical" href="https://fermagri.com/contacto.html">
     <link rel="icon" type="image/svg+xml" href="Logofermagriindex.svg.svg">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -19,11 +25,12 @@
 
     <div id="header-placeholder"></div>
 
+    <main>
     <section class="seccion-contacto">
     <div class="contenedor-contacto">
         
         <div class="info-contacto">
-            <h2 class="titulo-verde">Ponte en contacto con nosotros</h2>
+            <h1 class="titulo-verde">Ponte en contacto con nosotros</h1>
             <p>Estamos listos para asesorarte en la nutrición de tus cultivos.</p>
             
             <div class="dato">
@@ -61,26 +68,26 @@
                 <input type="text" name="_honey" style="display:none">
                 <div class="fila-doble">
                     <div class="campo">
-                        <label>Nombre Completo</label>
-                        <input type="text" name="nombre" required>
+                        <label for="campo-nombre">Nombre Completo</label>
+                        <input type="text" id="campo-nombre" name="nombre" required>
                     </div>
                     <div class="campo">
-                        <label>Correo Electrónico</label>
-                        <input type="email" name="email" required>
+                        <label for="campo-email">Correo Electrónico</label>
+                        <input type="email" id="campo-email" name="email" required>
                     </div>
                 </div>
 
                 <div class="campo">
-                    <label>Asunto</label>
-                    <select name="asunto">
+                    <label for="campo-asunto">Asunto</label>
+                    <select id="campo-asunto" name="asunto">
                         <option>Asesoría Técnica</option>
                         <option>Cotización</option>
                     </select>
                 </div>
 
                 <div class="campo">
-                    <label>Mensaje</label>
-                    <textarea name="mensaje" rows="4"required></textarea>
+                    <label for="campo-mensaje">Mensaje</label>
+                    <textarea id="campo-mensaje" name="mensaje" rows="4" required></textarea>
                 </div>
 
                 <button type="submit" class="btn-enviar">Enviar Mensaje</button>
@@ -92,6 +99,7 @@
 
     </div>
 </section>
+    </main>
 
     <div id="footer-placeholder"></div>
 
