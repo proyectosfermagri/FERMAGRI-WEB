@@ -361,8 +361,8 @@ body {
 }
 
 .cta-button {
-    background: #ffcc00;
-    color: #2D5A27;
+    background: #2D5A27;
+    color: #fff;
     border: none;
     padding: 18px 40px;
     font-size: 1.1rem;
@@ -416,7 +416,7 @@ body {
 }
 
 .dot.active {
-    background: #ffcc00;
+    background: #ffffff;
     transform: scale(1.2);
     border-color: rgba(0, 0, 0, 0.2);
 }
@@ -469,12 +469,18 @@ body {
 }
 
 .productos-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, 300px);
+    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 30px;
     max-width: 1200px;
     margin: 0 auto;
+}
+
+/* Ancho fijo para que la última fila se centre sola (3 arriba / 2 abajo) */
+.productos-container .producto-card {
+    width: 300px;
+    box-sizing: border-box;
 }
 
 .producto-card {
@@ -557,8 +563,8 @@ body {
     display: block;
     font-size: 1.5rem;
     margin-bottom: 10px;
-    color: #ffcc00;
-    /* Toque amarillo para resaltar */
+    color: #2D5A27;
+    /* Verde de marca (antes amarillo) */
 }
 
 .nosotros-imagen img {
@@ -586,6 +592,7 @@ body {
     .nosotros-texto {
         order: 2;
         /* Texto abajo de la imagen en móvil */
+        text-align: center;
     }
 
     .linea-verde-izquierda {
@@ -649,8 +656,8 @@ body {
 
 .footer-links h4,
 .footer-contacto h4 {
-    color: #ffcc00;
-    /* Amarillo para resaltar títulos */
+    color: #9fd34f;
+    /* Verde claro de marca (antes amarillo) */
     margin-bottom: 25px;
     font-size: 1.1rem;
     text-transform: uppercase;
@@ -667,7 +674,7 @@ body {
 
 .footer-links a:hover {
     opacity: 1;
-    color: #ffcc00;
+    color: #9fd34f;
     transform: translateX(5px);
     /* Desplazamiento suave al pasar el mouse */
 }
@@ -697,7 +704,7 @@ body {
     display: block;
     width: 30px;
     height: 2px;
-    background: #ffcc00;
+    background: #9fd34f;
     margin: 8px auto 0;
 }
 
@@ -712,7 +719,7 @@ body {
 
 .footer-links a:hover {
     opacity: 1;
-    color: #ffcc00;
+    color: #9fd34f;
 }
 
 .footer-bottom {
@@ -745,7 +752,9 @@ body {
 
 .buscador-header i {
     position: absolute;
-    right: 12px;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
     color: #2D5A27;
 }
 
@@ -2164,7 +2173,8 @@ body {
 .buscador-contenedor {
     margin-top: 20px;
     position: relative;
-    max-width: 400px;
+    width: 100%;
+    max-width: 440px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -2390,16 +2400,16 @@ body {
     letter-spacing: 0.5px;
 }
 
-/* El botón amarillo original */
+/* Botón sólido verde (antes amarillo) */
 .cta-button {
-    background: #FFD700;
-    color: #1a4d2e !important;
+    background: #2D5A27;
+    color: #fff !important;
 }
 
 .cta-button:hover {
-    background: #ffec8b;
+    background: #357a2e;
     transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.3);
+    box-shadow: 0 8px 20px rgba(45, 90, 39, 0.3);
 }
 
 .btn-primary {
@@ -2914,5 +2924,539 @@ body {
     border-radius: 20px;
     border: 1px solid #c3dfc0;
     margin-top: 5px;
+}
+
+/* =====================================================
+   QUICK-WIN DISEÑO (revisión jun 2026)
+   Solo presentación: sin cambios de estructura ni contenido.
+===================================================== */
+
+/* Tarjetas de categoría (home): darles cuerpo sobre el fondo blanco
+   para que dejen de "flotar" y el grid 3+2 se lea intencional. */
+.productos-container .producto-card {
+    background: #fdfefb;
+    border: 1px solid #e7ede1;
+    box-shadow: 0 4px 16px rgba(26, 77, 46, 0.05);
+}
+
+.productos-container .producto-card:hover {
+    border-color: #7ab929;
+    box-shadow: 0 16px 34px rgba(26, 77, 46, 0.14);
+}
+
+/* Desktop: aro suave detrás del ícono (profundidad + pesos uniformes)
+   y composición centrada limpia. */
+@media (min-width: 769px) {
+    .productos-container .pcat-icono {
+        width: 132px;
+        height: 132px;
+        margin: 4px auto 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: radial-gradient(circle at 50% 42%, #f2f8ea 0%, #e8f1de 100%);
+    }
+
+    .productos-container .pcat-icono img {
+        width: auto;
+        max-width: 74px;
+        max-height: 74px;
+        margin-bottom: 0;
+    }
+
+    .productos-container .pcat-info {
+        text-align: center;
+    }
+}
+
+/* =====================================================
+   DISEÑO — Atmósfera y sección Servicios
+   (revisión jun 2026) · solo presentación
+===================================================== */
+
+/* --- Hover del botón primario móvil: verde de marca (antes #25d10e) --- */
+.mhero-primary:hover {
+    background: #357a2e;
+}
+
+/* =====================================================
+   SECCIÓN SERVICIOS — banda verde con identidad propia
+   (se diferencia del gris de "Sobre Fermagri" que va encima)
+===================================================== */
+.seccion-servicios {
+    background: linear-gradient(180deg, #f1f7ec 0%, #e7f1de 100%);
+    border-top: 1px solid #dce8d2;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Halo decorativo suave para dar profundidad/atmósfera */
+.seccion-servicios::before {
+    content: '';
+    position: absolute;
+    top: -120px;
+    right: -80px;
+    width: 360px;
+    height: 360px;
+    background: radial-gradient(circle, rgba(122, 185, 41, 0.12) 0%, rgba(122, 185, 41, 0) 70%);
+    pointer-events: none;
+}
+
+.titulo-servicios {
+    color: #1a4d2e;
+}
+
+/* Compactar el bloque para que las 2 tarjetas no floten en un ancho enorme */
+.grid-servicios {
+    max-width: 840px;
+    margin: 46px auto 0;
+    position: relative;
+    z-index: 1;
+}
+
+/* Tarjetas con más presencia */
+.seccion-servicios .servicio-card {
+    flex: 1 1 320px;
+    width: auto;
+    background: #ffffff;
+    border: 1px solid #e4ede0;
+    border-bottom: 4px solid #7ab929;
+    box-shadow: 0 12px 30px rgba(26, 77, 46, 0.08);
+    text-align: center;
+}
+
+.seccion-servicios .servicio-card:hover {
+    border-bottom-color: #006b2b;
+    box-shadow: 0 20px 44px rgba(26, 77, 46, 0.16);
+}
+
+/* Ícono dentro de un aro verde, coherente con las tarjetas de categoría */
+.seccion-servicios .servicio-icono {
+    width: 92px;
+    height: 92px;
+    margin: 0 auto 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 38px;
+    color: #1a4d2e;
+    background: radial-gradient(circle at 50% 40%, #eef6e4 0%, #e2efd6 100%);
+}
+
+/* =====================================================
+   HERO — impacto al abrir (revisión jun 2026) · solo presentación
+===================================================== */
+
+/* Scrim superior: asegura legibilidad del nav/top-bar sobre la imagen */
+.slider-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 160px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0) 100%);
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* Titular con más presencia y aire */
+.slider-container .hero-content h1 {
+    font-size: 4.3rem;
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -1.2px;
+    text-shadow: 0 6px 26px rgba(0, 0, 0, 0.45);
+}
+
+/* Palabra/frase destacada del titular (si se envuelve en <span class="hero-accent">) */
+.hero-content .hero-accent {
+    color: #d8e85a;
+    position: relative;
+    white-space: nowrap;
+}
+
+.hero-content p {
+    font-size: 1.35rem;
+    line-height: 1.55;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0.96;
+}
+
+/* CTA del hero: acción protagonista, acorde al titular grande
+   (aplica a ambas variantes de botón usadas en los slides) */
+.slider-container .cta-button,
+.slider-container .btn {
+    padding: 19px 50px;
+    font-size: 1.15rem;
+    letter-spacing: 0.6px;
+}
+
+/* (Cue de scroll eliminado a pedido del cliente) */
+
+/* Punto activo del carrusel: blanco sólido (alto contraste, sin amarillo) */
+.dot.active {
+    background: #ffffff;
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* --- Hero MÓVIL: imagen de fondo con overlay verde de marca --- */
+.mobile-hero {
+    background:
+        linear-gradient(158deg, rgba(11, 38, 21, 0.88) 0%, rgba(18, 55, 30, 0.62) 52%, rgba(45, 90, 39, 0.72) 100%),
+        url('IMAGENES/slide1.webp');
+    background-size: cover;
+    background-position: center;
+    border-bottom: none;
+    padding-top: 54px;
+    padding-bottom: 56px;
+}
+
+.mhero-title {
+    font-size: 2.35rem;
+    line-height: 1.08;
+    color: #ffffff;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.4);
+}
+
+/* Acento del titular en lima (legible sobre el verde) */
+.mhero-accent {
+    color: #cfe85a;
+}
+
+.mhero-accent::after {
+    background: #cfe85a;
+}
+
+.mhero-sub {
+    color: rgba(255, 255, 255, 0.92);
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35);
+}
+
+/* Buscador: se eleva de la foto con sombra y borde claro */
+.mhero-search {
+    background: rgba(255, 255, 255, 0.96);
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+}
+
+/* =====================================================
+   COHESIÓN MÓVIL ↔ ESCRITORIO (revisión jun 2026) · solo presentación
+===================================================== */
+@media (max-width: 768px) {
+    /* Íconos de categoría: mismo aro verde que en escritorio
+       (antes eran íconos gigantes sin disco → se veía como otro diseño) */
+    .productos-container .pcat-icono {
+        width: 118px;
+        height: 118px;
+        max-width: 118px;
+        margin: 4px auto 16px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 50% 42%, #f2f8ea 0%, #e8f1de 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: visible;
+    }
+
+    .productos-container .pcat-icono img {
+        width: auto;
+        height: auto;
+        max-width: 64px;
+        max-height: 64px;
+        margin: 0 auto;
+    }
+}
+
+/* =====================================================
+   UNIFICACIÓN HERO + HEADER en MÓVIL (revisión jun 2026)
+   Objetivo: que móvil y escritorio se vean/sientan igual al aterrizar.
+   - Mismo carrusel (imágenes y texto rotando) en ambos
+   - Header blanco con logo a color (como escritorio)
+   - Sin palabra subrayada (usa el mismo <h1> del slider)
+===================================================== */
+@media (max-width: 768px) {
+    /* 1) Mostrar el carrusel en móvil y ocultar el hero estático */
+    .slider-container.desktop-only {
+        display: block !important;
+    }
+
+    .mobile-hero {
+        display: none !important;
+    }
+
+    /* Slider adaptado a pantalla de móvil */
+    .slider-container {
+        height: 82vh;
+        min-height: 470px;
+    }
+
+    .slider-container .hero-content {
+        padding: 24px;
+    }
+
+    .slider-container .hero-content h1 {
+        font-size: 2.4rem;
+        line-height: 1.12;
+        letter-spacing: -0.4px;
+    }
+
+    .slider-container .hero-content p {
+        font-size: 1.02rem;
+        max-width: 90%;
+    }
+
+    .slider-container .cta-button,
+    .slider-container .btn {
+        padding: 14px 32px;
+        font-size: 0.98rem;
+    }
+
+    /* 2) Header blanco + logo a color (igual que escritorio) */
+    .navbar,
+    .navbar-container {
+        background-color: #ffffff !important;
+        min-height: 70px !important;
+        height: 70px !important;
+    }
+
+    /* Mostrar el logo a color (centrado) y ocultar el isotipo blanco */
+    .logo.desktop-only {
+        display: flex !important;
+    }
+
+    .logo-isotipo.mobile-only {
+        display: none !important;
+    }
+
+    .logo img {
+        height: 40px !important;
+        width: auto !important;
+        transform: none !important;
+    }
+
+    /* Líneas de la hamburguesa oscuras sobre fondo blanco */
+    .hamburger span {
+        background-color: #1a4d2e !important;
+    }
+}
+
+/* =====================================================
+   HEADER LIMPIO Y REFINADO (revisión jun 2026) · solo presentación
+   Sólido, aireado, sin vidrio. Verde profundo arriba + barra blanca
+   con sombra suave; sin las líneas blancas duras entre items.
+===================================================== */
+
+/* Franja superior: verde profundo sólido, divisores fuera */
+.top-bar {
+    background: #1a4d2e !important;
+    border-bottom: none;
+    font-size: 12.5px;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}
+
+.top-bar-item {
+    border-left: none;
+    padding: 9px 16px;
+}
+
+.top-bar-item:last-child {
+    border-right: none;
+}
+
+/* Hover en lima para enlaces y redes de la franja */
+.top-bar-item a:hover,
+.top-bar-item.social a:hover {
+    opacity: 1;
+    color: #cfe85a;
+}
+
+/* Barra del menú: blanca sólida, limpia, con sombra suave */
+.navbar {
+    background: #ffffff !important;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    border-bottom: 1px solid #ecf0e8;
+    box-shadow: 0 4px 18px rgba(20, 60, 33, 0.07) !important;
+}
+
+.navbar-container {
+    background: transparent !important;
+}
+
+/* Franja superior CONDENSADA y visible en MÓVIL (teléfono + redes) */
+@media (max-width: 768px) {
+    .top-bar {
+        display: flex !important;
+        justify-content: center;
+        overflow-x: visible;
+        font-size: 12px;
+        padding: 2px 0;
+    }
+
+    .top-bar-item {
+        border-left: none;
+        padding: 7px 12px;
+    }
+
+    .top-bar-item:nth-child(2),   /* email */
+    .top-bar-item:nth-child(5),   /* Resoluciones */
+    .top-bar-item:nth-child(6),   /* Catálogo */
+    .top-bar-item:nth-child(7) {  /* Sap */
+        display: none !important;
+    }
+}
+
+/* =====================================================
+   MÓVIL MÁS COMPACTO (revisión jun 2026): menos scroll al aterrizar
+===================================================== */
+@media (max-width: 768px) {
+    /* Hero un poco menos alto */
+    .slider-container {
+        height: 70vh;
+        min-height: 430px;
+    }
+
+    /* Categorías: 3 columnas compactas (chips), fila de abajo centrada
+       (flex + justify-center heredados del contenedor base) */
+    .productos-container {
+        gap: 10px;
+        padding: 0 10px;
+    }
+
+    .productos-container .producto-card {
+        width: calc(33.333% - 8px);
+        padding: 14px 4px;
+    }
+
+    .productos-container .pcat-icono {
+        width: 58px;
+        height: 58px;
+        max-width: 58px;
+        margin: 0 auto 8px;
+    }
+
+    .productos-container .pcat-icono img {
+        max-width: 32px;
+        max-height: 32px;
+    }
+
+    /* Título del chip: ocupa todo el ancho y ajusta para no salirse del marco */
+    .productos-container .pcat-info {
+        width: 100%;
+    }
+
+    .productos-container .pcat-info h3 {
+        width: 100%;
+        font-size: 0.62rem;
+        letter-spacing: 0;
+        line-height: 1.2;
+        overflow-wrap: break-word;
+    }
+
+    /* Chips compactos: la descripción se oculta en móvil (sigue en escritorio y en Productos) */
+    .productos-container .pcat-info p {
+        display: none;
+    }
+
+    /* Menos aire vertical entre secciones */
+    .productos-seccion { padding: 40px 5%; }
+    .nosotros-seccion { padding: 48px 5%; }
+    .seccion-servicios { padding: 48px 18px; }
+}
+
+/* =====================================================
+   AJUSTES MÓVIL (revisión jun 2026): menú lateral, buscador productos
+===================================================== */
+@media (max-width: 768px) {
+    /* --- Menú lateral (hamburguesa): ítems limpios y alineados --- */
+    .nav-menu {
+        padding-left: 0 !important;
+        padding-top: 84px !important;
+    }
+
+    .nav-menu a {
+        padding: 16px 24px !important;
+        font-size: 1.05rem !important;
+        border-bottom: 1px solid #f0f2ee !important;
+        border-left: 3px solid transparent !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        transform: none !important;
+        text-shadow: none !important;
+        transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+
+    .nav-menu a.activo {
+        color: #2D5A27 !important;
+        font-weight: 700 !important;
+        border-left: 3px solid #7ab929 !important;
+        border-bottom: 1px solid #f0f2ee !important;
+        background: #f4f8f1 !important;
+        transform: none !important;
+        text-shadow: none !important;
+    }
+
+    .nav-menu a:hover:not(.activo) {
+        background: #f4f8f1 !important;
+        border-radius: 0 !important;
+        color: #2D5A27 !important;
+    }
+
+    /* Buscador dentro del menú: prolijo y a ancho completo */
+    .nav-menu .buscador-header {
+        margin: 20px 24px !important;
+        width: calc(100% - 48px) !important;
+    }
+
+    /* --- Buscador de la página de Productos: usar todo el ancho --- */
+    .banner-categoria .hero-content {
+        padding: 28px 16px !important;
+        max-width: 100% !important;
+    }
+
+    .banner-categoria .buscador-contenedor {
+        max-width: 100% !important;
+        width: 100%;
+    }
+
+    #input-buscador {
+        font-size: 0.95rem;
+        padding: 13px 40px 13px 16px;
+    }
+}
+
+/* --- Contacto: items centrados y apilados (ícono arriba), escritorio y móvil ---
+   Antes el ícono iba a la izquierda y al centrar quedaban dispersos. */
+.info-contacto {
+    text-align: center;
+}
+
+.info-contacto .dato {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+}
+
+.info-contacto .dato > i {
+    margin-top: 0;
+    font-size: 24px;
+}
+
+/* =====================================================
+   Franja superior: ocultar Resoluciones / Catálogo / Sap en TODO tamaño.
+   (Refuerzo por CSS para que desaparezcan aunque el header esté en caché.)
+   Los 4 restantes (teléfono, email, redes) quedan centrados.
+===================================================== */
+.top-bar-item:nth-child(5),
+.top-bar-item:nth-child(6),
+.top-bar-item:nth-child(7) {
+    display: none !important;
 }
 

@@ -10,8 +10,10 @@
     <meta property="og:description" content="Conoce nuestra amplia gama de fertilizantes edáficos, foliares y solubles de alta concentración.">
     <meta property="og:image" content="https://fermagri.com/nosotros.jpg">
     <meta property="og:type" content="website">
+    <link rel="icon" type="image/svg+xml" href="Logofermagriindex.svg.svg">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="chatbot.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -24,7 +26,7 @@
             <div class="linea-verde"></div>
             
             <div class="buscador-contenedor">
-            <input type="text" id="input-buscador" placeholder="¿Qué producto busca? (Ej: Solufol, Urea...)">
+            <input type="text" id="input-buscador" placeholder="¿Qué producto busca?">
             <i class="fas fa-search"></i>
              </div>
         </div>
@@ -231,5 +233,85 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="main.js"></script>
     <script src="chatbot.js"></script>
+
+    <!-- Placeholder animado (escribe consultas de ejemplo) -->
+    <script>
+    (function () {
+        function initTypewriter() {
+            const input = document.getElementById('input-buscador');
+            if (!input || input.dataset.twInit) return;
+            input.dataset.twInit = '1';
+
+            // Consultas de ejemplo: nombres de productos + variaciones de búsqueda
+            let queries = [
+                'Urea', '10-30-10 Premium', 'Solufol', 'Master Protec',
+                'Sulfato de Amonio', 'Muriato de Potasio', 'Nitrofos',
+                'Fertilizante foliar', 'MicroAlgae', 'Abono para banano'
+            ];
+
+            // Si el catálogo ya está cargado, usar también nombres reales
+            try {
+                const lista = window.listadoProductos;
+                if (Array.isArray(lista) && lista.length) {
+                    const reales = lista.map(p => p && p.nombre).filter(Boolean).slice(0, 8);
+                    if (reales.length) {
+                        queries = reales.concat(['Fertilizante foliar', 'Abono para banano', 'Nutrición de cultivo']);
+                    }
+                }
+            } catch (e) { /* lista base */ }
+
+            let qi = 0, ci = 0, deleting = false, timer = null, running = false;
+
+            function tick() {
+                if (!running) return;
+                const word = queries[qi % queries.length];
+                if (!deleting) {
+                    ci++;
+                    input.setAttribute('placeholder', word.slice(0, ci) + ' |');
+                    if (ci >= word.length) {
+                        input.setAttribute('placeholder', word);
+                        deleting = true;
+                        timer = setTimeout(tick, 1600);
+                        return;
+                    }
+                    timer = setTimeout(tick, 80 + Math.round(Math.sin(ci) * 0)); // velocidad constante
+                } else {
+                    ci--;
+                    input.setAttribute('placeholder', word.slice(0, ci) + (ci ? ' |' : ''));
+                    if (ci <= 0) {
+                        deleting = false;
+                        qi++;
+                        timer = setTimeout(tick, 450);
+                        return;
+                    }
+                    timer = setTimeout(tick, 42);
+                }
+            }
+
+            function start() {
+                if (running || input.value) return;
+                running = true; qi = 0; ci = 0; deleting = false;
+                tick();
+            }
+            function stop(restore) {
+                running = false;
+                clearTimeout(timer);
+                input.setAttribute('placeholder', restore ? '¿Qué producto busca?' : '');
+            }
+
+            input.addEventListener('focus', function () { stop(true); });
+            input.addEventListener('input', function () { stop(true); });
+            input.addEventListener('blur', function () { if (!input.value) start(); });
+
+            start();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initTypewriter);
+        } else {
+            initTypewriter();
+        }
+    })();
+    </script>
 </body>
 </html>

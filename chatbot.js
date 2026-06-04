@@ -39,7 +39,7 @@
             <div id="bot-window" class="bot-window" style="display:none;">
                 <div class="bot-header">
                     <div class="bot-header-main">
-                        <img src="logo_fermagri.png" alt="Fermagri" onerror="this.src='https://cdn-icons-png.flaticon.com/512/4712/4712035.png'">
+                        <img src="Logofermagri-blanco.svg" alt="Fermagri" onerror="this.src='https://cdn-icons-png.flaticon.com/512/4712/4712035.png'">
                         <div class="bot-info">
                             <h4>${BOT_CONFIG.name}</h4>
                             <p>Clasificacion previa antes de WhatsApp</p>

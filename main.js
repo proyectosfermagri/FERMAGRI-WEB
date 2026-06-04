@@ -21,7 +21,7 @@ window.cargarComponente = function(id, archivo) {
     const placeholder = document.getElementById(id);
     if (!placeholder) return;
 
-    fetch(archivo)
+    fetch(archivo, { cache: 'no-cache' })
         .then(response => {
             if (!response.ok) throw new Error(`Error al cargar ${archivo}`);
             return response.text();
