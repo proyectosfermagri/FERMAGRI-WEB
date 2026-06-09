@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "optimize-images": "node scripts/optimize-images.mjs"
+    "optimize-images": "node scripts/optimize-images.mjs",
+    "test:catalogo": "node --test tests/catalogo-utils.test.mjs"
   },
   "dependencies": {
     "sharp": "^0.33.5"

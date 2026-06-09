@@ -55,10 +55,10 @@
 
     <div class="filtros-contenedor">
         <button class="btn-filtro active" data-categoria="Edaficos">Edáficos</button>
+        <button class="btn-filtro" data-categoria="Mezclas Físicas">Mezclas Físicas</button>
         <button class="btn-filtro" data-categoria="Solubles">Solubles</button>
         <button class="btn-filtro" data-categoria="Master Protec">Master Protec</button>
         <button class="btn-filtro" data-categoria="Especializados">Especialidades</button>
-        <button class="btn-filtro" data-categoria="Organicos">Orgánicos</button>
         <button class="btn-filtro" data-categoria="Todos">Todos</button>
     </div>
 
@@ -72,6 +72,7 @@
     <div id="footer-placeholder"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="catalogo-utils.js"></script>
     <script src="productos.js"></script> 
     
    <script>
@@ -157,7 +158,15 @@
                 }
             }
 
-            const resultados = listadoProductos.filter(p => {
+            const productosPorCategoria = window.catalogoUtils
+                ? window.catalogoUtils.filterProductsByCategory(listadoProductos, categoriaActiva)
+                : listadoProductos.filter(p => {
+                    const catProd = window.normalizeText(p.categoria);
+                    const catActiva = window.normalizeText(categoriaActiva);
+                    return (categoriaActiva === 'Todos' || catProd === catActiva);
+                });
+
+            const resultados = productosPorCategoria.filter(p => {
                 const term = window.normalizeText(texto);
                 const nombre = window.normalizeText(p.nombre);
                 const categoria = window.normalizeText(p.categoria);
@@ -171,20 +180,17 @@
                                          concentracion.includes(term) ||
                                          categoria.includes(term);
                     
-                    const catProd = window.normalizeText(p.categoria);
-                    const catActiva = window.normalizeText(categoriaActiva);
-                    const coincideCat = (categoriaActiva === 'Todos' || catProd === catActiva);
-                    
-                    return coincideTexto && coincideCat;
+                    return coincideTexto;
                 }
                 
-                // Si no hay texto, solo filtramos por categoría
-                const catProd = window.normalizeText(p.categoria);
-                const catActiva = window.normalizeText(categoriaActiva);
-                return (categoriaActiva === 'Todos' || catProd === catActiva);
+                return true;
             });
 
-            renderizarProductos(resultados);
+            const resultadosOrdenados = window.catalogoUtils
+                ? window.catalogoUtils.sortProductsForCatalog(resultados, categoriaActiva)
+                : resultados;
+
+            renderizarProductos(resultadosOrdenados);
         }
 
         // --- EVENTOS ---

@@ -2971,6 +2971,32 @@ body {
     box-shadow: 0 16px 34px rgba(26, 77, 46, 0.14);
 }
 
+/* Home categorias: con 4 categorias visibles, se muestran en una sola fila en desktop. */
+@media (min-width: 1025px) {
+    .productos-container {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 24px;
+        max-width: 1480px;
+    }
+
+    .productos-container .producto-card {
+        width: auto;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .productos-container {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+    }
+
+    .productos-container .producto-card {
+        width: auto;
+    }
+}
+
 /* Desktop: aro suave detrás del ícono (profundidad + pesos uniformes)
    y composición centrada limpia. */
 @media (min-width: 769px) {
@@ -3479,6 +3505,27 @@ body {
     font-size: 24px;
 }
 
+.info-contacto {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 28px;
+}
+
+.info-contacto > p {
+    margin: 0 auto 10px;
+    max-width: 520px;
+}
+
+.info-contacto .dato {
+    margin: 0;
+}
+
+.info-contacto .dato p {
+    font-size: 1rem;
+    line-height: 1.45;
+}
+
 /* =====================================================
    Franja superior: ocultar Resoluciones / Catálogo / Sap en TODO tamaño.
    (Refuerzo por CSS para que desaparezcan aunque el header esté en caché.)
@@ -3489,4 +3536,30 @@ body {
 .top-bar-item:nth-child(7) {
     display: none !important;
 }
-
+
+/* Home categorias: 4 tarjetas visibles en una sola fila en escritorio. */
+@media (min-width: 1025px) {
+    .productos-container--cuatro {
+        display: grid !important;
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 24px !important;
+        max-width: 1680px !important;
+    }
+
+    .productos-container--cuatro .producto-card {
+        width: auto !important;
+        min-width: 0;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .productos-container--cuatro {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 24px !important;
+    }
+
+    .productos-container--cuatro .producto-card {
+        width: auto !important;
+    }
+}

@@ -21,8 +21,13 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Flexibilidad para la categoría
-        const productosFiltrados = listadoProductos.filter(p => p.categoria.toLowerCase() === paginaActual.toLowerCase() || p.categoria.toLowerCase().replace(/ /g, '-') === paginaActual.toLowerCase());
+        const categoriaPagina = paginaActual === 'master' ? 'Master Protec' : paginaActual;
+        const productosFiltrados = window.catalogoUtils
+            ? window.catalogoUtils.sortProductsForCatalog(
+                window.catalogoUtils.filterProductsByCategory(listadoProductos, categoriaPagina),
+                categoriaPagina
+            )
+            : listadoProductos.filter(p => p.categoria.toLowerCase() === paginaActual.toLowerCase() || p.categoria.toLowerCase().replace(/ /g, '-') === paginaActual.toLowerCase());
 
         if (productosFiltrados.length === 0) {
             contenedor.innerHTML = `<p style="grid-column: 1/-1; padding: 50px; color: #666;">

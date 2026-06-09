@@ -25,18 +25,25 @@ async function cargarProductosDesdeSupabase() {
 
         if (error) throw error;
 
-        listadoProductos = data.map(p => ({
-            ...p,
-            nombre: formatearFormula(p.nombre),
-            descripcion: Array.isArray(p.descripcion) ? p.descripcion.map(d => formatearFormula(d)) : [formatearFormula(p.descripcion)],
-            dosis: formatearFormula(p.dosis),
-            concentracion: formatearFormula(p.concentracion)
-        })).sort((a, b) => {
-            const ordA = (a.orden !== undefined && a.orden !== null) ? parseInt(a.orden) : 999;
-            const ordB = (b.orden !== undefined && b.orden !== null) ? parseInt(b.orden) : 999;
-            if (ordA !== ordB) return ordA - ordB;
-            return a.nombre.localeCompare(b.nombre);
+        const catalogoUtils = window.catalogoUtils;
+
+        listadoProductos = data.map(p => {
+            const producto = catalogoUtils
+                ? catalogoUtils.applyCatalogCategoryOverrides(p)
+                : p;
+
+            return {
+                ...producto,
+                nombre: formatearFormula(producto.nombre),
+                descripcion: Array.isArray(producto.descripcion) ? producto.descripcion.map(d => formatearFormula(d)) : [formatearFormula(producto.descripcion)],
+                dosis: formatearFormula(producto.dosis),
+                concentracion: formatearFormula(producto.concentracion)
+            };
         });
+
+        listadoProductos = catalogoUtils
+            ? catalogoUtils.sortProductsForCatalog(catalogoUtils.filterVisibleProducts(listadoProductos), 'Todos')
+            : listadoProductos.sort((a, b) => a.nombre.localeCompare(b.nombre));
 
         window.dispatchEvent(new Event('productosCargados'));
         return listadoProductos;

@@ -7,19 +7,15 @@ function mostrarProductos(filtro = 'Todos') {
 
     const filtroNormalizado = filtro.toLowerCase().trim();
 
-    const lista = (filtro === 'Todos') 
-        ? listadoProductos 
-        : listadoProductos.filter(p => {
-            const nombre = p.nombre.toLowerCase();
-            const categoria = p.categoria.toLowerCase();
-            const descripcion = p.descripcion.join(" ").toLowerCase();
-            const concentracion = p.concentracion.toLowerCase();
-            
-            return categoria === filtroNormalizado || 
-                   nombre.includes(filtroNormalizado) ||
-                   descripcion.includes(filtroNormalizado) ||
-                   concentracion.includes(filtroNormalizado);
-        });
+    const listaBase = window.catalogoUtils
+        ? window.catalogoUtils.filterProductsByCategory(listadoProductos, filtro)
+        : ((filtro === 'Todos')
+            ? listadoProductos
+            : listadoProductos.filter(p => p.categoria.toLowerCase() === filtroNormalizado));
+
+    const lista = window.catalogoUtils
+        ? window.catalogoUtils.sortProductsForCatalog(listaBase, filtro)
+        : listaBase;
 
     if (lista.length === 0) {
         contenedor.innerHTML = `
