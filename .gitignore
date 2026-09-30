@@ -7,6 +7,9 @@ Fermagri _ Nutrición Vegetal de Precisión - Google Chrome 2026-02-21 08-28-06.
 
 # Node
 node_modules/
+api/config.php
+data/.publish.lock
+data/*.tmp
 *.psd
 *.ai
 Slice.ai

@@ -1,0 +1,5 @@
+Options -Indexes
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+<FilesMatch "^(config.*|catalog-lib)\.php$">
+    Require all denied
+</FilesMatch>

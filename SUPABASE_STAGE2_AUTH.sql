@@ -59,6 +59,7 @@ BEGIN
         FROM pg_tables
         WHERE schemaname = 'public' AND tablename = 'slides'
     ) THEN
+        DROP POLICY IF EXISTS "Permitir gestión total de slides" ON public.slides;
         DROP POLICY IF EXISTS "Admins authenticated full access slides" ON public.slides;
         CREATE POLICY "Admins authenticated full access slides"
         ON public.slides
@@ -66,6 +67,12 @@ BEGIN
         TO authenticated
         USING (true)
         WITH CHECK (true);
+
+        REVOKE ALL ON TABLE public.slides FROM PUBLIC, anon, authenticated;
+        GRANT SELECT ON TABLE public.slides TO anon, authenticated;
+        GRANT INSERT, UPDATE, DELETE ON TABLE public.slides TO authenticated;
+        REVOKE ALL ON SEQUENCE public.slides_id_seq FROM PUBLIC, anon, authenticated;
+        GRANT USAGE, SELECT ON SEQUENCE public.slides_id_seq TO authenticated;
     END IF;
 END $$;
 

@@ -117,10 +117,8 @@ window.mostrarResultadosBusqueda = async function(termino) {
     contenedor.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px;"><i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #418431;"></i><p>Buscando productos...</p></div>';
 
     try {
-        if (!window.sb) throw new Error("Supabase no inicializado");
-
-        const { data, error } = await window.sb.from('productos').select('*');
-        if (error) throw error;
+        const raw = await window.fermagriData.load('productos');
+        const data = window.catalogoUtils.filterVisibleProducts(raw.map(window.catalogoUtils.applyCatalogCategoryOverrides));
 
         const term = window.normalizeText(termino);
         const resultados = data.filter(p => {
@@ -218,11 +216,11 @@ document.addEventListener('DOMContentLoaded', () => {
     async function initDynamicSlider() {
         if (!document.querySelector('.slider')) return;
 
-        // Intentar cargar desde Supabase
-        if (window.sb) {
-            const { data, error } = await window.sb.from('slides').select('*').order('orden', { ascending: true });
+        // La copia publicada también funciona durante una caída de Supabase.
+        try {
+            const data = await window.fermagriData.load('slides');
             
-            if (!error && data && data.length > 0) {
+            if (Array.isArray(data)) {
                 const sliderContainer = document.querySelector('.slider');
                 const dotsContainer = document.querySelector('.slider-dots');
                 
@@ -234,14 +232,28 @@ document.addEventListener('DOMContentLoaded', () => {
                         // Crear Slide
                         const slideDiv = document.createElement('div');
                         slideDiv.className = `slide ${idx === 0 ? 'active' : ''}`;
-                        slideDiv.innerHTML = `
-                            <div class="slide-bg" style="background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('${s.image_url}');"></div>
-                            <div class="hero-content">
-                                <h1>${s.title}</h1>
-                                <p>${s.subtitle || ''}</p>
-                                ${s.button_text ? `<a href="${s.button_link || '#'}" class="cta-button">${s.button_text}</a>` : ''}
-                            </div>
-                        `;
+                        const bg = document.createElement('div');
+                        bg.className = 'slide-bg';
+                        bg.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url(${JSON.stringify(s.image_url || '')})`;
+                        const content = document.createElement('div');
+                        content.className = 'hero-content';
+                        const title = document.createElement('h2');
+                        title.textContent = s.title;
+                        const subtitle = document.createElement('p');
+                        subtitle.textContent = s.subtitle || '';
+                        content.append(title, subtitle);
+                        if (s.button_text) {
+                            const button = document.createElement('a');
+                            button.href = '#';
+                            try {
+                                const link = new URL(s.button_link || '#', window.location.href);
+                                if (['http:', 'https:'].includes(link.protocol)) button.href = link.href;
+                            } catch { /* Un enlace inválido no debe impedir cargar los demás slides. */ }
+                            button.className = 'cta-button';
+                            button.textContent = s.button_text;
+                            content.appendChild(button);
+                        }
+                        slideDiv.append(bg, content);
                         sliderContainer.appendChild(slideDiv);
 
                         // Crear Dot
@@ -256,9 +268,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     dots = document.querySelectorAll('.dot');
                 }
             }
+        } catch (error) {
+            console.warn('Slider: se conserva el contenido de respaldo.', error);
         }
 
-        // Iniciar slider con lo que haya (Supabase o Hardcoded)
+        // Iniciar slider con lo que haya (copia publicada o HTML de respaldo)
         if (slides.length > 0) {
             showSlide(slideIndex);
             if (window.innerWidth > 768) startTimer();

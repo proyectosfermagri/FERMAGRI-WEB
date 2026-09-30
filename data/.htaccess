@@ -1,0 +1,8 @@
+Options -Indexes
+<FilesMatch "^(\.|.*\.tmp$)">
+    Require all denied
+</FilesMatch>
+<IfModule mod_headers.c>
+    Header set Cache-Control "no-cache"
+    Header set X-Content-Type-Options "nosniff"
+</IfModule>

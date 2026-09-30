@@ -296,6 +296,10 @@
     </aside>
 
     <main id="app" style="display:none;">
+        <div class="card">
+            <span id="publish-status" role="status" aria-live="polite">Los cambios de productos y slides se publican automáticamente.</span>
+            <button type="button" class="btn btn-outline" id="btn-publish" onclick="publishCatalog()">Publicar catálogo</button>
+        </div>
         <!-- Seccion Productos -->
         <div id="section-products">
             <div class="header">
@@ -737,6 +741,7 @@
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmd3FtZWtxdW9tcWt5ZHJ4d3ZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4OTEzMjIsImV4cCI6MjA4OTQ2NzMyMn0.Tatgp8Gs_5DN-zvmoWjW5IuhbrRQhMtCOxHFCwguHl0";
         const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         let cmsBooted = false;
+        let pendingPDFUploads = 0;
 
         // --- AUTH ---
         async function login() {
@@ -921,61 +926,68 @@
 
         async function saveProduct(e) {
             e.preventDefault();
+            if (pendingPDFUploads) return alert('Espera a que termine la subida de documentos antes de guardar.');
             const btn = document.getElementById('btn-save');
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
             btn.disabled = true;
 
-            const id = document.getElementById('p-id').value;
+            try {
+                const id = document.getElementById('p-id').value;
 
-            // Subir archivos si hay nuevos
-            const fileSaco = document.getElementById('file-saco').files[0];
-            const fileText = document.getElementById('file-textura').files[0];
+                // Subir archivos si hay nuevos
+                const fileSaco = document.getElementById('file-saco').files[0];
+                const fileText = document.getElementById('file-textura').files[0];
 
-            let urlSaco = document.getElementById('p-imagen').value;
-            let urlText = document.getElementById('p-textura').value;
+                let urlSaco = document.getElementById('p-imagen').value;
+                let urlText = document.getElementById('p-textura').value;
 
-            if (fileSaco) urlSaco = await uploadFile(fileSaco);
-            if (fileText) urlText = await uploadFile(fileText);
+                if (fileSaco) urlSaco = await uploadFile(fileSaco);
+                if (fileText) urlText = await uploadFile(fileText);
 
-            const payload = {
-                nombre: document.getElementById('p-nombre').value,
-                categoria: document.getElementById('p-categoria').value,
-                descripcion: document.getElementById('p-descripcion').value.split('\n').filter(p => p.trim() !== ""),
-                concentracion: document.getElementById('p-concentracion').value,
-                dosis: document.getElementById('p-dosis').value,
-                origen: document.getElementById('p-origen').value,
-                presentacion: document.getElementById('p-presentacion').value,
-                ficha: document.getElementById('p-ficha').value,
-                seguridad: document.getElementById('p-seguridad').value,
-                imagen: urlSaco,
-                textura: urlText,
-                orden: parseInt(document.getElementById('p-orden').value) || 0,
-                formula_interna: document.getElementById('p-formula-interna').value
-            };
+                const payload = {
+                    nombre: document.getElementById('p-nombre').value,
+                    categoria: document.getElementById('p-categoria').value,
+                    descripcion: document.getElementById('p-descripcion').value.split('\n').filter(p => p.trim() !== ""),
+                    concentracion: document.getElementById('p-concentracion').value,
+                    dosis: document.getElementById('p-dosis').value,
+                    origen: document.getElementById('p-origen').value,
+                    presentacion: document.getElementById('p-presentacion').value,
+                    ficha: document.getElementById('p-ficha').value,
+                    seguridad: document.getElementById('p-seguridad').value,
+                    imagen: urlSaco,
+                    textura: urlText,
+                    orden: parseInt(document.getElementById('p-orden').value) || 0,
+                    formula_interna: document.getElementById('p-formula-interna').value
+                };
 
-            let error;
-            if (id) {
-                const result = await sb.from('productos').update(payload).eq('id', id);
-                error = result.error;
-            } else {
-                const result = await sb.from('productos').insert([payload]);
-                error = result.error;
+                let error;
+                if (id) {
+                    const result = await sb.from('productos').update(payload).eq('id', id);
+                    error = result.error;
+                } else {
+                    const result = await sb.from('productos').insert([payload]);
+                    error = result.error;
+                }
+
+                if (error) alert(error.message);
+                else {
+                    closeModal();
+                    loadProducts();
+                    await publishCatalog();
+                }
+            } catch (error) {
+                alert('No se guardó el producto: ' + error.message);
+            } finally {
+                btn.innerHTML = 'Guardar Cambios';
+                btn.disabled = false;
             }
-
-            if (error) alert(error.message);
-            else {
-                closeModal();
-                loadProducts();
-            }
-            btn.innerHTML = 'Guardar Cambios';
-            btn.disabled = false;
         }
 
         async function deleteProduct(id) {
             if (confirm('¿Estás seguro de eliminar este producto?')) {
                 const { error } = await sb.from('productos').delete().eq('id', id);
                 if (error) alert(error.message);
-                else loadProducts();
+                else { loadProducts(); await publishCatalog(); }
             }
         }
 
@@ -1309,67 +1321,95 @@
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
             btn.disabled = true;
 
-            const id = document.getElementById('s-id').value;
-            const file = document.getElementById('file-slide').files[0];
-            let url = document.getElementById('s-imagen').value;
+            try {
+                const id = document.getElementById('s-id').value;
+                const file = document.getElementById('file-slide').files[0];
+                let url = document.getElementById('s-imagen').value;
 
-            if (file) {
-                const uploadedUrl = await uploadFile(file);
-                if (uploadedUrl) url = uploadedUrl;
+                if (file) {
+                    const uploadedUrl = await uploadFile(file);
+                    if (uploadedUrl) url = uploadedUrl;
+                }
+
+                const payload = {
+                    orden: parseInt(document.getElementById('s-orden').value) || 0,
+                    title: document.getElementById('s-titulo').value,
+                    subtitle: document.getElementById('s-subtitulo').value,
+                    button_text: document.getElementById('s-btn-text').value,
+                    button_link: document.getElementById('s-btn-link').value,
+                    image_url: url
+                };
+
+                let error;
+                if (id) {
+                    const result = await sb.from('slides').update(payload).eq('id', id);
+                    error = result.error;
+                } else {
+                    const result = await sb.from('slides').insert([payload]);
+                    error = result.error;
+                }
+
+                if (error) alert(error.message);
+                else {
+                    closeSlideModal();
+                    loadSlides();
+                    await publishCatalog();
+                }
+            } catch (error) {
+                alert('No se guardó el slide: ' + error.message);
+            } finally {
+                btn.innerHTML = 'Guardar Slide';
+                btn.disabled = false;
             }
-
-            const payload = {
-                orden: parseInt(document.getElementById('s-orden').value) || 0,
-                title: document.getElementById('s-titulo').value,
-                subtitle: document.getElementById('s-subtitulo').value,
-                button_text: document.getElementById('s-btn-text').value,
-                button_link: document.getElementById('s-btn-link').value,
-                image_url: url
-            };
-
-            let error;
-            if (id) {
-                const result = await sb.from('slides').update(payload).eq('id', id);
-                error = result.error;
-            } else {
-                const result = await sb.from('slides').insert([payload]);
-                error = result.error;
-            }
-
-            if (error) alert(error.message);
-            else {
-                closeSlideModal();
-                loadSlides();
-            }
-            btn.innerHTML = 'Guardar Slide';
-            btn.disabled = false;
         }
 
         async function deleteSlide(id) {
             if (confirm('¿Estás seguro de eliminar este slide?')) {
                 const { error } = await sb.from('slides').delete().eq('id', id);
                 if (error) alert(error.message);
-                else loadSlides();
+                else { loadSlides(); await publishCatalog(); }
             }
         }
 
-        // --- STORAGE ---
-        async function uploadFile(file) {
-            // Sanitizar nombre: quitar acentos y caracteres raros
-            const cleanName = file.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9.-]/g, "_");
-            const fileName = `${Date.now()}_${cleanName}`;
-            
-            const { data, error } = await sb.storage
-                .from('fermagri-assets')
-                .upload(fileName, file);
+        // --- ARCHIVOS Y COPIA PÚBLICA EN EL ALOJAMIENTO ---
+        async function catalogRequest(action, body) {
+            const { data, error } = await sb.auth.getSession();
+            if (error || !data.session) throw new Error('Inicia sesión otra vez.');
+            const response = await fetch('api/catalog.php?action=' + action, {
+                method: 'POST',
+                headers: { Authorization: 'Bearer ' + data.session.access_token },
+                body,
+                signal: AbortSignal.timeout(60000)
+            });
+            const result = await response.json().catch(() => {
+                throw new Error('El alojamiento no respondió correctamente. Revisa la configuración de PHP.');
+            });
+            if (!response.ok) throw new Error(result.error || 'No se pudo publicar.');
+            return result;
+        }
 
-            if (error) {
-                alert('Error al subir archivo: ' + error.message);
-                return null;
+        async function publishCatalog() {
+            const status = document.getElementById('publish-status');
+            status.textContent = 'Publicando catálogo…';
+            try {
+                const result = await catalogRequest('publish');
+                status.textContent = `Publicado: ${result.productos} productos y ${result.slides} slides.`;
+                return true;
+            } catch (error) {
+                // No repetir el guardado en la base de datos: reintentar solo la publicación.
+                status.textContent = 'Publicación pendiente. Los cambios guardados siguen en la base de datos, pero la web conserva la copia anterior. '
+                    + error.message + ' Pulsa «Publicar catálogo» para reintentar.';
+                return false;
             }
+        }
 
-            const { data: { publicUrl } } = sb.storage.from('fermagri-assets').getPublicUrl(fileName);
-            return publicUrl;
+        async function uploadFile(file) {
+            if (!file.size || file.size > 10 * 1024 * 1024) throw new Error('El archivo debe pesar entre 1 byte y 10 MB.');
+            const body = new FormData();
+            body.append('file', file);
+            const result = await catalogRequest('upload', body);
+            if (!/^media\/[a-f0-9]{64}\.(webp|pdf)$/.test(result.url)) throw new Error('La subida no devolvió un archivo válido.');
+            return result.url;
         }
 
         function previewImg(input, id) {
@@ -1401,29 +1441,11 @@
             const labelEl = document.getElementById(labelId);
             const originalHTML = labelEl.innerHTML;
 
+            pendingPDFUploads++;
             try {
                 labelEl.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subiendo...';
                 
-                // Sanitizar nombre para URL (reemplazar espacios y quitar acentos)
-                const cleanNameForURL = normalizeStr(file.name).replace(/\s+/g, "_");
-                const fileName = `${Date.now()}_indiv_${cleanNameForURL}.${file.name.split('.').pop()}`;
-                
-                console.log("Iniciando subida individual santizada:", fileName);
-
-                const { data, error } = await sb.storage
-                    .from('fermagri-assets')
-                    .upload(fileName, file, {
-                        cacheControl: '3600',
-                        upsert: false
-                    });
-
-                if (error) {
-                    console.error("Error de Supabase Storage:", error);
-                    throw error;
-                }
-
-                console.log("Subida exitosa, obteniendo URL pública...");
-                const { data: { publicUrl } } = sb.storage.from('fermagri-assets').getPublicUrl(fileName);
+                const publicUrl = await uploadFile(file);
 
                 document.getElementById(targetId).value = publicUrl;
                 labelEl.innerHTML = '<i class="fas fa-check" style="color:green"></i> Listo: ' + file.name.substring(0, 10) + '...';
@@ -1434,6 +1456,7 @@
                 alert("Error crítico al subir: " + (err.message || "Error desconocido"));
                 labelEl.innerHTML = originalHTML;
             } finally {
+                pendingPDFUploads--;
                 input.value = ''; // Limpiar input para permitir re-subir el mismo archivo
             }
         }
@@ -1445,6 +1468,7 @@
 
             let actualizados = 0;
             let noEncontrados = [];
+            let fallidos = [];
 
             const labelBtn = input.parentElement;
             const originalHTML = labelBtn.innerHTML;
@@ -1477,25 +1501,17 @@
                 });
 
                 if (productoDb) {
-                    // Subir archivo a Supabase Storage
-                    const ext = file.name.split('.').pop();
-                    
-                    // Sanitizar nombre para URL
-                    const cleanNameForURL = normalizeStr(file.name).replace(/[^a-z0-9]/g, "_");
-                    const fileName = `${Date.now()}_${tipo}_${cleanNameForURL}.${ext}`;
-                    
-                    const { data, error } = await sb.storage.from('fermagri-assets').upload(fileName, file);
-                    
-                    if (!error) {
-                        const { data: { publicUrl } } = sb.storage.from('fermagri-assets').getPublicUrl(fileName);
+                    try {
+                        const publicUrl = await uploadFile(file);
                         const colName = (tipo === 'ficha') ? 'ficha' : 'seguridad';
                         const payload = {};
                         payload[colName] = publicUrl; 
                         
                         const updateRes = await sb.from('productos').update(payload).eq('id', productoDb.id);
-                        if (!updateRes.error) {
-                            actualizados++;
-                        }
+                        if (updateRes.error) throw updateRes.error;
+                        actualizados++;
+                    } catch (error) {
+                        fallidos.push(file.name + ': ' + error.message);
                     }
                 } else {
                     noEncontrados.push(nombreArchivo);
@@ -1506,7 +1522,8 @@
             labelBtn.style.pointerEvents = 'auto';
             input.value = ''; // Reset input
 
-            alert(`¡Subida completada!\n\nArchivos subidos y enlazados: ${actualizados}\n${noEncontrados.length > 0 ? 'Archivos sin coincidencia (revisa el nombre): ' + noEncontrados.join(', ') : ''}`);
+            if (actualizados) await publishCatalog();
+            alert(`Proceso finalizado.\n\nArchivos subidos y enlazados: ${actualizados}\n${noEncontrados.length > 0 ? 'Archivos sin coincidencia (revisa el nombre): ' + noEncontrados.join(', ') : ''}\n${fallidos.length ? 'Fallaron: ' + fallidos.join('; ') : ''}`);
             loadProducts(); // Recargar tabla
         }
 
